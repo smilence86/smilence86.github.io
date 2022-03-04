@@ -4,15 +4,23 @@
   <meta charset="utf-8">
   
   
-  <title>Hexo</title>
+  <title>免备案解析域名 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="https://geili.me/index.html">
+  <meta name="description" content="2022年，大陆建站依然需要备案，隐私先不说，支持备案域名种数就不得不吐嘈，政策执行那么多年依然只有少得可怜的几种域名能通过备案，逼迫大家寻求邪门歪道曲线救国。 大致思路：user browser &lt; - &gt; CF dns &lt; - &gt; CF worker &lt; - &gt; deno &lt; - &gt; vps in mainland 首先想到用CF worker反">
+<meta property="og:type" content="article">
+<meta property="og:title" content="免备案解析域名">
+<meta property="og:url" content="https://geili.me/2022/02/18/non-censor/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="2022年，大陆建站依然需要备案，隐私先不说，支持备案域名种数就不得不吐嘈，政策执行那么多年依然只有少得可怜的几种域名能通过备案，逼迫大家寻求邪门歪道曲线救国。 大致思路：user browser &lt; - &gt; CF dns &lt; - &gt; CF worker &lt; - &gt; deno &lt; - &gt; vps in mainland 首先想到用CF worker反">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://geili.me/images/non-censor/dns.png">
+<meta property="og:image" content="https://geili.me/images/non-censor/route.png">
+<meta property="article:published_time" content="2022-02-18T08:11:57.000Z">
+<meta property="article:modified_time" content="2022-03-04T17:17:47.707Z">
 <meta property="article:author" content="smilence86">
+<meta property="article:tag" content="non-censor">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://geili.me/images/non-censor/dns.png">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -69,61 +77,7 @@
 </header>
 
       <div class="outer">
-        <section id="main">
-  
-    <article id="post-redmi_ac2100" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2022/03/04/redmi_ac2100/" class="article-date">
-  <time class="dt-published" datetime="2022-03-04T14:11:57.000Z" itemprop="datePublished">2022-03-04</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2022/03/04/redmi_ac2100/">红米ac2100刷openwrt</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>来自小黄鱼￥119</p>
-<p>红米原系统：</p>
-<p><img src="/../images/ac2100/origin_system.png"><br><br><br>检查是否坏块：<a target="_blank" rel="noopener" href="http://i.lckiss.com/?p=6761">http://i.lckiss.com/?p=6761</a></p>
-<p><img src="/../images/ac2100/bad_blocks.png"></p>
-<p>中奖，没有坏块！<br><br><br>刷写breed：<a target="_blank" rel="noopener" href="https://www.lotlab.org/2021/06/13/install-openwrt-on-redmi-ac2100/">https://www.lotlab.org/2021/06/13/install-openwrt-on-redmi-ac2100/</a></p>
-<p><img src="/../images/ac2100/breed.png"><br><br><br>刷入openwrt，固件来源：<a target="_blank" rel="noopener" href="https://www.right.com.cn/forum/thread-6529167-1-1.html">https://www.right.com.cn/forum/thread-6529167-1-1.html</a></p>
-<p><img src="/../images/ac2100/op_overview.png"><br><br><br>检查是否有坏块：</p>
-<p><img src="/../images/ac2100/logs.png"></p>
-<p><img src="/../images/ac2100/shell.png"><br><br><br><br>如果wifi无法开机自启，在启动项中添加命令：</p>
-<p>ifconfig ra0 up<br>ifconfig rai0 up</p>
-<p><img src="/../images/ac2100/startup.png"><br><br><br><br>意外的是，ac2100的cpu跟k2p相同，但跑分高不少，k2p只有4500：</p>
-<p><img src="/../images/ac2100/k2p.png"></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://geili.me/2022/03/04/redmi_ac2100/" data-id="cl0clu9zs000052dn4xqh5il8" data-title="红米ac2100刷openwrt" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/redmi-ac2100-openwrt/" rel="tag">redmi, ac2100, openwrt</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-non-censor" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+        <section id="main"><article id="post-non-censor" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2022/02/18/non-censor/" class="article-date">
   <time class="dt-published" datetime="2022-02-18T08:11:57.000Z" itemprop="datePublished">2022-02-18</time>
@@ -136,8 +90,8 @@
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2022/02/18/non-censor/">免备案解析域名</a>
+    <h1 class="p-name article-title" itemprop="headline name">
+      免备案解析域名
     </h1>
   
 
@@ -173,62 +127,28 @@
     </footer>
   </div>
   
-</article>
-
-
-
+    
+<nav id="article-nav">
   
-    <article id="post-hello-world" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2022/02/18/hello-world/" class="article-date">
-  <time class="dt-published" datetime="2022-02-18T07:51:28.559Z" itemprop="datePublished">2022-02-18</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
+    <a href="/2022/03/04/redmi_ac2100/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
         
+          红米ac2100刷openwrt
+        
+      </div>
+    </a>
   
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2022/02/18/hello-world/">Hello World</a>
-    </h1>
   
+    <a href="/2022/02/18/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Hello World</div>
+    </a>
+  
+</nav>
 
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://geili.me/2022/02/18/hello-world/" data-id="ckzs4tk2h0000z6dn01sv9xbj" data-title="Hello World" class="article-share-link">Share</a>
-      
-      
-      
-    </footer>
-  </div>
   
 </article>
-
-
-
-  
 
 
 </section>
