@@ -6,6 +6,10 @@ tags: redmi, ac2100, openwrt
 
 来自小黄鱼￥119
 
+![](../images/ac2100/ac2100.png)
+\
+\
+
 红米原系统：
 
 ![](../images/ac2100/origin_system.png)
