@@ -71,6 +71,57 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-wireguard" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2022/03/21/wireguard/" class="article-date">
+  <time class="dt-published" datetime="2022-03-21T12:01:00.000Z" itemprop="datePublished">2022-03-21</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2022/03/21/wireguard/">wireguard远程回家</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>远程访问通常可以用向日葵、frp实现，但都有限制，向日葵远程桌面还行，特定系统特定端口无法实现，比如远程访问raspberry pi的ssh端口，frp可以做到但每个服务都要映射端口比较繁琐，我server端显示已经映射了47个服务，第一次配置工作量巨大。</p>
+<p><img src="/../images/wireguard/frp.png"><br><br><br>换成vpn可以有效解决以上问题，在外远程访问家庭内网只需打开开关即可，使用ip、port跟内网一模一样，无需额外端口映射。</p>
+<p>对比发现wireguard效率高，速度快。前提是家庭网络有公网IP，如果是固定公网IP直接绑定域名就行，如果是动态公网IP则用ddns动态绑定，ddns可以跑在家庭局域网任何一台机器，比如openwrt：</p>
+<p><img src="/../images/wireguard/ddns.png"><br><br><br>或者docker映射: home.example.com</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d --name=cf-ddns --restart=always -e API_KEY=*** -e ZONE=example.com -e SUBDOMAIN=home oznu/cloudflare-ddns</span><br></pre></td></tr></table></figure>
+<p>在内网任何一台机器启动wireguard:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">docker run -d \</span><br><span class="line">--name=wireguard \</span><br><span class="line">-e WG_HOST=home.example.com \</span><br><span class="line">-e WG_PORT=54321 \</span><br><span class="line">-e PASSWORD=yourPassword \</span><br><span class="line">-e WG_DEFAULT_DNS=192.168.2.1 \</span><br><span class="line">-e TZ=Asia/Shanghai \</span><br><span class="line">-v /path/wg-easy:/etc/wireguard \</span><br><span class="line">-p 54321:51820/udp \</span><br><span class="line">-p 51821:51821/tcp \</span><br><span class="line">--cap-add=NET_ADMIN \</span><br><span class="line">--cap-add=SYS_MODULE \</span><br><span class="line">--sysctl=&quot;net.ipv4.conf.all.src_valid_mark=1&quot; \</span><br><span class="line">--sysctl=&quot;net.ipv4.ip_forward=1&quot; \</span><br><span class="line">--restart unless-stopped \</span><br><span class="line">weejewel/wg-easy</span><br></pre></td></tr></table></figure>
+<p><br><br>在openwrt -&gt; 网络 -&gt; 防火墙 -&gt; 端口转发，假设wg运行在debian，其ip为192.168.2.103，让外部54321&#x2F;udp转发到debian的54321&#x2F;udp端口，：</p>
+<p><img src="/../images/wireguard/port.png"><br><br><br>访问wg后台管理界面: <a target="_blank" rel="noopener" href="http://192.168.2.103:51821/">http://192.168.2.103:51821</a></p>
+<p>添加一个客户端（peer）：<br><img src="/../images/wireguard/wg.png"><br><br><br>手机扫码即可连接：<br><img src="/images/wireguard/wg_android.jpeg" alt="drawing" width="500"/></p>
+<p><br><br>电脑导入配置文件：<br><img src="/../images/wireguard/wg_windows.jpg"><br><br><br>如果没有公网ip则要使用vps中转，配置更复杂，而且通讯速度依赖vps带宽，没有直连快。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://geili.me/2022/03/21/wireguard/" data-id="cl10dhlbi0003vrdn8xh60g3m" data-title="wireguard远程回家" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/wireguard-openwrt/" rel="tag">wireguard, openwrt</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-redmi_ac2100" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2022/03/04/redmi_ac2100/" class="article-date">
@@ -243,7 +294,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/non-censor/" rel="tag">non-censor</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redmi-ac2100-openwrt/" rel="tag">redmi, ac2100, openwrt</a></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/non-censor/" rel="tag">non-censor</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redmi-ac2100-openwrt/" rel="tag">redmi, ac2100, openwrt</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/wireguard-openwrt/" rel="tag">wireguard, openwrt</a></li></ul>
     </div>
   </div>
 
@@ -253,7 +304,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/non-censor/" style="font-size: 10px;">non-censor</a> <a href="/tags/redmi-ac2100-openwrt/" style="font-size: 10px;">redmi, ac2100, openwrt</a>
+      <a href="/tags/non-censor/" style="font-size: 10px;">non-censor</a> <a href="/tags/redmi-ac2100-openwrt/" style="font-size: 10px;">redmi, ac2100, openwrt</a> <a href="/tags/wireguard-openwrt/" style="font-size: 10px;">wireguard, openwrt</a>
     </div>
   </div>
 
@@ -273,6 +324,10 @@
     <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2022/03/21/wireguard/">wireguard远程回家</a>
+          </li>
         
           <li>
             <a href="/2022/03/04/redmi_ac2100/">红米ac2100刷openwrt</a>
