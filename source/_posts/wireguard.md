@@ -54,6 +54,7 @@ weejewel/wg-easy
 \
 手机扫码即可连接：
 <img src="/images/wireguard/wg_android.jpeg" alt="drawing" width="500"/>
+
 \
 \
 电脑导入配置文件：
