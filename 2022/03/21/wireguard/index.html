@@ -19,8 +19,9 @@
 <meta property="og:image" content="https://geili.me/images/wireguard/wg.png">
 <meta property="og:image" content="https://geili.me/images/wireguard/wg_android.jpeg">
 <meta property="og:image" content="https://geili.me/images/wireguard/wg_windows.jpg">
+<meta property="og:image" content="https://geili.me/images/wireguard/openwrt.jpeg">
 <meta property="article:published_time" content="2022-03-21T12:01:00.000Z">
-<meta property="article:modified_time" content="2022-03-21T08:08:22.379Z">
+<meta property="article:modified_time" content="2022-03-21T08:19:56.794Z">
 <meta property="article:author" content="smilence86">
 <meta property="article:tag" content="wireguard, openwrt">
 <meta name="twitter:card" content="summary">
@@ -111,9 +112,12 @@
 <p>在内网任何一台机器启动wireguard:</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">docker run -d \</span><br><span class="line">--name=wireguard \</span><br><span class="line">-e WG_HOST=home.example.com \</span><br><span class="line">-e WG_PORT=54321 \</span><br><span class="line">-e PASSWORD=yourPassword \</span><br><span class="line">-e WG_DEFAULT_DNS=192.168.2.1 \</span><br><span class="line">-e TZ=Asia/Shanghai \</span><br><span class="line">-v /path/wg-easy:/etc/wireguard \</span><br><span class="line">-p 54321:51820/udp \</span><br><span class="line">-p 51821:51821/tcp \</span><br><span class="line">--cap-add=NET_ADMIN \</span><br><span class="line">--cap-add=SYS_MODULE \</span><br><span class="line">--sysctl=&quot;net.ipv4.conf.all.src_valid_mark=1&quot; \</span><br><span class="line">--sysctl=&quot;net.ipv4.ip_forward=1&quot; \</span><br><span class="line">--restart unless-stopped \</span><br><span class="line">weejewel/wg-easy</span><br></pre></td></tr></table></figure>
 <p><br><br>在openwrt -&gt; 网络 -&gt; 防火墙 -&gt; 端口转发，假设wg运行在debian，其ip为192.168.2.103，让外部54321&#x2F;udp转发到debian的54321&#x2F;udp端口，：</p>
-<p><img src="/../images/wireguard/port.png"><br><br><br>访问wg后台管理界面: <a target="_blank" rel="noopener" href="http://192.168.2.103:51821/">http://192.168.2.103:51821</a></p>
-<p>添加一个客户端（peer）：<br><img src="/../images/wireguard/wg.png"><br><br><br>手机扫码即可连接：<br><img src="/images/wireguard/wg_android.jpeg" alt="drawing" width="500"/></p>
-<p><br><br>电脑导入配置文件：<br><img src="/../images/wireguard/wg_windows.jpg"><br><br><br>如果没有公网ip则要使用vps中转，配置更复杂，而且通讯速度依赖vps带宽，没有直连快。</p>
+<p><img src="/../images/wireguard/port.png"><br><br><br>访问wg后台管理界面: <a target="_blank" rel="noopener" href="http://192.168.2.103:51821/">http://192.168.2.103:51821</a>，密码登录进去添加一个客户端（peer）：<br><img src="/../images/wireguard/wg.png"><br><br><br>手机扫码即可连接：<br><img src="/images/wireguard/wg_android.jpeg" width="500" /></p>
+<p><br><br>电脑导入配置文件：</p>
+<p><img src="/../images/wireguard/wg_windows.jpg"><br><br><br>至此就可以通过外网远程访问家里设备，比如路由器管理页：</p>
+<img src="/../images/wireguard/openwrt.jpeg" width="500"/>
+
+<p>假如家里挂了梯子，手机、电脑也拥有科学上网能力。<br><br><br>如果没有公网ip则要使用vps中转，配置略复杂，而且通讯速度依赖vps带宽没有直连快。</p>
 
       
     </div>
