@@ -46,19 +46,25 @@ weejewel/wg-easy
 ![](../images/wireguard/port.png)
 \
 \
-访问wg后台管理界面: http://192.168.2.103:51821
-
-添加一个客户端（peer）：
+访问wg后台管理界面: [http://192.168.2.103:51821](http://192.168.2.103:51821)，密码登录进去添加一个客户端（peer）：
 ![](../images/wireguard/wg.png)
 \
 \
 手机扫码即可连接：
-<img src="/images/wireguard/wg_android.jpeg" alt="drawing" width="500"/>
+<img src="/images/wireguard/wg_android.jpeg" width="500" />
 
 \
 \
 电脑导入配置文件：
+
 ![](../images/wireguard/wg_windows.jpg)
 \
 \
-如果没有公网ip则要使用vps中转，配置更复杂，而且通讯速度依赖vps带宽，没有直连快。
+至此就可以通过外网远程访问家里设备，比如路由器管理页：
+
+<img src="/../images/wireguard/openwrt.jpeg" width="500"/>
+
+假如家里挂了梯子，手机、电脑也拥有科学上网能力。
+\
+\
+如果没有公网ip则要使用vps中转，配置略复杂，而且通讯速度依赖vps带宽没有直连快。
