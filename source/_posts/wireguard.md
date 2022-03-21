@@ -64,7 +64,7 @@ weejewel/wg-easy
 
 <img src="/../images/wireguard/openwrt.jpeg" width="500"/>
 
-假如家里挂了梯子，手机、电脑也拥有科学上网能力。
+家里挂了梯子，手机、电脑也拥有科学上网能力。
 \
 \
 如果没有公网ip则要使用vps中转，配置略复杂，而且通讯速度依赖vps带宽没有直连快。
