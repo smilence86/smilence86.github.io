@@ -44,9 +44,9 @@
 <meta property="og:image" content="https://geili.me/images/aio/pve_win10_ups_usb.png">
 <meta property="og:image" content="https://geili.me/images/aio/ups.png">
 <meta property="article:published_time" content="2022-03-31T13:25:00.000Z">
-<meta property="article:modified_time" content="2022-03-31T09:57:24.682Z">
+<meta property="article:modified_time" content="2022-03-31T10:56:52.919Z">
 <meta property="article:author" content="smilence86">
-<meta property="article:tag" content="amd4700ge, AIO">
+<meta property="article:tag" content="amd4700ge,AIO,all in one,pve">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://geili.me/images/aio/win10_cpu.png">
   
@@ -138,9 +138,12 @@
 <p>cpu跑分：单线程533，多线程5300<br><img src="/../images/aio/win10_cpuz_bench.png"></p>
 <p>待机功耗：<br><img src="/../images/aio/win10_standby_power.png"></p>
 <p>英睿达P5健康度：<br><img src="/../images/aio/CrystalDiskInfo.png"></p>
-<p>英睿达P5性能：<br><img src="/../images/aio/CrystalDiskMark.png"></p>
-<p>8G内存，3000频率鲁大师跑分：<br><img src="/../images/aio/ludashi_bench.png"></p>
-<p>接下来进入bios开启AMD虚拟化，安装pve，开启硬件直通，在虚拟机下测试性能</p>
+<p>英睿达P5读写测速：<br><img src="/../images/aio/CrystalDiskMark.png"></p>
+<p>内存8g，频率3000，鲁大师跑分：<br><img src="/../images/aio/ludashi_bench.png"><br></br><br></br></p>
+<hr>
+</br>
+
+<p>接下来进入bios开启amd虚拟化，安装pve，开启硬件直通，在虚拟机里测性能</p>
 <p><img src="/../images/aio/pve_dashboard.png"></p>
 </br>
 
@@ -162,7 +165,7 @@
 <p>pve虚拟一台win10待机功耗：<br><img src="/../images/aio/pve_win10_standby_power.jpg"></p>
 <p>多了3瓦。</p>
 <p>pve虚拟win10，cpu类型选host，分配所有线程跑分：<br><img src="/../images/aio/pve_win10_cpuz_bench.png"></p>
-<p>分数很接近裸装win10，相比性能损失3%左右。</p>
+<p>分数很接近裸装win10，性能损失3%左右。</p>
 <p>pve虚拟win10，磁盘为IDE测速：<br><img src="/../images/aio/pve_IDE.png"><br><img src="/../images/aio/pve_win10_ide_bench.png"></p>
 <p>pve虚拟win10，磁盘为SCSI测速：<br><img src="/../images/aio/pve_scsi.png"><br><img src="/../images/aio/pve_win10_ide_bench.png"></p>
 <p>显而易见，应该选择SCSI作为虚拟机磁盘格式。</p>
@@ -172,7 +175,7 @@
 <p><a target="_blank" rel="noopener" href="https://post.smzdm.com/p/alpwlzvp/">https://post.smzdm.com/p/alpwlzvp/
 </a></p>
 <p>分组前：<br><img src="/../images/aio/before_group.png"></p>
-<p>由上图可见，安装2张显卡后3070显卡跟主板2.5G网卡的分组都是9，当把3070直通给win10后，整个pve宿主机都断网失控，这时就要对PCI设备进行分组</p>
+<p>由上图可见，安装2张显卡后3070显卡跟主板2.5G网卡的分组都是9，把3070直通给win10后整个pve宿主机都断网失控，这时就要对PCI设备进行分组</p>
 <p>分组后3070变成17，2.5G网卡变成20：<br><img src="/../images/aio/after_group.png"></p>
 <p>甚至板载AX200无线网卡也分了新的组19，之后就可以进行正常直通。</p>
 <p>测试显卡挖矿，直通后性能没有损失，跟裸装一样：</p>
@@ -197,7 +200,7 @@
       
       
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/amd4700ge-AIO/" rel="tag">amd4700ge, AIO</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/amd4700ge-AIO-all-in-one-pve/" rel="tag">amd4700ge,AIO,all in one,pve</a></li></ul>
 
     </footer>
   </div>
@@ -228,7 +231,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/amd4700ge-AIO/" rel="tag">amd4700ge, AIO</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/non-censor/" rel="tag">non-censor</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redmi-ac2100-openwrt/" rel="tag">redmi, ac2100, openwrt</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/wireguard-openwrt/" rel="tag">wireguard, openwrt</a></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/amd4700ge-AIO-all-in-one-pve/" rel="tag">amd4700ge,AIO,all in one,pve</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/non-censor/" rel="tag">non-censor</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redmi-ac2100-openwrt/" rel="tag">redmi, ac2100, openwrt</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/wireguard-openwrt/" rel="tag">wireguard, openwrt</a></li></ul>
     </div>
   </div>
 
@@ -238,7 +241,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/amd4700ge-AIO/" style="font-size: 10px;">amd4700ge, AIO</a> <a href="/tags/non-censor/" style="font-size: 10px;">non-censor</a> <a href="/tags/redmi-ac2100-openwrt/" style="font-size: 10px;">redmi, ac2100, openwrt</a> <a href="/tags/wireguard-openwrt/" style="font-size: 10px;">wireguard, openwrt</a>
+      <a href="/tags/amd4700ge-AIO-all-in-one-pve/" style="font-size: 10px;">amd4700ge,AIO,all in one,pve</a> <a href="/tags/non-censor/" style="font-size: 10px;">non-censor</a> <a href="/tags/redmi-ac2100-openwrt/" style="font-size: 10px;">redmi, ac2100, openwrt</a> <a href="/tags/wireguard-openwrt/" style="font-size: 10px;">wireguard, openwrt</a>
     </div>
   </div>
 
