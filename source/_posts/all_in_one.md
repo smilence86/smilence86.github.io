@@ -53,9 +53,13 @@ cpu跑分：单线程533，多线程5300
 
 </br>
 
-接下来进入bios开启amd虚拟化，安装pve，开启硬件直通，在虚拟机里测性能
+接下来进入bios开启amd虚拟化，u盘安装pve，开启硬件直通，在虚拟机里测性能
 
 ![](../images/aio/pve_dashboard.png)
+
+在pve7以后可以直接在web界面关闭企业源，启用非生产环境源获得系统更新：
+
+![](../images/aio/pve_subscription.png)
 
 </br>
 
@@ -155,7 +159,7 @@ pve虚拟win10，磁盘为SCSI测速：
 分组前：
 ![](../images/aio/before_group.png)
 
-由上图可见，安装2张显卡后3070显卡跟主板2.5G网卡的分组都是9，把3070直通给win10后整个pve宿主机都断网失控，这时就要对PCI设备进行分组
+由上图可见，安装2张显卡后3070跟主板2.5G网卡的分组都是9，把3070直通给win10整个pve宿主机都断网失控，这时就要对PCI设备分组
 
 分组后3070变成17，2.5G网卡变成20：
 ![](../images/aio/after_group.png)
