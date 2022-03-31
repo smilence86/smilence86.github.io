@@ -12,7 +12,7 @@ CPU：AMD 4700ge 8核16线程 TDP 35瓦
 主板: 微星MAG B550M MORTAR WIFI
 内存：2 * 16G
 固态：英睿达P5 1T
-供电：850瓦
+供电：850瓦全模组
 UPS：SVC BX1450L
 硬盘：4 * 西数紫盘8T(WD80PURX)
 
@@ -56,7 +56,7 @@ cpu跑分：单线程533，多线程5300
 ## 安装大礼包：
 apt update
 apt upgrade -y
-apt install ufw lm-sensors apt-transport-https ca-certificates htop net-tools ethtool iperf3 vim git fail2ban -y
+apt install curl ufw lm-sensors apt-transport-https ca-certificates htop net-tools ethtool iperf3 vim git fail2ban -y
 
 vim /etc/fail2ban/jail.conf, 把bantime改成60m
 fail2ban-client status sshd
@@ -172,7 +172,72 @@ pve虚拟ubuntu作为client: iperf3 -p 4000 -c 192.168.2.103
 pve虚拟2台win10，互拷文件：
 ![](../images/aio/pve_win10_transfer_speed.jpg)
 
+## 意外断电
+把ups的usb直通给win10-miner，停电后立马关机
+![](../images/aio/pve_win10_ups_usb.png)
 
+![](../images/aio/ups.png)
+\
+\
+bash脚本自动关机，pve会先关掉所有vm再关宿主机，前提是每个vm都安装了qemu-guest-agent：
+mkdir -p /root/shutdown
+vim shutdown.sh
+```
+#!/bin/sh
 
+# apt install curl -y
+
+ip="192.168.2.x"  # ip which will detecting
+time=30             # interval time of detecting (seconds)
+triedCount=12        # try count
+failCount=0         # failed count
+
+chat_id=""
+telegramToken=""
+
+path="/root/shutdown/"
+
+while true
+do
+    date=`date +%Y-%m-%d`
+    logfile=$path$date'.log'
+
+    hostname=hostname
+    echo "Detected hostname: `${hostname}`" >> $logfile
+
+    notification="curl -X POST --header 'Content-Type: application/json' --data-raw '{\"chat_id\":\"$chat_id\",\"text\":\"`$hostname` is shutting down.\"}' -m 10 https://api.telegram.org/bot$telegramToken/sendMessage"
+    # eval $notification
+
+    now=`date +%Y-%m-%d\ %H:%M:%S`
+    # if ping $ip -4 -c 2 | grep 'time=' > $path'temp.log'
+    if ping $ip -4 -c 2 | grep 'time=' >> $logfile
+    then
+        echo $now 'ping success' $failCount >> $logfile
+        failCount=0
+    else
+        failCount=`expr $failCount + 1`
+        echo $now 'ping failed' $failCount >> $logfile
+        if test $failCount -ge $triedCount
+        then
+            echo $now 'execute shutdown' >> $logfile
+            eval $notification
+            shutdown -h now
+        fi
+    fi
+    sleep $time
+done
+```
+
+vim /etc/rc.loacl
+```
+#!/bin/bash
+
+cd /root/shutdown/ && nohup ./shutdown.sh > /dev/null 2>&1 &
+
+#exit 0
+```
+
+chmod +x /etc/rc.loacl
+reboot
 
 
