@@ -1,7 +1,7 @@
 ---
 title: amd4700ge搭建all in one
 date: 2022-03-31 21:25:00
-tags: amd4700ge,AIO,all in one,pve
+tags: amd4700ge,AIO,all in one,pve,proxmox
 ---
 
 家用AIO考虑24*7运行的电费成本需要低功耗cpu，找了半天选择amd4700ge，这u没有零售只有OEM直接淘宝。
