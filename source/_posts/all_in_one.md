@@ -1,7 +1,7 @@
 ---
 title: amd4700ge搭建all in one
 date: 2022-03-31 21:25:00
-tags: amd4700ge, AIO
+tags: amd4700ge,AIO,all in one,pve
 ---
 
 家用AIO考虑24*7运行的电费成本需要低功耗cpu，找了半天选择amd4700ge，这u没有零售只有OEM直接淘宝。
@@ -41,13 +41,19 @@ cpu跑分：单线程533，多线程5300
 英睿达P5健康度：
 ![](../images/aio/CrystalDiskInfo.png)
 
-英睿达P5性能：
+英睿达P5读写测速：
 ![](../images/aio/CrystalDiskMark.png)
 
-8G内存，3000频率鲁大师跑分：
+内存8g，频率3000，鲁大师跑分：
 ![](../images/aio/ludashi_bench.png)
+</br>
+</br>
 
-接下来进入bios开启AMD虚拟化，安装pve，开启硬件直通，在虚拟机下测试性能
+---
+
+</br>
+
+接下来进入bios开启amd虚拟化，安装pve，开启硬件直通，在虚拟机里测性能
 
 ![](../images/aio/pve_dashboard.png)
 
@@ -119,7 +125,7 @@ pve虚拟一台win10待机功耗：
 pve虚拟win10，cpu类型选host，分配所有线程跑分：
 ![](../images/aio/pve_win10_cpuz_bench.png)
 
-分数很接近裸装win10，相比性能损失3%左右。
+分数很接近裸装win10，性能损失3%左右。
 
 pve虚拟win10，磁盘为IDE测速：
 ![](../images/aio/pve_IDE.png)
@@ -149,7 +155,7 @@ pve虚拟win10，磁盘为SCSI测速：
 分组前：
 ![](../images/aio/before_group.png)
 
-由上图可见，安装2张显卡后3070显卡跟主板2.5G网卡的分组都是9，当把3070直通给win10后，整个pve宿主机都断网失控，这时就要对PCI设备进行分组
+由上图可见，安装2张显卡后3070显卡跟主板2.5G网卡的分组都是9，把3070直通给win10后整个pve宿主机都断网失控，这时就要对PCI设备进行分组
 
 分组后3070变成17，2.5G网卡变成20：
 ![](../images/aio/after_group.png)
