@@ -183,14 +183,18 @@ pve虚拟2台win10，互拷文件：
 ![](../images/aio/pve_win10_transfer_speed.jpg)
 
 ## 意外断电
-把ups的usb直通给win10-miner，停电后立马关机
+把ups的usb直通给win10-miner：
+
 ![](../images/aio/pve_win10_ups_usb.png)
+
+停电后立马关机减轻电源负担：
 
 ![](../images/aio/ups.png)
 \
 \
 bash脚本自动关机，pve会先关掉所有vm再关宿主机，前提是每个vm都安装了qemu-guest-agent：
 mkdir -p /root/shutdown
+cd /root/shutdown
 vim shutdown.sh
 ```
 #!/bin/sh
