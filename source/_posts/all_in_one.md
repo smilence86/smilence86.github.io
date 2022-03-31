@@ -118,7 +118,7 @@ pve虚拟ubuntu作为client: iperf3 -p 4000 -c 192.168.2.150
 pve待机功耗：
 ![](../images/aio/pve_standby_power.jpg)
 
-跟裸装win10待机功耗相同，都是20瓦。
+跟裸装win10待机功耗一样，都是20瓦。
 
 pve虚拟一台win10待机功耗：
 ![](../images/aio/pve_win10_standby_power.jpg)
@@ -156,7 +156,7 @@ pve虚拟win10，磁盘为SCSI测速：
 ](https://post.smzdm.com/p/alpwlzvp/
 )
 
-分组前：
+分组前，尝试给win10直通2张显卡：
 ![](../images/aio/before_group.png)
 
 由上图可见，安装2张显卡后3070跟主板2.5G网卡的分组都是9，把3070直通给win10整个pve宿主机都断网失控，这时就要对PCI设备分组
