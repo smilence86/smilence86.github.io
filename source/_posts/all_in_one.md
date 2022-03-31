@@ -78,13 +78,13 @@ watch -n 2 "cat /proc/cpuinfo | grep MHz"
 apt install cpufrequtils
 cpufreq-info
 
-### 设为节能模式：
+设为节能模式：
 bash -c 'for ((i=0;i<$(nproc);i++)); do cpufreq-set -c $i -g powersave; done'
 
-### 设为按需模式：
+设为按需模式：
 bash -c 'for ((i=0;i<$(nproc);i++)); do cpufreq-set -c $i -g ondemand; done'
 
-### 设为性能模式：
+设为性能模式：
 bash -c 'for ((i=0;i<$(nproc);i++)); do cpufreq-set -c $i -g performance; done'
 
 ## 查看温度：
@@ -123,7 +123,7 @@ pve待机功耗：
 pve虚拟一台win10待机功耗：
 ![](../images/aio/pve_win10_standby_power.jpg)
 
-多了3瓦。
+多3瓦。
 
 
 pve虚拟win10，cpu类型选host，分配所有线程跑分：
