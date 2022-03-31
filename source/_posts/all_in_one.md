@@ -137,7 +137,7 @@ pve虚拟win10，磁盘为IDE测速：
 
 pve虚拟win10，磁盘为SCSI测速：
 ![](../images/aio/pve_scsi.png)
-![](../images/aio/pve_win10_ide_bench.png)
+![](../images/aio/pve_win10_scsi_bench.png)
 
 显而易见，应该选择SCSI作为虚拟机磁盘格式。
 
