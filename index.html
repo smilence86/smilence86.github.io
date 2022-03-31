@@ -71,6 +71,100 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-all_in_one" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2022/03/31/all_in_one/" class="article-date">
+  <time class="dt-published" datetime="2022-03-31T13:25:00.000Z" itemprop="datePublished">2022-03-31</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2022/03/31/all_in_one/">amd4700ge搭建all in one</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>家用AIO考虑24*7运行的电费成本需要低功耗cpu，找了半天选择amd4700ge，这u没有零售只有OEM直接淘宝。</p>
+<p>配置清单：<br>CPU：AMD 4700ge 8核16线程 TDP 35瓦<br>风扇：玄冰风6铜管<br>主板: 微星MAG B550M MORTAR WIFI<br>内存：2 * 16G<br>固态：英睿达P5 1T<br>供电：850瓦<br>UPS：SVC BX1450L<br>硬盘：4 * 西数紫盘8T(WD80PURX)</p>
+<p>硬盘裸装win10，8核16线程，适合跑多任务:</p>
+<p><img src="/../images/aio/win10_cpu.png"></p>
+<p>内存：<br><img src="/../images/aio/win10_memory.png"></p>
+<p>amd vega radeon集成显卡：<br><img src="/../images/aio/win10_radeon.png"></p>
+<p>cpuz:<br><img src="/../images/aio/win10_cpuz.png"></p>
+<p>cpuz集成显卡:<br><img src="/../images/aio/win10_cpuz_vega_radeon.png"></p>
+<p>cpu跑分：单线程533，多线程5300<br><img src="/../images/aio/win10_cpuz_bench.png"></p>
+<p>待机功耗：<br><img src="/../images/aio/win10_standby_power.png"></p>
+<p>英睿达P5健康度：<br><img src="/../images/aio/CrystalDiskInfo.png"></p>
+<p>英睿达P5性能：<br><img src="/../images/aio/CrystalDiskMark.png"></p>
+<p>8G内存，3000频率鲁大师跑分：<br><img src="/../images/aio/ludashi_bench.png"></p>
+<p>接下来进入bios开启AMD虚拟化，安装pve，开启硬件直通，在虚拟机下测试性能</p>
+<p><img src="/../images/aio/pve_dashboard.png"></p>
+</br>
+
+<h2 id="安装大礼包："><a href="#安装大礼包：" class="headerlink" title="安装大礼包："></a>安装大礼包：</h2><p>apt update<br>apt upgrade -y<br>apt install ufw lm-sensors apt-transport-https ca-certificates htop net-tools ethtool iperf3 vim git fail2ban -y</p>
+<p>vim &#x2F;etc&#x2F;fail2ban&#x2F;jail.conf, 把bantime改成60m<br>fail2ban-client status sshd</p>
+<h2 id="查看cpu当前工作频率："><a href="#查看cpu当前工作频率：" class="headerlink" title="查看cpu当前工作频率："></a>查看cpu当前工作频率：</h2><p>watch -n 2 “cat &#x2F;proc&#x2F;cpuinfo | grep MHz”</p>
+<h2 id="查看cpu工作模式："><a href="#查看cpu工作模式：" class="headerlink" title="查看cpu工作模式："></a>查看cpu工作模式：</h2><p>apt install cpufrequtils<br>cpufreq-info</p>
+<h3 id="设为节能模式："><a href="#设为节能模式：" class="headerlink" title="设为节能模式："></a>设为节能模式：</h3><p>bash -c ‘for ((i&#x3D;0;i&lt;$(nproc);i++)); do cpufreq-set -c $i -g powersave; done’</p>
+<h3 id="设为按需模式："><a href="#设为按需模式：" class="headerlink" title="设为按需模式："></a>设为按需模式：</h3><p>bash -c ‘for ((i&#x3D;0;i&lt;$(nproc);i++)); do cpufreq-set -c $i -g ondemand; done’</p>
+<h3 id="设为性能模式："><a href="#设为性能模式：" class="headerlink" title="设为性能模式："></a>设为性能模式：</h3><p>bash -c ‘for ((i&#x3D;0;i&lt;$(nproc);i++)); do cpufreq-set -c $i -g performance; done’</p>
+<h2 id="查看温度："><a href="#查看温度：" class="headerlink" title="查看温度："></a>查看温度：</h2><p>apt install lm-sensors<br>sensors</p>
+<h2 id="安装深色主题："><a href="#安装深色主题：" class="headerlink" title="安装深色主题："></a>安装深色主题：</h2><p>bash &lt;(curl -s <a target="_blank" rel="noopener" href="https://raw.githubusercontent.com/Weilbyte/PVEDiscordDark/master/PVEDiscordDark.sh">https://raw.githubusercontent.com/Weilbyte/PVEDiscordDark/master/PVEDiscordDark.sh</a> ) install</p>
+<h2 id="安装pvetools扩展功能："><a href="#安装pvetools扩展功能：" class="headerlink" title="安装pvetools扩展功能："></a>安装pvetools扩展功能：</h2><p><a target="_blank" rel="noopener" href="https://github.com/ivanhao/pvetools">https://github.com/ivanhao/pvetools</a></p>
+<h2 id="安装ufw防火墙"><a href="#安装ufw防火墙" class="headerlink" title="安装ufw防火墙"></a>安装ufw防火墙</h2><p>apt install ufw<br>ufw status<br>ufw allow 22&#x2F;tcp<br>ufw enable<br>ufw allow 8006&#x2F;tcp<br>ufw allow 4000&#x2F;tcp<br>iptables -L</p>
+<h2 id="iperf3测速"><a href="#iperf3测速" class="headerlink" title="iperf3测速"></a>iperf3测速</h2><p>pve宿主机作为server: iperf3 -s -p 4000<br>pve虚拟ubuntu作为client: iperf3 -p 4000 -c 192.168.2.150</p>
+<p><img src="/../images/aio/pve_ubuntu_iperf3.png"></p>
+<p>pve待机功耗：<br><img src="/../images/aio/pve_standby_power.jpg"></p>
+<p>跟裸装win10待机功耗相同，都是20瓦。</p>
+<p>pve虚拟一台win10待机功耗：<br><img src="/../images/aio/pve_win10_standby_power.jpg"></p>
+<p>多了3瓦。</p>
+<p>pve虚拟win10，cpu类型选host，分配所有线程跑分：<br><img src="/../images/aio/pve_win10_cpuz_bench.png"></p>
+<p>分数很接近裸装win10，相比性能损失3%左右。</p>
+<p>pve虚拟win10，磁盘为IDE测速：<br><img src="/../images/aio/pve_IDE.png"><br><img src="/../images/aio/pve_win10_ide_bench.png"></p>
+<p>pve虚拟win10，磁盘为SCSI测速：<br><img src="/../images/aio/pve_scsi.png"><br><img src="/../images/aio/pve_win10_ide_bench.png"></p>
+<p>显而易见，应该选择SCSI作为虚拟机磁盘格式。</p>
+<p>但选择SCSI安装win10不能识别磁盘，需要加载驱动：<br><img src="/../images/aio/pve_win10_no_disk.png"><br><img src="/../images/aio/pve_win10_scsi_driver.png"><br><img src="/../images/aio/pve_win10_scsi_disk.png"></p>
+<p>解决直通分组问题：<br><a target="_blank" rel="noopener" href="https://pve.proxmox.com/wiki/Pci_passthrough#AMD_CPU">https://pve.proxmox.com/wiki/Pci_passthrough#AMD_CPU</a></p>
+<p><a target="_blank" rel="noopener" href="https://mechanical-consciousness.com/2020/03/20/kvm-gpu-passthrough.html">https://mechanical-consciousness.com/2020/03/20/kvm-gpu-passthrough.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://post.smzdm.com/p/alpwlzvp/">https://post.smzdm.com/p/alpwlzvp/
+</a></p>
+<p>分组前：<br><img src="/../images/aio/before_group.png"></p>
+<p>由上图可见，安装2张显卡后3070显卡跟主板2.5G网卡的分组都是9，当把3070直通给win10后，整个pve宿主机都断网失控，这时就要对PCI设备进行分组</p>
+<p>分组后3070变成17，2.5G网卡变成20：<br><img src="/../images/aio/after_group.png"></p>
+<p>甚至板载AX200无线网卡也分了新的组19，之后就可以进行正常直通。</p>
+<p>测试显卡挖矿，直通后性能没有损失，跟裸装一样：</p>
+<p><img src="/../images/aio/pve_win10_mine_eth.png"></p>
+<p>pve虚拟openwrt，cpu类型选host，分配所有线程跑分：<br><img src="/../images/aio/pve_openwrt.png"></p>
+<p>pve虚拟debian作为server: iperf3 -s -p 4000<br>pve虚拟ubuntu作为client: iperf3 -p 4000 -c 192.168.2.103</p>
+<p><img src="/../images/aio/pve_debian_ubuntu_iperf3.png"></p>
+<p>pve虚拟2台win10，互拷文件：<br><img src="/../images/aio/pve_win10_transfer_speed.jpg"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://geili.me/2022/03/31/all_in_one/" data-id="cl1elwebe00000rdnb900a70o" data-title="amd4700ge搭建all in one" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/amd4700ge-AIO/" rel="tag">amd4700ge, AIO</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-wireguard" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2022/03/21/wireguard/" class="article-date">
@@ -297,7 +391,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/non-censor/" rel="tag">non-censor</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redmi-ac2100-openwrt/" rel="tag">redmi, ac2100, openwrt</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/wireguard-openwrt/" rel="tag">wireguard, openwrt</a></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/amd4700ge-AIO/" rel="tag">amd4700ge, AIO</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/non-censor/" rel="tag">non-censor</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redmi-ac2100-openwrt/" rel="tag">redmi, ac2100, openwrt</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/wireguard-openwrt/" rel="tag">wireguard, openwrt</a></li></ul>
     </div>
   </div>
 
@@ -307,7 +401,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/non-censor/" style="font-size: 10px;">non-censor</a> <a href="/tags/redmi-ac2100-openwrt/" style="font-size: 10px;">redmi, ac2100, openwrt</a> <a href="/tags/wireguard-openwrt/" style="font-size: 10px;">wireguard, openwrt</a>
+      <a href="/tags/amd4700ge-AIO/" style="font-size: 10px;">amd4700ge, AIO</a> <a href="/tags/non-censor/" style="font-size: 10px;">non-censor</a> <a href="/tags/redmi-ac2100-openwrt/" style="font-size: 10px;">redmi, ac2100, openwrt</a> <a href="/tags/wireguard-openwrt/" style="font-size: 10px;">wireguard, openwrt</a>
     </div>
   </div>
 
@@ -327,6 +421,10 @@
     <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2022/03/31/all_in_one/">amd4700ge搭建all in one</a>
+          </li>
         
           <li>
             <a href="/2022/03/21/wireguard/">wireguard远程回家</a>
