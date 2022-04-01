@@ -29,10 +29,16 @@
 <meta property="og:image" content="https://geili.me/images/openwrt/pve_openwrt_ip.png">
 <meta property="og:image" content="https://geili.me/images/openwrt/pve_openwrt_eth_full_duplex.png">
 <meta property="og:image" content="https://geili.me/images/openwrt/pve_openwrt_eths_full_duplex.png">
+<meta property="og:image" content="https://geili.me/images/openwrt/cloudflare_dns.png">
+<meta property="og:image" content="https://geili.me/images/openwrt/pve_openwrt_ddns.png">
+<meta property="og:image" content="https://geili.me/images/openwrt/pve_openwrt_ddns_cf.png">
+<meta property="og:image" content="https://geili.me/images/openwrt/pve_openwrt_ddns_cf_detail.png">
+<meta property="og:image" content="https://geili.me/images/openwrt/pve_openwrt_forward.png">
+<meta property="og:image" content="https://geili.me/images/openwrt/pve_openwrt_ddns_list.png">
 <meta property="article:published_time" content="2022-04-01T11:26:00.000Z">
-<meta property="article:modified_time" content="2022-04-01T06:58:19.036Z">
+<meta property="article:modified_time" content="2022-04-01T08:23:13.681Z">
 <meta property="article:author" content="smilence86">
-<meta property="article:tag" content="pve,proxmox,openwrt">
+<meta property="article:tag" content="pve,proxmox,openwrt,ddns,acme,ssl">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://geili.me/images/openwrt/upload_img.png">
   
@@ -169,7 +175,47 @@
 <p>永久生效: vim &#x2F;etc&#x2F;init.d&#x2F;network</p>
 <p><img src="/../images/openwrt/pve_openwrt_eth_full_duplex.png"></p>
 <p><img src="/../images/openwrt/pve_openwrt_eths_full_duplex.png"></p>
-<p>之后就是配置常用插件，自由发挥。</p>
+<h1 id="十五、ddns公网访问"><a href="#十五、ddns公网访问" class="headerlink" title="十五、ddns公网访问"></a>十五、ddns公网访问</h1><p>家宽有公网ipv4，映射域名，配上证书，防火墙添加端口转发就可以公网访问。</p>
+<p>测试发现80、443端口不通，应该是运营商封了，退而求其次使用非标8443端口。</p>
+<p>首先配置域名，我用的cloudflare，在dns添加一条A记录，ip随意比如1.1.1.1：</p>
+<img src="/../images/openwrt/cloudflare_dns.png"/>
+
+<p>openwrt配置ddns：</p>
+<img src="/../images/openwrt/pve_openwrt_ddns.png" width="200"/>
+
+<p>添加ddns服务：<br><img src="/../images/openwrt/pve_openwrt_ddns_cf.png"/></p>
+<p>注意“查询主机名”跟“域名”格式不一样，前一个是“.”，后一个是“@”：</p>
+<img src="/../images/openwrt/pve_openwrt_ddns_cf_detail.png"/>
+
+<p>回到ddns列表界面，点击“重新加载”就会修改cf域名解析，本机ping一下是否成功。</p>
+<h1 id="十六、配置域名ssl证书"><a href="#十六、配置域名ssl证书" class="headerlink" title="十六、配置域名ssl证书"></a>十六、配置域名ssl证书</h1><p>通常web服务有多个，最好找台linux当网关转发流量，以debian为例，安装nginx、acme.sh颁发证书并自动续期。</p>
+<p>获取nginx基础配置：<br>cd ~&#x2F;projects&#x2F; &amp;&amp; mkdir nginx &amp;&amp; mkdir nginx&#x2F;conf.d &amp;&amp; mkdir nginx&#x2F;conf.d&#x2F;certs<br>docker run –rm -d –name nginx nginx<br>docker cp nginx:&#x2F;etc&#x2F;nginx&#x2F;nginx.conf ~&#x2F;projects&#x2F;nginx&#x2F;nginx.conf<br>docker stop nginx</p>
+<p>启动nginx:<br>docker run -d –restart&#x3D;always –name nginx -v &#x2F;home&#x2F;www&#x2F;projects&#x2F;nginx&#x2F;nginx.conf:&#x2F;etc&#x2F;nginx&#x2F;nginx.conf:ro -v &#x2F;home&#x2F;www&#x2F;projects&#x2F;nginx&#x2F;conf.d:&#x2F;etc&#x2F;nginx&#x2F;conf.d:ro –network&#x3D;host nginx</p>
+<p>安装acme.sh:<br>curl <a target="_blank" rel="noopener" href="https://get.acme.sh/">https://get.acme.sh</a> | sh -s email&#x3D;<a href="mailto:&#121;&#x6f;&#117;&#114;&#x4e;&#97;&#x6d;&#x65;&#64;&#103;&#109;&#x61;&#x69;&#x6c;&#46;&#99;&#x6f;&#109;">&#121;&#x6f;&#117;&#114;&#x4e;&#97;&#x6d;&#x65;&#64;&#103;&#109;&#x61;&#x69;&#x6c;&#46;&#99;&#x6f;&#109;</a></p>
+<p>exit退出terminal重新登录使acme.sh命令生效</p>
+<p>导出环境变量，acme.sh执行时依赖这些变量：<br>export CF_Token&#x3D;””<br>export CF_Account_ID&#x3D;””<br>export CF_Zone_ID&#x3D;””</p>
+<p>颁发泛域名证书（Issue cert）:</p>
+<pre><code>acme.sh --issue -d &#39;*.example.com&#39; --dns dns_cf --dnssleep 120 --debug 2 --server letsencrypt
+</code></pre>
+<p>安装证书（Install cert）:</p>
+<pre><code>acme.sh --install-cert -d &#39;*.example.com&#39; --key-file /home/www/projects/nginx/conf.d/certs/*.example.com.privkey.pem --fullchain-file /home/www/projects/nginx/conf.d/certs/*.example.com.fullchain.pem --reloadcmd &quot;docker exec -it nginx nginx -s reload&quot; --debug 2
+</code></pre>
+<p>新建配置文件，vim &#x2F;home&#x2F;www&#x2F;projects&#x2F;nginx&#x2F;conf.d&#x2F;openwrt.conf</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line">server&#123;</span><br><span class="line">	listen 80;</span><br><span class="line">	server_name op.example.com;</span><br><span class="line"></span><br><span class="line">	client_max_body_size 200M;</span><br><span class="line">	#access_log  /data/logs/nginx_json/access.log json;</span><br><span class="line"></span><br><span class="line">	return 301 https://$host$request_uri;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">server&#123;</span><br><span class="line">	listen 443 ssl;</span><br><span class="line">	server_name op.example.com;</span><br><span class="line"></span><br><span class="line">	gzip on;</span><br><span class="line">	gzip_min_length 1k;</span><br><span class="line">    gzip_buffers 16 64k;</span><br><span class="line">    gzip_http_version 1.1;</span><br><span class="line">    gzip_comp_level 3;</span><br><span class="line">    gzip_types text/plain application/x-javascript application/javascript text/javascript text/css application/xml application/x-httpd-php image/jpeg image/gif image/png;</span><br><span class="line">    gzip_vary on;</span><br><span class="line">	client_max_body_size 200M;</span><br><span class="line">	#access_log  /data/logs/nginx_json/access.log json;</span><br><span class="line"></span><br><span class="line">	ssl_certificate  /etc/nginx/conf.d/certs/*.example.com.fullchain.pem;</span><br><span class="line">    ssl_certificate_key /etc/nginx/conf.d/certs/*.example.com.privkey.pem;</span><br><span class="line">    ssl_session_timeout 5m;</span><br><span class="line">    ssl_ciphers ECDHE-RSA-AES128-GCM-SHA256:ECDHE:ECDH:AES:HIGH:!NULL:!aNULL:!MD5:!ADH:!RC4;</span><br><span class="line">    ssl_protocols TLSv1 TLSv1.1 TLSv1.2;</span><br><span class="line">    ssl_prefer_server_ciphers on;</span><br><span class="line"></span><br><span class="line">    # Prevent crawling</span><br><span class="line">    if ($http_user_agent ~* &quot;360Spider|JikeSpider|Spider|spider|bot|Bot|2345Explorer|curl|wget|webZIP|qihoobot|Baiduspider|Googlebot|Googlebot-Mobile|Googlebot-Image|Mediapartners-Google|Adsbot-Google|Feedfetcher-Google|Yahoo! Slurp|Yahoo! Slurp China|YoudaoBot|Sosospider|Sogou spider|Sogou web spider|MSNBot|ia_archiver|Tomato Bot|NSPlayer|bingbot&quot;)&#123;</span><br><span class="line">        return 403;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    location / &#123;</span><br><span class="line">		proxy_read_timeout 60m;</span><br><span class="line">		proxy_set_header Host $host;</span><br><span class="line">		proxy_set_header X-Forwarded-Proto https;</span><br><span class="line">		proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;</span><br><span class="line">		proxy_set_header X-Real-IP $remote_addr;</span><br><span class="line">        proxy_set_header Connection &quot;upgrade&quot;;</span><br><span class="line">		proxy_redirect off;</span><br><span class="line">		proxy_pass http://192.168.2.1:80;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	error_page 500 502 503 504 /50x.html;</span><br><span class="line">	#location = /50x.html &#123;</span><br><span class="line">	#	root /data/www/error/;</span><br><span class="line">	#&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>查看nginx容器状态: docker ps -a</p>
+<p>查看nginx容器日志: docker logs -f –tail 500 nginx</p>
+<p>有错的话根据日志排查。</p>
+<h1 id="十七、防火墙-gt-端口转发"><a href="#十七、防火墙-gt-端口转发" class="headerlink" title="十七、防火墙 &gt; 端口转发"></a>十七、防火墙 &gt; 端口转发</h1><p>假设内网debian网关ip为192.168.2.103，则将外网8443&#x2F;tcp端口转发到debian的443&#x2F;tcp：</p>
+<img src="/../images/openwrt/pve_openwrt_forward.png"/>
+
+
+<p>之后便可以通过 <a target="_blank" rel="noopener" href="https://openwrt.example.com:8443/">https://openwrt.example.com:8443</a> 访问家里openwrt，其他服务同理：</p>
+<img src="/../images/openwrt/pve_openwrt_ddns_list.png"/>
+
+
+
+
 
       
     </div>
@@ -178,7 +224,7 @@
       
       
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/pve-proxmox-openwrt/" rel="tag">pve,proxmox,openwrt</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/pve-proxmox-openwrt-ddns-acme-ssl/" rel="tag">pve,proxmox,openwrt,ddns,acme,ssl</a></li></ul>
 
     </footer>
   </div>
@@ -209,7 +255,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/amd4700ge-AIO-all-in-one-pve-proxmox/" rel="tag">amd4700ge,AIO,all in one,pve,proxmox</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/non-censor/" rel="tag">non-censor</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pve-proxmox-openwrt/" rel="tag">pve,proxmox,openwrt</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redmi-ac2100-openwrt/" rel="tag">redmi, ac2100, openwrt</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/wireguard-openwrt/" rel="tag">wireguard, openwrt</a></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/amd4700ge-AIO-all-in-one-pve-proxmox/" rel="tag">amd4700ge,AIO,all in one,pve,proxmox</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/non-censor/" rel="tag">non-censor</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pve-proxmox-openwrt-ddns-acme-ssl/" rel="tag">pve,proxmox,openwrt,ddns,acme,ssl</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redmi-ac2100-openwrt/" rel="tag">redmi, ac2100, openwrt</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/wireguard-openwrt/" rel="tag">wireguard, openwrt</a></li></ul>
     </div>
   </div>
 
@@ -219,7 +265,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/amd4700ge-AIO-all-in-one-pve-proxmox/" style="font-size: 10px;">amd4700ge,AIO,all in one,pve,proxmox</a> <a href="/tags/non-censor/" style="font-size: 10px;">non-censor</a> <a href="/tags/pve-proxmox-openwrt/" style="font-size: 10px;">pve,proxmox,openwrt</a> <a href="/tags/redmi-ac2100-openwrt/" style="font-size: 10px;">redmi, ac2100, openwrt</a> <a href="/tags/wireguard-openwrt/" style="font-size: 10px;">wireguard, openwrt</a>
+      <a href="/tags/amd4700ge-AIO-all-in-one-pve-proxmox/" style="font-size: 10px;">amd4700ge,AIO,all in one,pve,proxmox</a> <a href="/tags/non-censor/" style="font-size: 10px;">non-censor</a> <a href="/tags/pve-proxmox-openwrt-ddns-acme-ssl/" style="font-size: 10px;">pve,proxmox,openwrt,ddns,acme,ssl</a> <a href="/tags/redmi-ac2100-openwrt/" style="font-size: 10px;">redmi, ac2100, openwrt</a> <a href="/tags/wireguard-openwrt/" style="font-size: 10px;">wireguard, openwrt</a>
     </div>
   </div>
 
