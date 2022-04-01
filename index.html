@@ -71,6 +71,102 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-openwrt" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2022/04/01/openwrt/" class="article-date">
+  <time class="dt-published" datetime="2022-04-01T11:26:00.000Z" itemprop="datePublished">2022-04-01</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2022/04/01/openwrt/">pve安装openwrt</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="一、上传镜像"><a href="#一、上传镜像" class="headerlink" title="一、上传镜像"></a>一、上传镜像</h1><p>如果是压缩包img.gz格式要先解压成img上传</p>
+<p><img src="/../images/openwrt/upload_img.png"></p>
+<p>pve版本7上传完成会显示文件存放路径: &#x2F;var&#x2F;lib&#x2F;vz&#x2F;template&#x2F;iso</p>
+<p><img src="/../images/openwrt/pve_img.png"></p>
+<p>pve版本6双击下方操作日志也会显示。</p>
+<h1 id="二、创建vm"><a href="#二、创建vm" class="headerlink" title="二、创建vm"></a>二、创建vm</h1><p>一路下一步，过程省略。</p>
+<p>可以选择不使用ios镜像。</p>
+<p>完成后把默认磁盘删了。</p>
+<h1 id="三、生成磁盘"><a href="#三、生成磁盘" class="headerlink" title="三、生成磁盘"></a>三、生成磁盘</h1><p>ssh登录pve宿主机<br>进入镜像存放目录: cd &#x2F;var&#x2F;lib&#x2F;vz&#x2F;template&#x2F;iso<br>创建磁盘: qm importdisk 100 &#x2F;var&#x2F;lib&#x2F;vz&#x2F;template&#x2F;iso&#x2F;openwrt-2022-03-27-x86-64-generic-squashfs-combined.img local-lvm</p>
+<h1 id="四、加载磁盘"><a href="#四、加载磁盘" class="headerlink" title="四、加载磁盘"></a>四、加载磁盘</h1><p>双击未使用磁盘，添加：</p>
+<p><img src="/../images/openwrt/pve_openwrt_disk.png"></p>
+<p>扩容5G：</p>
+<p><img src="/../images/openwrt/pve_openwrt_disk_increment.png"></p>
+<h1 id="五、添加网卡"><a href="#五、添加网卡" class="headerlink" title="五、添加网卡"></a>五、添加网卡</h1><p>如果cpu支持vt-d硬件直通，则在“硬件添加pci”设备</p>
+<p><img src="/../images/openwrt/pve_openwrt_pci.png"></p>
+<p>如果cpu不支持vt-d硬件直通，则只能使用桥接网卡，先到pve节点网络下创建桥接网卡，备注为WAN口：</p>
+<p><img src="/../images/openwrt/pve_bridge_eth.png"></p>
+<p>回到openwrt硬件，添加网络设备，选择WAN：</p>
+<p><img src="/../images/openwrt/pve_openwrt_bridge_eth.png"></p>
+<h1 id="六、修改配置"><a href="#六、修改配置" class="headerlink" title="六、修改配置"></a>六、修改配置</h1><p>开机自启（start at boot）改为Yes</p>
+<p>启动顺序（boot order）改成附加的磁盘：</p>
+<p><img src="/../images/openwrt/pve_openwrt_bootOrder.png"></p>
+<p>启用qemu guest agent，让pve宿主机能够与vm通讯：</p>
+<p><img src="/../images/openwrt/pve_openwrt_qemu_guest_agent.png"></p>
+<h1 id="七、启动openwrt"><a href="#七、启动openwrt" class="headerlink" title="七、启动openwrt"></a>七、启动openwrt</h1><p>在pve web界面进入控制台ssh，按回车看到输入光标</p>
+<p>vim &#x2F;etc&#x2F;config&#x2F;network<br>把lan口静态ip改成192.168.2.1</p>
+<p>重启生效: &#x2F;etc&#x2F;init.d&#x2F;network restart</p>
+<p>浏览器登录openwrt</p>
+<p><img src="/../images/openwrt/pve_openwrt_overview.png"></p>
+<p>用磁盘管理（diskman）把扩容的5G分区格式化成ext4，挂载给&#x2F;opt目录，docker会使用opt作为overlay空间，不会消耗根目录容量。</p>
+<p>ssh登录查看磁盘用量，df -Th：</p>
+<p><img src="/../images/openwrt/pve_openwrt_disk_info.png"></p>
+<h1 id="八、cpu跑分"><a href="#八、cpu跑分" class="headerlink" title="八、cpu跑分"></a>八、cpu跑分</h1><p>ssh执行: cd &#x2F;etc &amp;&amp; .&#x2F;coremark.sh</p>
+<p>有的镜像是&#x2F;sbin&#x2F;cpumark，执行: cpumark</p>
+<h1 id="九、网卡测速"><a href="#九、网卡测速" class="headerlink" title="九、网卡测速"></a>九、网卡测速</h1><p>opkg install iperf3<br>server: iperf3 -s -p 4000<br>client: iperf3 -p 4000 -c 192.168.2.1</p>
+<p><img src="/../images/openwrt/pve_openwrt_iperf3.png"></p>
+<p>因为不是直通，n3160性能偏弱跑不满千兆，7、800也够用。</p>
+<h1 id="十、把ash改成bash"><a href="#十、把ash改成bash" class="headerlink" title="十、把ash改成bash"></a>十、把ash改成bash</h1><p>opkg update &amp;&amp; opkg install bash<br>编辑 &#x2F;etc&#x2F;passwd 文件<br>修改第一行（第一行就是 root 用户）中的 &#x2F;bin&#x2F;ash，改成 &#x2F;bin&#x2F;bash<br>保存重启路由器生效</p>
+<p>查看 &#x2F;etc&#x2F;shells 文件可以看到当前系统中有哪些可用的 shell 解释器<br>&#x2F;bin&#x2F;ash<br>&#x2F;bin&#x2F;bash<br>&#x2F;bin&#x2F;rbash</p>
+<p>安装vim：opkg install vim</p>
+<p>利用bash快速找到历史命令，创建文件：vim ~&#x2F;.inputrc，粘贴：<br>“\e[A”: history-search-backward<br>“\e[B”: history-search-forward<br>set show-all-if-ambiguous on<br>set completion-ignore-case on</p>
+<p>设置快捷键，创建文件：vim ~&#x2F;.bashrc，粘贴内容：<br>HISTSIZE&#x3D;-1<br>HISTFILESIZE&#x3D;-1</p>
+<p>alias ll&#x3D;’ls -alhFtr’<br>alias la&#x3D;’ls -A’<br>alias l&#x3D;’ls -CF’</p>
+<p>执行命令生效：source ~&#x2F;.bashrc</p>
+<h1 id="十一、远程记录日志"><a href="#十一、远程记录日志" class="headerlink" title="十一、远程记录日志"></a>十一、远程记录日志</h1><p><a target="_blank" rel="noopener" href="https://www.betaflare.com/3730.html">https://www.betaflare.com/3730.html</a></p>
+<h1 id="十二、增大session过期时间"><a href="#十二、增大session过期时间" class="headerlink" title="十二、增大session过期时间"></a>十二、增大session过期时间</h1><p>vim &#x2F;etc&#x2F;config&#x2F;luci</p>
+<p>option sessiontime ‘36000’</p>
+<h1 id="十三、安装qemu-guest-agent"><a href="#十三、安装qemu-guest-agent" class="headerlink" title="十三、安装qemu guest agent"></a>十三、安装qemu guest agent</h1><p>opkg install qemu-ga</p>
+<p><img src="/../images/openwrt/pve_openwrt_qemu_ga.png"></p>
+<p>pve显示openwrt ip：</p>
+<p><img src="/../images/openwrt/pve_openwrt_ip.png"></p>
+<h1 id="十四、修改“半双工”"><a href="#十四、修改“半双工”" class="headerlink" title="十四、修改“半双工”"></a>十四、修改“半双工”</h1><p>pve虚拟的openwrt网卡实际为全双工，显示为半双工且没有速度，可通过命令修改</p>
+<p>临时生效: ethtool -s eth0 speed 1000 duplex full</p>
+<p>永久生效: vim &#x2F;etc&#x2F;init.d&#x2F;network</p>
+<p><img src="/../images/openwrt/pve_openwrt_eth_full_duplex.png"></p>
+<p><img src="/../images/openwrt/pve_openwrt_eths_full_duplex.png"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://geili.me/2022/04/01/openwrt/" data-id="cl1fsp4ro00008ndn2fn8bxgy" data-title="pve安装openwrt" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/pve-proxmox-openwrt/" rel="tag">pve,proxmox,openwrt</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-all_in_one" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2022/03/31/all_in_one/" class="article-date">
@@ -407,7 +503,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/amd4700ge-AIO-all-in-one-pve-proxmox/" rel="tag">amd4700ge,AIO,all in one,pve,proxmox</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/non-censor/" rel="tag">non-censor</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redmi-ac2100-openwrt/" rel="tag">redmi, ac2100, openwrt</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/wireguard-openwrt/" rel="tag">wireguard, openwrt</a></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/amd4700ge-AIO-all-in-one-pve-proxmox/" rel="tag">amd4700ge,AIO,all in one,pve,proxmox</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/non-censor/" rel="tag">non-censor</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pve-proxmox-openwrt/" rel="tag">pve,proxmox,openwrt</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redmi-ac2100-openwrt/" rel="tag">redmi, ac2100, openwrt</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/wireguard-openwrt/" rel="tag">wireguard, openwrt</a></li></ul>
     </div>
   </div>
 
@@ -417,7 +513,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/amd4700ge-AIO-all-in-one-pve-proxmox/" style="font-size: 10px;">amd4700ge,AIO,all in one,pve,proxmox</a> <a href="/tags/non-censor/" style="font-size: 10px;">non-censor</a> <a href="/tags/redmi-ac2100-openwrt/" style="font-size: 10px;">redmi, ac2100, openwrt</a> <a href="/tags/wireguard-openwrt/" style="font-size: 10px;">wireguard, openwrt</a>
+      <a href="/tags/amd4700ge-AIO-all-in-one-pve-proxmox/" style="font-size: 10px;">amd4700ge,AIO,all in one,pve,proxmox</a> <a href="/tags/non-censor/" style="font-size: 10px;">non-censor</a> <a href="/tags/pve-proxmox-openwrt/" style="font-size: 10px;">pve,proxmox,openwrt</a> <a href="/tags/redmi-ac2100-openwrt/" style="font-size: 10px;">redmi, ac2100, openwrt</a> <a href="/tags/wireguard-openwrt/" style="font-size: 10px;">wireguard, openwrt</a>
     </div>
   </div>
 
@@ -426,7 +522,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/03/">March 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/02/">February 2022</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/04/">April 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/03/">March 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/02/">February 2022</a></li></ul>
     </div>
   </div>
 
@@ -437,6 +533,10 @@
     <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2022/04/01/openwrt/">pve安装openwrt</a>
+          </li>
         
           <li>
             <a href="/2022/03/31/all_in_one/">amd4700ge搭建all in one</a>
@@ -452,10 +552,6 @@
         
           <li>
             <a href="/2022/02/18/non-censor/">免备案解析域名</a>
-          </li>
-        
-          <li>
-            <a href="/2022/02/18/hello-world/">Hello World</a>
           </li>
         
       </ul>
