@@ -196,7 +196,7 @@ openwrt配置ddns：
 
 # 十六、配置域名ssl证书
 
-通常web服务有多个，最好找台linux当网关转发流量，以debian为例，安装nginx、acme.sh颁发证书并自动续期。
+web服务通常有多个，最好找台linux当网关统一转发流量，以debian为例，安装nginx、acme.sh颁发证书并自动续期。
 
 获取nginx基础配置：
 cd ~/projects/ && mkdir nginx && mkdir nginx/conf.d && mkdir nginx/conf.d/certs
@@ -210,12 +210,14 @@ docker run -d --restart=always --name nginx -v /home/www/projects/nginx/nginx.co
 安装acme.sh:
 curl https://get.acme.sh | sh -s email=yourName@gmail.com
 
-exit退出terminal重新登录使acme.sh命令生效
+exit退出命令行重新登录使acme.sh命令生效
 
 导出环境变量，acme.sh执行时依赖这些变量：
 export CF_Token=""
 export CF_Account_ID=""
 export CF_Zone_ID=""
+
+每家dns服务商的参数不一样，参考：[https://github.com/acmesh-official/acme.sh/wiki/dnsapi](https://github.com/acmesh-official/acme.sh/wiki/dnsapi)
 
 颁发泛域名证书（Issue cert）:
 
@@ -226,11 +228,15 @@ export CF_Zone_ID=""
 
 	acme.sh --install-cert -d '*.example.com' --key-file /home/www/projects/nginx/conf.d/certs/*.example.com.privkey.pem --fullchain-file /home/www/projects/nginx/conf.d/certs/*.example.com.fullchain.pem --reloadcmd "docker exec -it nginx nginx -s reload" --debug 2
 
-新建配置文件，vim /home/www/projects/nginx/conf.d/openwrt.conf
+以上命令执行完acme会创建定时任务，以后ssl证书过期前会自动续期：
+crontab -l
+16 0 * * * "/home/www/.acme.sh"/acme.sh --cron --home "/home/www/.acme.sh" > /home/www/acme.log
+
+为openwrt服务新建配置文件，vim /home/www/projects/nginx/conf.d/openwrt.conf
 ```
 server{
 	listen 80;
-	server_name op.example.com;
+	server_name openwrt.example.com;
 
 	client_max_body_size 200M;
 	#access_log  /data/logs/nginx_json/access.log json;
@@ -240,7 +246,7 @@ server{
 
 server{
 	listen 443 ssl;
-	server_name op.example.com;
+	server_name openwrt.example.com;
 
 	gzip on;
 	gzip_min_length 1k;
