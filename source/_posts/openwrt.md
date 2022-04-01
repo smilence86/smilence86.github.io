@@ -1,7 +1,7 @@
 ---
 title: pve安装openwrt
 date: 2022-04-01 19:26:00
-tags: pve,proxmox,openwrt
+tags: pve,proxmox,openwrt,ddns,acme,ssl
 ---
 
 # 一、上传镜像
@@ -171,5 +171,136 @@ pve虚拟的openwrt网卡实际为全双工，显示为半双工且没有速度�
 ![](../images/openwrt/pve_openwrt_eths_full_duplex.png)
 
 
-之后就是配置常用插件，自由发挥。
+# 十五、ddns公网访问
+
+家宽有公网ipv4，映射域名，配上证书，防火墙添加端口转发就可以公网访问。
+
+测试发现80、443端口不通，应该是运营商封了，退而求其次使用非标8443端口。
+
+首先配置域名，我用的cloudflare，在dns添加一条A记录，ip随意比如1.1.1.1：
+
+<img src="/../images/openwrt/cloudflare_dns.png"/>
+
+openwrt配置ddns：
+
+<img src="/../images/openwrt/pve_openwrt_ddns.png" width="200"/>
+
+添加ddns服务：
+<img src="/../images/openwrt/pve_openwrt_ddns_cf.png"/>
+
+注意“查询主机名”跟“域名”格式不一样，前一个是“.”，后一个是“@”：
+
+<img src="/../images/openwrt/pve_openwrt_ddns_cf_detail.png"/>
+
+回到ddns列表界面，点击“重新加载”就会修改cf域名解析，本机ping一下是否成功。
+
+# 十六、配置域名ssl证书
+
+通常web服务有多个，最好找台linux当网关转发流量，以debian为例，安装nginx、acme.sh颁发证书并自动续期。
+
+获取nginx基础配置：
+cd ~/projects/ && mkdir nginx && mkdir nginx/conf.d && mkdir nginx/conf.d/certs
+docker run --rm -d --name nginx nginx
+docker cp nginx:/etc/nginx/nginx.conf ~/projects/nginx/nginx.conf
+docker stop nginx
+
+启动nginx: 
+docker run -d --restart=always --name nginx -v /home/www/projects/nginx/nginx.conf:/etc/nginx/nginx.conf:ro -v /home/www/projects/nginx/conf.d:/etc/nginx/conf.d:ro --network=host nginx
+
+安装acme.sh:
+curl https://get.acme.sh | sh -s email=yourName@gmail.com
+
+exit退出terminal重新登录使acme.sh命令生效
+
+导出环境变量，acme.sh执行时依赖这些变量：
+export CF_Token=""
+export CF_Account_ID=""
+export CF_Zone_ID=""
+
+颁发泛域名证书（Issue cert）:
+
+	acme.sh --issue -d '*.example.com' --dns dns_cf --dnssleep 120 --debug 2 --server letsencrypt
+
+
+安装证书（Install cert）:
+
+	acme.sh --install-cert -d '*.example.com' --key-file /home/www/projects/nginx/conf.d/certs/*.example.com.privkey.pem --fullchain-file /home/www/projects/nginx/conf.d/certs/*.example.com.fullchain.pem --reloadcmd "docker exec -it nginx nginx -s reload" --debug 2
+
+新建配置文件，vim /home/www/projects/nginx/conf.d/openwrt.conf
+```
+server{
+	listen 80;
+	server_name op.example.com;
+
+	client_max_body_size 200M;
+	#access_log  /data/logs/nginx_json/access.log json;
+
+	return 301 https://$host$request_uri;
+}
+
+server{
+	listen 443 ssl;
+	server_name op.example.com;
+
+	gzip on;
+	gzip_min_length 1k;
+    gzip_buffers 16 64k;
+    gzip_http_version 1.1;
+    gzip_comp_level 3;
+    gzip_types text/plain application/x-javascript application/javascript text/javascript text/css application/xml application/x-httpd-php image/jpeg image/gif image/png;
+    gzip_vary on;
+	client_max_body_size 200M;
+	#access_log  /data/logs/nginx_json/access.log json;
+
+	ssl_certificate  /etc/nginx/conf.d/certs/*.example.com.fullchain.pem;
+    ssl_certificate_key /etc/nginx/conf.d/certs/*.example.com.privkey.pem;
+    ssl_session_timeout 5m;
+    ssl_ciphers ECDHE-RSA-AES128-GCM-SHA256:ECDHE:ECDH:AES:HIGH:!NULL:!aNULL:!MD5:!ADH:!RC4;
+    ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
+    ssl_prefer_server_ciphers on;
+
+    # Prevent crawling
+    if ($http_user_agent ~* "360Spider|JikeSpider|Spider|spider|bot|Bot|2345Explorer|curl|wget|webZIP|qihoobot|Baiduspider|Googlebot|Googlebot-Mobile|Googlebot-Image|Mediapartners-Google|Adsbot-Google|Feedfetcher-Google|Yahoo! Slurp|Yahoo! Slurp China|YoudaoBot|Sosospider|Sogou spider|Sogou web spider|MSNBot|ia_archiver|Tomato Bot|NSPlayer|bingbot"){
+        return 403;
+    }
+
+    location / {
+		proxy_read_timeout 60m;
+		proxy_set_header Host $host;
+		proxy_set_header X-Forwarded-Proto https;
+		proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+		proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header Connection "upgrade";
+		proxy_redirect off;
+		proxy_pass http://192.168.2.1:80;
+	}
+
+	error_page 500 502 503 504 /50x.html;
+	#location = /50x.html {
+	#	root /data/www/error/;
+	#}
+
+}
+```
+
+查看nginx容器状态: docker ps -a
+
+查看nginx容器日志: docker logs -f --tail 500 nginx
+
+有错的话根据日志排查。
+
+
+# 十七、防火墙 > 端口转发
+
+假设内网debian网关ip为192.168.2.103，则将外网8443/tcp端口转发到debian的443/tcp：
+
+<img src="/../images/openwrt/pve_openwrt_forward.png"/>
+
+
+之后便可以通过 https://openwrt.example.com:8443 访问家里openwrt，其他服务同理：
+
+<img src="/../images/openwrt/pve_openwrt_ddns_list.png"/>
+
+
+
 
