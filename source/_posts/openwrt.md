@@ -171,5 +171,5 @@ pve虚拟的openwrt网卡实际为全双工，显示为半双工且没有速度�
 ![](../images/openwrt/pve_openwrt_eths_full_duplex.png)
 
 
-
+之后就是配置常用插件，自由发挥。
 
