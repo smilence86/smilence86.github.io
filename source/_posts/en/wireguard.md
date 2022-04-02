@@ -14,14 +14,14 @@ categories:
 
 远程访问通常可以用向日葵、frp实现，但都有限制，向日葵远程桌面还行，特定系统特定端口无法实现，比如远程访问raspberry pi的ssh端口，frp可以做到但每个服务都要映射端口比较繁琐，我server端显示已经映射了47个服务，第一次配置工作量巨大。
 
-![](../../images/wireguard/frp.png)
+![](frp.png)
 \
 \
 换成vpn异地组网可以有效解决以上问题，在外远程访问家庭内网只需打开开关即可，使用ip、port跟内网一模一样，无需额外端口映射。
 
 对比发现wireguard效率高，速度快。前提是家庭网络有公网IP，如果是固定公网IP直接绑定域名就行，如果是动态公网IP则用ddns动态绑定，ddns可以跑在家庭局域网任何一台机器，比如openwrt：
 
-![](../../images/wireguard/ddns.png)
+![](ddns.png)
 \
 \
 或者docker映射: home.example.com
@@ -51,26 +51,26 @@ weejewel/wg-easy
 \
 在openwrt -> 网络 -> 防火墙 -> 端口转发，假设wg运行在debian，其ip为192.168.2.103，让外部54321/udp转发到debian的54321/udp端口，：
 
-![](../../images/wireguard/port.png)
+![](port.png)
 \
 \
 访问wg后台管理界面: [http://192.168.2.103:51821](http://192.168.2.103:51821)，密码登录进去添加一个客户端（peer）：
-![](../../images/wireguard/wg.png)
+![](wg.png)
 \
 \
 手机扫码即可连接：
-<img src="/images/wireguard/wg_android.jpeg" width="500" />
+<img src="wg_android.jpeg" width="500" />
 
 \
 \
 电脑导入配置文件：
 
-![](../../images/wireguard/wg_windows.jpg)
+![](wg_windows.jpg)
 \
 \
 至此就可以通过外网远程访问家里设备，比如路由器管理页：
 
-<img src="/../images/wireguard/openwrt.jpeg" width="500"/>
+<img src="openwrt.jpeg" width="500"/>
 
 如果家里挂了梯子，手机、电脑自动拥有科学上网能力。
 \

@@ -191,18 +191,18 @@ pve虚拟的openwrt网卡实际为全双工，显示为半双工且没有速度�
 
 首先配置域名，我用的cloudflare，在dns添加一条A记录，ip随意比如1.1.1.1：
 
-<img src="/cloudflare_dns.png"/>
+<img src="cloudflare_dns.png"/>
 
 openwrt配置ddns：
 
-<img src="/pve_openwrt_ddns.png" width="200"/>
+<img src="pve_openwrt_ddns.png" width="200"/>
 
 添加ddns服务：
-<img src="/pve_openwrt_ddns_cf.png"/>
+<img src="pve_openwrt_ddns_cf.png"/>
 
 注意“查询主机名”跟“域名”格式不一样，前一个是“.”，后一个是“@”：
 
-<img src="/pve_openwrt_ddns_cf_detail.png"/>
+<img src="pve_openwrt_ddns_cf_detail.png"/>
 
 回到ddns列表界面，点击“重新加载”就会修改cf域名解析，刷新cf dns列表，已经自动把1.1.1.1改成真实公网ip，本机ping一下验证是否成功。
 
@@ -312,12 +312,12 @@ server{
 
 假设内网debian网关ip为192.168.2.103，则将外网8443/tcp端口转发到debian的443/tcp：
 
-<img src="/pve_openwrt_forward.png"/>
+<img src="pve_openwrt_forward.png"/>
 
 
 之后便可以通过 https://openwrt.example.com:8443 访问家里openwrt，其他服务同理：
 
-<img src="/pve_openwrt_ddns_list.png"/>
+<img src="pve_openwrt_ddns_list.png"/>
 
 
 

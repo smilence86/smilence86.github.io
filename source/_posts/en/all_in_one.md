@@ -29,34 +29,34 @@ UPS：SVC BX1450L
 
 硬盘裸装win10，8核16线程，适合跑多任务:
 
-![](../../images/aio/win10_cpu.png)
+![](win10_cpu.png)
 
 内存：
-![](../../images/aio/win10_memory.png)
+![](win10_memory.png)
 
 amd vega radeon集成显卡：
-![](../../images/aio/win10_radeon.png)
+![](win10_radeon.png)
 
 cpuz:
-![](../../images/aio/win10_cpuz.png)
+![](win10_cpuz.png)
 
 cpuz集成显卡:
-![](../../images/aio/win10_cpuz_vega_radeon.png)
+![](win10_cpuz_vega_radeon.png)
 
 cpu跑分：单线程533，多线程5300
-![](../../images/aio/win10_cpuz_bench.png)
+![](win10_cpuz_bench.png)
 
 待机功耗：
-![](../../images/aio/win10_standby_power.png)
+![](win10_standby_power.png)
 
 英睿达P5健康度：
-![](../../images/aio/CrystalDiskInfo.png)
+![](CrystalDiskInfo.png)
 
 英睿达P5读写测速：
-![](../../images/aio/CrystalDiskMark.png)
+![](CrystalDiskMark.png)
 
 内存8g，频率3000，鲁大师跑分：
-![](../../images/aio/ludashi_bench.png)
+![](ludashi_bench.png)
 </br>
 </br>
 
@@ -66,11 +66,11 @@ cpu跑分：单线程533，多线程5300
 
 接下来进入bios开启amd虚拟化，u盘安装pve，开启硬件直通，在虚拟机里测性能
 
-![](../../images/aio/pve_dashboard.png)
+![](pve_dashboard.png)
 
 在pve7以后可以直接在web界面关闭企业源，启用非生产环境源获得系统更新：
 
-![](../../images/aio/pve_subscription.png)
+![](pve_subscription.png)
 
 </br>
 
@@ -123,39 +123,39 @@ iptables -L
 pve宿主机作为server: iperf3 -s -p 4000
 pve虚拟ubuntu作为client: iperf3 -p 4000 -c 192.168.2.150
 
-![](../../images/aio/pve_ubuntu_iperf3.png)
+![](pve_ubuntu_iperf3.png)
 
 
 pve待机功耗：
-![](../../images/aio/pve_standby_power.jpg)
+![](pve_standby_power.jpg)
 
 跟裸装win10待机功耗一样，都是20瓦。
 
 pve虚拟一台win10待机功耗：
-![](../../images/aio/pve_win10_standby_power.jpg)
+![](pve_win10_standby_power.jpg)
 
 多3瓦。
 
 
 pve虚拟win10，cpu类型选host，分配所有线程跑分：
-![](../../images/aio/pve_win10_cpuz_bench.png)
+![](pve_win10_cpuz_bench.png)
 
 分数很接近裸装win10，性能损失3%左右。
 
 pve虚拟win10，磁盘为IDE测速：
-![](../../images/aio/pve_IDE.png)
-![](../../images/aio/pve_win10_ide_bench.png)
+![](pve_IDE.png)
+![](pve_win10_ide_bench.png)
 
 pve虚拟win10，磁盘为SCSI测速：
-![](../../images/aio/pve_scsi.png)
-![](../../images/aio/pve_win10_scsi_bench.png)
+![](pve_scsi.png)
+![](pve_win10_scsi_bench.png)
 
 显而易见，应该选择SCSI作为虚拟机磁盘格式。
 
 但选择SCSI安装win10不能识别磁盘，需要加载驱动：
-![](../../images/aio/pve_win10_no_disk.png)
-![](../../images/aio/pve_win10_scsi_driver.png)
-![](../../images/aio/pve_win10_scsi_disk.png)
+![](pve_win10_no_disk.png)
+![](pve_win10_scsi_driver.png)
+![](pve_win10_scsi_disk.png)
 
 
 解决直通分组问题：
@@ -168,39 +168,39 @@ pve虚拟win10，磁盘为SCSI测速：
 )
 
 分组前，尝试给win10直通2张显卡：
-![](../../images/aio/before_group.png)
+![](before_group.png)
 
 由上图可见，安装2张显卡后3070跟主板2.5G网卡的分组都是9，把3070直通给win10整个pve宿主机都断网失控，这时就要对PCI设备分组
 
 分组后3070变成17，2.5G网卡变成20：
-![](../../images/aio/after_group.png)
+![](after_group.png)
 
 甚至板载AX200无线网卡也分了新的组19，之后就可以进行正常直通。
 
 测试显卡挖矿，直通后性能没有损失，跟裸装一样：
 
-![](../../images/aio/pve_win10_mine_eth.png)
+![](pve_win10_mine_eth.png)
 
 pve虚拟openwrt，cpu类型选host，分配所有线程跑分：
-![](../../images/aio/pve_openwrt.png)
+![](pve_openwrt.png)
 
 
 pve虚拟debian作为server: iperf3 -s -p 4000
 pve虚拟ubuntu作为client: iperf3 -p 4000 -c 192.168.2.103
 
-![](../../images/aio/pve_debian_ubuntu_iperf3.png)
+![](pve_debian_ubuntu_iperf3.png)
 
 pve虚拟2台win10，互拷文件：
-![](../../images/aio/pve_win10_transfer_speed.jpg)
+![](pve_win10_transfer_speed.jpg)
 
 ## 意外断电
 把ups的usb直通给win10-miner：
 
-![](../../images/aio/pve_win10_ups_usb.png)
+![](pve_win10_ups_usb.png)
 
 停电后立马关机减轻电源负担：
 
-![](../../images/aio/ups.png)
+![](ups.png)
 \
 \
 bash脚本自动关机，pve会先关掉所有vm再关宿主机，前提是每个vm都安装了qemu-guest-agent：
