@@ -399,7 +399,7 @@ CPU：AMD 4700ge 8核16线程 TDP 35瓦<br>
 供电：850瓦全模组<br>
 UPS：SVC BX1450L<br>
 硬盘：4 * 西数紫盘8T(WD80PURX)</p>
-<p>硬盘裸装win10，8核16线程，适合跑多任务:</p>
+<p>硬盘裸装win10，8核16线程适合多任务:</p>
 <p><img src="win10_cpu.png" alt=""></p>
 <p>内存：<br>
 <img src="win10_memory.png" alt=""></p>
@@ -418,16 +418,15 @@ UPS：SVC BX1450L<br>
 <p>英睿达P5读写测速：<br>
 <img src="CrystalDiskMark.png" alt=""></p>
 <p>内存8g，频率3000，鲁大师跑分：<br>
-<img src="ludashi_bench.png" alt=""><br>
-</br><br>
-</br></p>
+<img src="ludashi_bench.png" alt=""></p>
+<br/>
 <hr>
-</br>
+<br/>
 <p>接下来进入bios开启amd虚拟化，u盘安装pve，开启硬件直通，在虚拟机里测性能</p>
 <p><img src="pve_dashboard.png" alt=""></p>
 <p>在pve7以后可以直接在web界面关闭企业源，启用非生产环境源获得系统更新：</p>
 <p><img src="pve_subscription.png" alt=""></p>
-</br>
+<br/>
 <h2 id="安装大礼包：">安装大礼包：</h2>
 <p>apt update<br>
 apt upgrade -y<br>
@@ -449,7 +448,7 @@ bash -c ‘for ((i=0;i&lt;$(nproc);i++)); do cpufreq-set -c $i -g performance; d
 <p>apt install lm-sensors<br>
 sensors</p>
 <h2 id="安装深色主题：">安装深色主题：</h2>
-<p>bash &lt;(curl -s <a target="_blank" rel="noopener" href="https://raw.githubusercontent.com/Weilbyte/PVEDiscordDark/master/PVEDiscordDark.sh">https://raw.githubusercontent.com/Weilbyte/PVEDiscordDark/master/PVEDiscordDark.sh</a> ) install</p>
+<p>bash &lt;(curl -s ht<span>tps://</span><a target="_blank" rel="noopener" href="http://raw.githubusercontent.com/Weilbyte/PVEDiscordDark/master/PVEDiscordDark.sh">raw.githubusercontent.com/Weilbyte/PVEDiscordDark/master/PVEDiscordDark.sh</a> ) install</p>
 <h2 id="安装pvetools扩展功能：">安装pvetools扩展功能：</h2>
 <p><a target="_blank" rel="noopener" href="https://github.com/ivanhao/pvetools">https://github.com/ivanhao/pvetools</a></p>
 <h2 id="安装ufw防火墙">安装ufw防火墙</h2>
