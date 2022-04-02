@@ -20,7 +20,7 @@ categories:
 
 如果是压缩包img.gz格式要先解压成img上传
 
-![](../../images/openwrt/upload_img.png)
+![](upload_img.png)
 
 pve版本7上传完成会显示文件存放路径: /var/lib/vz/template/iso
 
