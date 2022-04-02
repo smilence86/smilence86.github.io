@@ -27,7 +27,7 @@ CPU：AMD 4700ge 8核16线程 TDP 35瓦
 UPS：SVC BX1450L
 硬盘：4 * 西数紫盘8T(WD80PURX)
 
-硬盘裸装win10，8核16线程，适合跑多任务:
+硬盘裸装win10，8核16线程适合多任务:
 
 ![](win10_cpu.png)
 
@@ -57,12 +57,12 @@ cpu跑分：单线程533，多线程5300
 
 内存8g，频率3000，鲁大师跑分：
 ![](ludashi_bench.png)
-</br>
-</br>
+  
+<br/>
 
 ---
 
-</br>
+<br/>
 
 接下来进入bios开启amd虚拟化，u盘安装pve，开启硬件直通，在虚拟机里测性能
 
@@ -72,7 +72,7 @@ cpu跑分：单线程533，多线程5300
 
 ![](pve_subscription.png)
 
-</br>
+<br/>
 
 ## 安装大礼包：
 apt update
@@ -104,7 +104,7 @@ sensors
 
 
 ## 安装深色主题：
-bash <(curl -s https://raw.githubusercontent.com/Weilbyte/PVEDiscordDark/master/PVEDiscordDark.sh ) install
+bash <(curl -s ht<span>tps://</span>raw.githubusercontent.com/Weilbyte/PVEDiscordDark/master/PVEDiscordDark.sh ) install
 
 ## 安装pvetools扩展功能：
 https://github.com/ivanhao/pvetools

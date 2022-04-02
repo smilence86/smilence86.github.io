@@ -121,6 +121,8 @@ client: iperf3 -p 4000 -c 192.168.2.1
 
 
 # 十、把ash改成bash
+ash不能记住历史命令，用起来不方便。
+
 opkg update && opkg install bash
 编辑 /etc/passwd 文件
 修改第一行（第一行就是 root 用户）中的 /bin/ash，改成 /bin/bash
@@ -208,7 +210,7 @@ openwrt配置ddns：
 
 # 十六、配置域名ssl证书
 
-web服务通常有多个，最好找台linux当网关统一转发流量，以debian为例，安装nginx、acme.sh颁发证书并自动续期。
+web服务通常有多个，最好找台linux当网关统一转发流量，以debian为例，安装docker、nginx、acme.sh颁发证书并自动续期。
 
 获取nginx基础配置：
 cd ~/projects/ && mkdir nginx && mkdir nginx/conf.d && mkdir nginx/conf.d/certs
@@ -219,7 +221,7 @@ docker stop nginx
 启动nginx: 
 docker run -d --restart=always --name nginx -v /home/www/projects/nginx/nginx.conf:/etc/nginx/nginx.conf:ro -v /home/www/projects/nginx/conf.d:/etc/nginx/conf.d:ro --network=host nginx
 
-安装acme.sh:
+安装acme&#46;sh：
 curl https://get.acme.sh | sh -s email=yourName@gmail.com
 
 exit退出命令行重新登录使acme.sh命令生效
@@ -244,7 +246,7 @@ export CF_Zone_ID=""
 crontab -l
 16 0 * * * "/home/www/.acme.sh"/acme.sh --cron --home "/home/www/.acme.sh" > /home/www/acme.log
 
-为openwrt服务新建配置文件，vim /home/www/projects/nginx/conf.d/openwrt.conf
+为openwrt服务设置反向代理，vim /home/www/projects/nginx/conf.d/openwrt.conf
 ```
 server{
 	listen 80;
@@ -315,7 +317,7 @@ server{
 <img src="pve_openwrt_forward.png"/>
 
 
-之后便可以通过 https://openwrt.example.com:8443 访问家里openwrt，其他服务同理：
+之后可以通过 https://openwrt.example.com:8443 访问家里openwrt，其他服务同理：
 
 <img src="pve_openwrt_ddns_list.png"/>
 
