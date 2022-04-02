@@ -52,7 +52,7 @@ favicon: img/avatar/roguerabbit.jpg
 
 
 # Signature Setup
-signature: true # show signature
+signature: false # show signature
 signature-img: img/signature/vincent-white.png
 
 
@@ -300,7 +300,7 @@ tip:
 # Social Share Post
 ## Docs:https://github.com/overtrue/share.js
 ##
-socialshare: true
+socialshare: false
 
 
 # Viewer config
