@@ -2,9 +2,9 @@
 title: pve安装openwrt
 catalog: true
 date: 2022-04-01 19:26:00
-subtitle: 优雅的使用openwrt
+subtitle: 优雅使用openwrt
 sticky: 999
-header-img: /img/header_img/lml_bg.jpg
+header-img: /img/header_img/newhome_bg.jpg
 tags:
 - pve
 - proxmox

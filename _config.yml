@@ -4,7 +4,7 @@
 
 # Site
 title: smilence
-subtitle: This is hexo theme
+subtitle: tech blog
 author: smilence86
 timezone: 'Asia/Shanghai'
 
@@ -73,14 +73,14 @@ wave: false
 
 # Sidebar Settings
 sidebar: true   # whether or not using Sidebar.
-sidebar-about-description: "Fat people have no future, either thin or die..."
-sidebar-avatar: img/avatar/fatpeople.jpg    # use absolute URL, seeing it's used in both `/` and `/about/`
+# sidebar-about-description: "Fat people have no future, either thin or die..."
+# sidebar-avatar: img/avatar/fatpeople.jpg    # use absolute URL, seeing it's used in both `/` and `/about/`
 widgets:
 - visitor   # busuanzi: https://busuanzi.ibruce.info/
 - featured-tags
-- short-about
+# - short-about
 - recent-posts
-- friends-blog
+# - friends-blog
 - archive
 - category
 
@@ -215,7 +215,7 @@ prismjs:
 default_category: uncategorized
 category_map:
 tag_map:
-home_posts_tag: true    # show posts tags
+home_posts_tag: false    # show posts tags
 
 
 # Date / Time format
@@ -278,7 +278,7 @@ top: false
 ## Dependencies: https://github.com/willin/hexo-wordcount
 ## Docs: https://www.npmjs.com/package/hexo-wordcount
 ##
-wordcount: true
+wordcount: false
 
 
 # Busuanzi Settings
@@ -342,7 +342,7 @@ themecolor:
 
 
 # Ribbon config
-ribbonDynamic: true
+ribbonDynamic: false
 
 
 # Line config
