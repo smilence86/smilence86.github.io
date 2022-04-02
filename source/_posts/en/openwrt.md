@@ -57,7 +57,7 @@ ssh登录pve宿主机
 
 # 五、添加网卡
 
-如果cpu支持vt-d硬件直通，则在“硬件添加pci”设备
+如果cpu支持vt-d硬件直通，则在“硬件添加pci”网卡
 
 ![](pve_openwrt_pci.png)
 
