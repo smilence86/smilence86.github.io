@@ -526,7 +526,7 @@ pre code {
   color: gray;
   font-size: 16px;
   font-style: italic;
-  margin-top: 0;
+  margin-top: 20px;
 }
 .post-preview > .post-meta > a {
   text-decoration: none;
@@ -554,6 +554,7 @@ pre code {
   font-size: 13px;
   /* font-style: italic; */
   color: #a3a3a3;
+  margin-top: 24px;
 }
 .post-content-preview:hover {
   color: #ffffff;
@@ -561,6 +562,7 @@ pre code {
 @media only screen and (min-width: 840px) {
   .post-content-preview {
     font-size: 14px;
+    margin-top: 24px;
   }
 }
 .section-heading {

@@ -50,7 +50,9 @@ docker run -d \
 --restart unless-stopped \
 weejewel/wg-easy
 ```
+
 <br/>
+
 在openwrt -> 网络 -> 防火墙 -> 端口转发，假设wg运行在debian，其ip为192.168.2.103，让外部54321/udp转发到debian的54321/udp端口，：
 
 ![](port.png)
