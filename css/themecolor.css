@@ -17,7 +17,7 @@
   --navbar-brand-color_768: white;
   --navbar-brand-color-hover_768: rgba(255, 255, 255, 0.8);
   /* post-title、post-subtitle、post-content */
-  --post-content-color-hover: #ffffff;
+  --post-content-color-hover: #0085a1;
   /* tags */
   --tags-color: gray;
   --tags-border-color: gray;
@@ -75,12 +75,12 @@
   --navbar-color: rgba(179, 180, 186, 0.9);
   --border-bottom-color: rgba(179, 180, 186, 0.9);
   --navbar-brand-color_1170: #404040;
-  --navbar-brand-color-hover_1170: #e91e63;
+  --navbar-brand-color-hover_1170: #ffffff;
   --navbar-brand-color_768: rgba(255, 255, 255, 0.8);
   --navbar-brand-color-hover_768: white;
   /* post-title、post-subtitle、post-content */
   --post-title-subtitle-color: rgba(255, 255, 255, .8);
-  --post-content-color-hover: #e91e63;
+  --post-content-color-hover: #ffffff;
   /* tags */
   --tags-color: #bfbfbf;
   --tags-border-color: #bfbfbf;
