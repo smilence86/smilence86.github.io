@@ -634,7 +634,7 @@ pre code {
   color: #808080;
   font-size: 16px;
   font-style: italic;
-  margin-top: 0;
+  margin-top: 20px;
 }
 
 .post-preview>.post-meta>a {
@@ -668,6 +668,7 @@ pre code {
   font-size: 13px;
   /* font-style: italic; */
   color: #a3a3a3;
+  margin-top: 24px;
 }
 
 .post-content-preview:hover {
@@ -677,6 +678,7 @@ pre code {
 @media only screen and (min-width: 768px) {
   .post-content-preview {
     font-size: 14px;
+    margin-top: 24px;
   }
 }
 
