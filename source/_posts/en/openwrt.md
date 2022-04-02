@@ -206,7 +206,7 @@ openwrt配置ddns：
 
 <img src="pve_openwrt_ddns_cf_detail.png"/>
 
-回到ddns列表界面，点击“重新加载”就会修改cf域名解析，刷新cf dns列表，已经自动把1.1.1.1改成真实公网ip，本机ping一下验证是否成功。
+回到ddns列表界面，点击“重新加载”会修改域名解析，刷新cf dns列表，已经把 1.1.1.1 改成真实公网ip，本机ping一下验证是否成功。
 
 # 十六、配置域名ssl证书
 
@@ -221,8 +221,8 @@ docker stop nginx
 启动nginx: 
 docker run -d --restart=always --name nginx -v /home/www/projects/nginx/nginx.conf:/etc/nginx/nginx.conf:ro -v /home/www/projects/nginx/conf.d:/etc/nginx/conf.d:ro --network=host nginx
 
-安装acme&#46;sh：
-curl https://get.acme.sh | sh -s email=yourName@gmail.com
+安装acme<span>.sh</span>：
+curl htt<span>ps://get.acme.sh | sh -s email=yourName</span>@gmail.com
 
 exit退出命令行重新登录使acme.sh命令生效
 
