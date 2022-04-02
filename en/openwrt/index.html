@@ -484,13 +484,13 @@ alias l=‘ls -CF’</p>
 <p>家宽有公网ipv4，映射域名，配上证书，防火墙添加端口转发就可以公网访问。</p>
 <p>测试发现80、443端口不通，应该是运营商封了，退而求其次使用非标8443端口。</p>
 <p>首先配置域名，我用的cloudflare，在dns添加一条A记录，ip随意比如1.1.1.1：</p>
-<img src="/cloudflare_dns.png"/>
+<img src="cloudflare_dns.png"/>
 <p>openwrt配置ddns：</p>
-<img src="/pve_openwrt_ddns.png" width="200"/>
+<img src="pve_openwrt_ddns.png" width="200"/>
 <p>添加ddns服务：<br>
-<img src="/pve_openwrt_ddns_cf.png"/></p>
+<img src="pve_openwrt_ddns_cf.png"/></p>
 <p>注意“查询主机名”跟“域名”格式不一样，前一个是“.”，后一个是“@”：</p>
-<img src="/pve_openwrt_ddns_cf_detail.png"/>
+<img src="pve_openwrt_ddns_cf_detail.png"/>
 <p>回到ddns列表界面，点击“重新加载”就会修改cf域名解析，刷新cf dns列表，已经自动把1.1.1.1改成真实公网ip，本机ping一下验证是否成功。</p>
 <h1>十六、配置域名ssl证书</h1>
 <p>web服务通常有多个，最好找台linux当网关统一转发流量，以debian为例，安装nginx、acme.sh颁发证书并自动续期。</p>
@@ -525,9 +525,9 @@ crontab -l<br>
 <p>有错的话根据日志排查。</p>
 <h1>十七、防火墙 &gt; 端口转发</h1>
 <p>假设内网debian网关ip为192.168.2.103，则将外网8443/tcp端口转发到debian的443/tcp：</p>
-<img src="/pve_openwrt_forward.png"/>
+<img src="pve_openwrt_forward.png"/>
 <p>之后便可以通过 <a target="_blank" rel="noopener" href="https://openwrt.example.com:8443">https://openwrt.example.com:8443</a> 访问家里openwrt，其他服务同理：</p>
-<img src="/pve_openwrt_ddns_list.png"/>
+<img src="pve_openwrt_ddns_list.png"/>
 
 
         <hr>
