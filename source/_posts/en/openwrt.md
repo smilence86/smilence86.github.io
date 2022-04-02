@@ -24,7 +24,7 @@ categories:
 
 pve版本7上传完成会显示文件存放路径: /var/lib/vz/template/iso
 
-![](../../images/openwrt/pve_img.png)
+![](pve_img.png)
 
 pve版本6双击下方操作日志也会显示。
 
@@ -49,25 +49,25 @@ ssh登录pve宿主机
 
 双击未使用磁盘，添加：
 
-![](../../images/openwrt/pve_openwrt_disk.png)
+![](pve_openwrt_disk.png)
 
 扩容5G：
 
-![](../../images/openwrt/pve_openwrt_disk_increment.png)
+![](pve_openwrt_disk_increment.png)
 
 # 五、添加网卡
 
 如果cpu支持vt-d硬件直通，则在“硬件添加pci”设备
 
-![](../../images/openwrt/pve_openwrt_pci.png)
+![](pve_openwrt_pci.png)
 
 如果cpu不支持vt-d硬件直通，则只能使用桥接网卡，先到pve节点网络下创建桥接网卡，备注为WAN口：
 
-![](../../images/openwrt/pve_bridge_eth.png)
+![](pve_bridge_eth.png)
 
 回到openwrt硬件，添加网络设备，选择WAN：
 
-![](../../images/openwrt/pve_openwrt_bridge_eth.png)
+![](pve_openwrt_bridge_eth.png)
 
 
 # 六、修改配置
@@ -76,11 +76,11 @@ ssh登录pve宿主机
 
 启动顺序（boot order）改成附加的磁盘：
 
-![](../../images/openwrt/pve_openwrt_bootOrder.png)
+![](pve_openwrt_bootOrder.png)
 
 启用qemu guest agent，让pve宿主机能够与vm通讯：
 
-![](../../images/openwrt/pve_openwrt_qemu_guest_agent.png)
+![](pve_openwrt_qemu_guest_agent.png)
 
 
 # 七、启动openwrt
@@ -94,13 +94,13 @@ vim /etc/config/network
 
 浏览器登录openwrt
 
-![](../../images/openwrt/pve_openwrt_overview.png)
+![](pve_openwrt_overview.png)
 
 用磁盘管理（diskman）把扩容的5G分区格式化成ext4，挂载给/opt目录，docker会使用opt作为overlay空间，不会消耗根目录容量。
 
 ssh登录查看磁盘用量，df -Th：
 
-![](../../images/openwrt/pve_openwrt_disk_info.png)
+![](pve_openwrt_disk_info.png)
 
 
 # 八、cpu跑分
@@ -115,7 +115,7 @@ opkg install iperf3
 server: iperf3 -s -p 4000
 client: iperf3 -p 4000 -c 192.168.2.1
 
-![](../../images/openwrt/pve_openwrt_iperf3.png)
+![](pve_openwrt_iperf3.png)
 
 因为不是直通，n3160性能偏弱跑不满千兆，7、800也够用。
 
@@ -163,11 +163,11 @@ option sessiontime '36000'
 
 opkg install qemu-ga
 
-![](../../images/openwrt/pve_openwrt_qemu_ga.png)
+![](pve_openwrt_qemu_ga.png)
 
 pve显示openwrt ip：
 
-![](../../images/openwrt/pve_openwrt_ip.png)
+![](pve_openwrt_ip.png)
 
 
 # 十四、修改“半双工”
@@ -178,9 +178,9 @@ pve虚拟的openwrt网卡实际为全双工，显示为半双工且没有速度�
 
 永久生效: vim /etc/init.d/network
 
-![](../../images/openwrt/pve_openwrt_eth_full_duplex.png)
+![](pve_openwrt_eth_full_duplex.png)
 
-![](../../images/openwrt/pve_openwrt_eths_full_duplex.png)
+![](pve_openwrt_eths_full_duplex.png)
 
 
 # 十五、ddns公网访问
@@ -191,18 +191,18 @@ pve虚拟的openwrt网卡实际为全双工，显示为半双工且没有速度�
 
 首先配置域名，我用的cloudflare，在dns添加一条A记录，ip随意比如1.1.1.1：
 
-<img src="/../../images/openwrt/cloudflare_dns.png"/>
+<img src="/cloudflare_dns.png"/>
 
 openwrt配置ddns：
 
-<img src="/../../images/openwrt/pve_openwrt_ddns.png" width="200"/>
+<img src="/pve_openwrt_ddns.png" width="200"/>
 
 添加ddns服务：
-<img src="/../../images/openwrt/pve_openwrt_ddns_cf.png"/>
+<img src="/pve_openwrt_ddns_cf.png"/>
 
 注意“查询主机名”跟“域名”格式不一样，前一个是“.”，后一个是“@”：
 
-<img src="/../../images/openwrt/pve_openwrt_ddns_cf_detail.png"/>
+<img src="/pve_openwrt_ddns_cf_detail.png"/>
 
 回到ddns列表界面，点击“重新加载”就会修改cf域名解析，刷新cf dns列表，已经自动把1.1.1.1改成真实公网ip，本机ping一下验证是否成功。
 
@@ -312,12 +312,12 @@ server{
 
 假设内网debian网关ip为192.168.2.103，则将外网8443/tcp端口转发到debian的443/tcp：
 
-<img src="/../../images/openwrt/pve_openwrt_forward.png"/>
+<img src="/pve_openwrt_forward.png"/>
 
 
 之后便可以通过 https://openwrt.example.com:8443 访问家里openwrt，其他服务同理：
 
-<img src="/../../images/openwrt/pve_openwrt_ddns_list.png"/>
+<img src="/pve_openwrt_ddns_list.png"/>
 
 
 
