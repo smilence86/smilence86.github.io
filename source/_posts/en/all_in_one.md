@@ -119,6 +119,19 @@ ufw allow 8006/tcp
 ufw allow 4000/tcp
 iptables -L
 
+## 增大虚拟内存 —— swap交换分区
+根目录创建一个32g文件
+dd if=/dev/zero of=/swapfile bs=1M count=32768
+修改权限：
+chown root:root /swapfile
+chmod 0600 /swapfile
+
+mkswap /swapfile
+swapon /swapfile
+
+修改/etc/fstab，把/dev/pve/swap改成/swapfile
+
+
 ## iperf3测速
 pve宿主机作为server: iperf3 -s -p 4000
 pve虚拟ubuntu作为client: iperf3 -p 4000 -c 192.168.2.150
