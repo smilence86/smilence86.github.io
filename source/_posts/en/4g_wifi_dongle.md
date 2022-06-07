@@ -14,7 +14,7 @@ categories:
 - network
 ---
 
-google now推荐了一片文章：
+google now推荐了一篇文章：
   
 <ins>[4g 随身 Wi-Fi 刷 openwrt 变成软路由](https://qust.me/post/msm8916)</ins>
 
