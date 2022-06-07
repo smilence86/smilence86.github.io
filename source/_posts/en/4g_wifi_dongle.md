@@ -80,7 +80,7 @@ google now推荐了一片文章：[4g 随身 Wi-Fi 刷 openwrt 变成软路由](
 
 ![](flash_openwrt.png)
 
-出现all done! 表示刷写完成，手机能搜到wifi：HandSomeMod_7382表示openwrt启动成功
+出现all done! 表示刷写完成，手机能搜到wifi：HandSomeMod_7382表示openwrt启动成功，连接wifi，浏览器输入http://192.168.1.1，帐号root，无密码
 
 ![](openwrt.png)
 
