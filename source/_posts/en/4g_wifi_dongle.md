@@ -20,7 +20,7 @@ google now推荐了一篇文章：
 
 
 
-点进去一看，有点意思，居然跑的是android系统，可以刷成linux（debian）或者openwrt，果断买了博主推荐的型号，天天特卖工厂店￥28那款
+点进去一看，有点意思，居然跑的是android系统，可以刷成debian或者openwrt，果断买了博主推荐的型号，天天特卖工厂店￥28那款
 
 ![](order.png)
 
