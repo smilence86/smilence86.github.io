@@ -88,7 +88,7 @@
   <!--[if lt IE 9]> <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script> <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script> <![endif]-->
 
   <!-- ga & ba script hoook -->
-  <link rel="canonical" href="https://geili.me/en/4gwifi/">
+  <link rel="canonical" href="https://geili.me/en/4g_wifi_dongle/">
   <title>
     
       4g随身wifi刷入openwrt - smilence
@@ -395,7 +395,7 @@
 <p><img src="version.png" alt=""></p>
 <p>通电开机，原版android系统信息：</p>
 <p><img src="esim.png" alt=""></p>
-<p>换自己联通4G卡，测试正常可用，系统默认使用esim（sim卡2，需要切换成自己卡sim卡1，输入密码：UFIadmin1234）：</p>
+<p>换自己联通4G卡，测试正常可用，系统默认使用esim（sim卡2），需要切换成自己卡（sim卡1），切换密码：UFIadmin1234：</p>
 <p><img src="sim.png" alt=""></p>
 <p>原装android系统测速：</p>
 <p><img src="android_speed.png" alt=""></p>
@@ -430,6 +430,13 @@
 <p><img src="shellclash.png" alt=""></p>
 <p>速度嘛，跟android原版一样，openwrt测速依然感人，不知道被谁封印了：</p>
 <p><img src="openwrt_speed.png" alt=""></p>
+<p>使用过程中遇到一个问题，web界面无法保存任何配置，ssh登录发现磁盘只读不能写入文件，猜测可能是多次插拔导致：</p>
+<p><img src="read-only.jpg" alt=""></p>
+<p>网上查找修复办法，先找出根目录磁盘路径：</p>
+<p><img src="disk.png" alt=""></p>
+<p>使用命令修复：e2fsck -y /dev/mmcblk0p14</p>
+<p><img src="e2fsck.png" alt=""></p>
+<p>执行完，reboot重启搞定。</p>
 
 
         <hr>
@@ -481,8 +488,8 @@
   <script type="text/javascript">
     /* * * CONFIGURATION VARIABLES * * */
     var disqus_shortname = "smilence86";
-    var disqus_identifier = "https://geili.me/en/4gwifi/";
-    var disqus_url = "https://geili.me/en/4gwifi/";
+    var disqus_identifier = "https://geili.me/en/4g_wifi_dongle/";
+    var disqus_url = "https://geili.me/en/4g_wifi_dongle/";
 
     (function () {
       var dsq = document.createElement('script');
