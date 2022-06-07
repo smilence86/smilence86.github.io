@@ -104,7 +104,11 @@ cpu是4核64位arm架构，指令集偏少
 
 ![](modem.png)
 
-安装shellclash就能作为简易科学上网软路由：
+安装 [https://github.com/juewuy/ShellClash](https://github.com/juewuy/ShellClash) 就能作为简易科学上网软路由：
 
 ![](shellclash.png)
+
+速度嘛，跟android原版一样，openwrt测速依然感人，不知道被谁封印了：
+
+![](openwrt_speed.png)
 
