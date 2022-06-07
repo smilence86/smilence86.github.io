@@ -14,7 +14,9 @@ categories:
 - network
 ---
 
-google now推荐了一片文章：[4g 随身 Wi-Fi 刷 openwrt 变成软路由](https://qust.me/post/msm8916/)
+google now推荐了一片文章：
+  
+<ins>[4g 随身 Wi-Fi 刷 openwrt 变成软路由](https://qust.me/post/msm8916)</ins>
 
 
 
@@ -74,7 +76,7 @@ google now推荐了一片文章：[4g 随身 Wi-Fi 刷 openwrt 变成软路由](
 ![](fastboot.png)
 
 
-下载openwrt固件：[https://www.kancloud.cn/a813630449/ufi_car/2792820](https://www.kancloud.cn/a813630449/ufi_car/2792820)
+下载openwrt固件：<ins>[https://www.kancloud.cn/a813630449/ufi_car/2792820](https://www.kancloud.cn/a813630449/ufi_car/2792820)<ins>
 
 作者已经做好了一键刷入脚本，windows点击flash.bat开始刷入固件，期间可能要按几次回车：
 
@@ -104,7 +106,7 @@ cpu是4核64位arm架构，指令集偏少
 
 ![](modem.png)
 
-安装 [https://github.com/juewuy/ShellClash](https://github.com/juewuy/ShellClash) 就能作为简易科学上网软路由：
+安装 <ins>[ShellClash](https://github.com/juewuy/ShellClash)</ins> 就能作为简易科学上网软路由：
 
 ![](shellclash.png)
 
