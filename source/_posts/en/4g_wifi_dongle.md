@@ -41,7 +41,7 @@ google now推荐了一片文章：[4g 随身 Wi-Fi 刷 openwrt 变成软路由](
 
 ![](esim.png)
 
-换自己联通4G卡，测试正常可用，系统默认使用esim（sim卡2，需要切换成自己卡sim卡1，输入密码：UFIadmin1234）：
+换自己联通4G卡，测试正常可用，系统默认使用esim（sim卡2），需要切换成自己卡（sim卡1），切换密码：UFIadmin1234：
 
 ![](sim.png)
 
@@ -112,3 +112,17 @@ cpu是4核64位arm架构，指令集偏少
 
 ![](openwrt_speed.png)
 
+
+使用过程中遇到一个问题，web界面无法保存任何配置，ssh登录发现磁盘只读不能写入文件，猜测可能是多次插拔导致：
+
+![](read-only.jpg)
+
+网上查找修复办法，先找出根目录磁盘路径：
+
+![](disk.png)
+
+使用命令修复：e2fsck -y /dev/mmcblk0p14
+
+![](e2fsck.png)
+
+执行完，reboot重启搞定。
