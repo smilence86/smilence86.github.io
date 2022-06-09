@@ -4,7 +4,7 @@ catalog: true
 date: 2022-03-31 21:25:00
 subtitle: all in boom
 sticky: 999
-header-img: /img/header_img/lml_bg.jpg
+header-img: /img/header_img/newhome_bg.jpg
 tags:
 - amd4700ge
 - AIO

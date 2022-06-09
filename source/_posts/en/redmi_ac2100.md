@@ -4,7 +4,7 @@ catalog: true
 date: 2022-03-04 22:11:57
 subtitle: 高性价比AP
 sticky: 999
-header-img: /img/header_img/lml_bg.jpg
+header-img: /img/header_img/newhome_bg.jpg
 tags:
 - redmi
 - ac2100

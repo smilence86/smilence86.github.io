@@ -4,7 +4,7 @@ catalog: true
 date: 2022-06-07 21:25:00
 subtitle: 4g wifi dongle with openwrt
 sticky: 999
-header-img: /img/header_img/lml_bg.jpg
+header-img: /img/header_img/newhome_bg.jpg
 tags:
 - 4g
 - wifi

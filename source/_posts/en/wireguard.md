@@ -4,7 +4,7 @@ catalog: true
 date: 2022-03-21 20:01:00
 subtitle: 异地组网神器
 sticky: 999
-header-img: /img/header_img/lml_bg.jpg
+header-img: /img/header_img/newhome_bg.jpg
 tags:
 - wireguard
 - openwrt
