@@ -291,19 +291,19 @@
     .body--light {
       /* intro-header */
       --intro-header-background-image-url-home: url('/img/header_img/newhome_bg.jpg');
-      --intro-header-background-image-url-post: url('/img/header_img/lml_bg.jpg');
-      --intro-header-background-image-url-page: url('//img/header_img/lml_bg.jpg');
+      --intro-header-background-image-url-post: url('/img/header_img/newhome_bg.jpg');
+      --intro-header-background-image-url-page: url('//img/header_img/newhome_bg.jpg');
     }
     .body--dark {
       --intro-header-background-image-url-home: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.2)), url('/img/header_img/newhome_bg.jpg');
-      --intro-header-background-image-url-post: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.2)), url('/img/header_img/lml_bg.jpg');
-      --intro-header-background-image-url-page: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.2)), url('//img/header_img/lml_bg.jpg');
+      --intro-header-background-image-url-post: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.2)), url('/img/header_img/newhome_bg.jpg');
+      --intro-header-background-image-url-page: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.2)), url('//img/header_img/newhome_bg.jpg');
     }
 
     header.intro-header {
        /*post*/
         background-image: var(--intro-header-background-image-url-post);
-        /* background-image: url('/img/header_img/lml_bg.jpg'); */
+        /* background-image: url('/img/header_img/newhome_bg.jpg'); */
       
     }
 
@@ -410,11 +410,12 @@
 <p>生成一个3.56G的bin镜像文件</p>
 <p>下载搞机工具箱，解压运行不用安装，点击“线刷专区”：</p>
 <p><img src="gaoji.png" alt=""></p>
-<p>点击“Fastboot”:<br><img src="fastboot.png" alt=""></p>
+<p>点击“Fastboot”:<br>
+<img src="fastboot.png" alt=""></p>
 <p>下载openwrt固件：<ins><a target="_blank" rel="noopener" href="https://www.kancloud.cn/a813630449/ufi_car/2792820">https://www.kancloud.cn/a813630449/ufi_car/2792820</a><ins></p>
 <p>作者已经做好了一键刷入脚本，windows点击flash.bat开始刷入固件，期间可能要按几次回车：</p>
 <p><img src="flash_openwrt.png" alt=""></p>
-<p>出现all done! 表示刷写完成，手机能搜到wifi：HandSomeMod_7382表示openwrt启动成功，连接wifi，浏览器输入<a target="_blank" rel="noopener" href="http://192.168.1.1，帐号root，无密码">http://192.168.1.1，帐号root，无密码</a></p>
+<p>出现all done! 表示刷写完成，手机能搜到wifi：HandSomeMod_7382表示openwrt启动成功，连接wifi，浏览器输入http://192.168.1.1，帐号root，无密码</p>
 <p><img src="openwrt.png" alt=""></p>
 <p>ssh登录，查看硬件配置：</p>
 <p><img src="hardware.png" alt=""></p>
