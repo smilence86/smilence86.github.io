@@ -383,13 +383,32 @@
 <p><img src="frp.png" alt=""><br>
 <br/><br>
 换成vpn异地组网可以有效解决以上问题，在外远程访问家庭内网只需打开开关即可，使用ip、port跟内网一模一样，无需额外端口映射。</p>
-<p>对比发现wireguard效率高，速度快。前提是家庭网络有公网IP，如果是固定公网IP直接绑定域名就行，如果是动态公网IP则用ddns动态绑定，ddns可以跑在家庭局域网任何一台机器，比如openwrt：</p>
+<p>对比发现wireguard效率高，速度快，接下来介绍2种方案，分别有公网ip、无公网ip。</p>
+<br/>
+<br/>
+<h1>一、有公网ip</h1>
+<p>如果是固定公网IP直接绑定域名就行，如果是动态公网IP则用ddns动态绑定，ddns可以跑在家庭局域网任何一台机器，比如openwrt：</p>
 <p><img src="ddns.png" alt=""></p>
 <br/>
-<p>或者docker映射: <a target="_blank" rel="noopener" href="http://home.example.com">home.example.com</a></p>
-<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker <span class="built_in">run</span> -d <span class="attribute">--name</span>=cf-ddns <span class="attribute">--restart</span>=always -e <span class="attribute">API_KEY</span>=*** -e <span class="attribute">ZONE</span>=example.com -e <span class="attribute">SUBDOMAIN</span>=home oznu/cloudflare-ddns</span><br></pre></td></tr></table></figure>
+<p>或者docker映射域名: <a target="_blank" rel="noopener" href="http://home.example.com">home.example.com</a></p>
+<p>docker run -d --name=cf-ddns --restart=always -e API_KEY=*** -e <a target="_blank" rel="noopener" href="http://ZONE=example.com">ZONE=example.com</a> -e SUBDOMAIN=home oznu/cloudflare-ddns</p>
 <p>除openwrt自身docker，在内网任何一台机器运行wireguard:</p>
-<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">docker <span class="built_in">run</span> -d \</span><br><span class="line"><span class="attribute">--name</span>=wireguard \</span><br><span class="line">-e <span class="attribute">WG_HOST</span>=home.example.com \</span><br><span class="line">-e <span class="attribute">WG_PORT</span>=54321 \</span><br><span class="line">-e <span class="attribute">PASSWORD</span>=yourPassword \</span><br><span class="line">-e <span class="attribute">WG_DEFAULT_DNS</span>=192.168.2.1 \</span><br><span class="line">-e <span class="attribute">TZ</span>=Asia/Shanghai \</span><br><span class="line">-v /path/wg-easy:/etc/wireguard \</span><br><span class="line">-p 54321:51820/udp \</span><br><span class="line">-p 51821:51821/tcp \</span><br><span class="line"><span class="attribute">--cap-add</span>=NET_ADMIN \</span><br><span class="line"><span class="attribute">--cap-add</span>=SYS_MODULE \</span><br><span class="line"><span class="attribute">--sysctl</span>=<span class="string">&quot;net.ipv4.conf.all.src_valid_mark=1&quot;</span> \</span><br><span class="line"><span class="attribute">--sysctl</span>=<span class="string">&quot;net.ipv4.ip_forward=1&quot;</span> \</span><br><span class="line">--restart unless-stopped \</span><br><span class="line">weejewel/wg-easy</span><br></pre></td></tr></table></figure>
+<p>docker run -d <br>
+–name=wireguard <br>
+-e WG_HOST=<a target="_blank" rel="noopener" href="http://home.example.com">home.example.com</a> <br>
+-e WG_PORT=54321 <br>
+-e PASSWORD=yourPassword <br>
+-e WG_DEFAULT_DNS=192.168.2.1 <br>
+-e TZ=Asia/Shanghai <br>
+-v /path/wg-easy:/etc/wireguard <br>
+-p 54321:51820/udp <br>
+-p 51821:51821/tcp <br>
+–cap-add=NET_ADMIN <br>
+–cap-add=SYS_MODULE <br>
+–sysctl=“net.ipv4.conf.all.    src_valid_mark=1” <br>
+–sysctl=“net.ipv4.ip_forward=1” <br>
+–restart unless-stopped <br>
+weejewel/wg-easy</p>
 <br/>
 <p>在openwrt -&gt; 网络 -&gt; 防火墙 -&gt; 端口转发，假设wg运行在debian，其ip为192.168.2.103，让外部54321/udp转发到debian的54321/udp端口，：</p>
 <p><img src="port.png" alt=""></p>
@@ -408,8 +427,34 @@
 <br/>
 <p>至此就可以通过外网远程访问家里设备，比如路由器管理页：</p>
 <img src="openwrt.jpeg" width="500"/>
-<p>如果家里挂了梯子，手机、电脑自动拥有科学上网能力。</p>
-<p>没有公网ip则要使用vps中转，配置略复杂，而且通讯速度依赖vps带宽没有直连快。</p>
+<p>客户端连上家里wg就自动继承家里网络，如果家里挂了梯子，客户端自动拥有科学上网能力。</p>
+<br/>
+<br/>
+<h1>二、无公网ip</h1>
+<p>没有公网ip则要使用vps中转，配置略复杂，数据传输速度依赖vps带宽，没有直连快。</p>
+<p>原理是通过frp把内网54321/udp暴露到公网4001/udp，客户端就使用公网4001/udp进行连接，</p>
+<p>vim frpc.ini</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">[common]</span></span><br><span class="line"><span class="attr">server_addr</span> = vps公网ip</span><br><span class="line"><span class="attr">server_port</span> = <span class="number">2000</span></span><br><span class="line"><span class="attr">protocol</span> = tcp</span><br><span class="line"><span class="attr">token</span> = password</span><br><span class="line"></span><br><span class="line"><span class="section">[wireguard_web]</span></span><br><span class="line"><span class="attr">type</span> = tcp</span><br><span class="line"><span class="attr">local_ip</span> = <span class="number">127.0</span>.<span class="number">0.1</span></span><br><span class="line"><span class="attr">local_port</span> = <span class="number">51821</span></span><br><span class="line"><span class="attr">remote_port</span> = <span class="number">4000</span></span><br><span class="line"><span class="attr">use_encryption</span> = <span class="literal">true</span></span><br><span class="line"><span class="attr">use_compression</span> = <span class="literal">true</span></span><br><span class="line"></span><br><span class="line"><span class="section">[wireguard_udp]</span></span><br><span class="line"><span class="attr">type</span> = udp</span><br><span class="line"><span class="attr">local_ip</span> = <span class="number">127.0</span>.<span class="number">0.1</span></span><br><span class="line"><span class="attr">local_port</span> = <span class="number">54321</span></span><br><span class="line"><span class="attr">remote_port</span> = <span class="number">4001</span></span><br><span class="line"><span class="attr">use_encryption</span> = <span class="literal">true</span></span><br><span class="line"><span class="attr">use_compression</span> = <span class="literal">true</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>启动frp：</p>
+<p>docker run -d --name frpc --restart=always -v /opt/frpc.ini:/etc/frp/frpc.ini --network=host snowdreamtech/frpc</p>
+<br/>
+<p>运行wireguard：</p>
+<p>docker run -d <br>
+–name=wireguard <br>
+-e WG_HOST=vps公网ip <br>
+-e WG_PORT=4001 <br>
+-e PASSWORD=yourPassword <br>
+-e WG_DEFAULT_DNS=192.168.2.1 <br>
+-e TZ=Asia/Shanghai <br>
+-v /path/wg-easy:/etc/wireguard <br>
+-p 54321:51820/udp <br>
+-p 51821:51821/tcp <br>
+–cap-add=NET_ADMIN <br>
+–cap-add=SYS_MODULE <br>
+–sysctl=“net.ipv4.conf.all.    src_valid_mark=1” <br>
+–sysctl=“net.ipv4.ip_forward=1” <br>
+–restart unless-stopped <br>
+weejewel/wg-easy</p>
 
 
         <hr>
@@ -494,7 +539,7 @@
         <div id="toc" class="toc-article">
         <strong class="toc-title">Contents</strong>
         
-          <ol class="nav">none</ol>
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">一、有公网ip</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">二、无公网ip</span></a></li></ol>
         
         </div>
       </aside>
