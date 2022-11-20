@@ -38,6 +38,8 @@ docker run -d --name=cf-ddns --restart=always -e API_KEY=*** -e ZONE=example.com
 除openwrt自身docker，在内网任何一台机器运行wireguard:
 
 ```
+mkdir -p /opt/wg-easy
+
 docker run -d \
     --name=wireguard \
     -e WG_HOST=home.example.com \
@@ -46,7 +48,7 @@ docker run -d \
     -e WG_DEFAULT_DNS=192.168.2.1 \
     -e WG_DEFAULT_ADDRESS=10.13.100.x \
     -e TZ=Asia/Shanghai \
-    -v /path/wg-easy:/etc/wireguard \
+    -v /opt/wg-easy:/etc/wireguard \
     -p 54321:51820/udp \
     -p 51821:51821/tcp \
     --cap-add=NET_ADMIN \
@@ -99,7 +101,7 @@ docker run -d \
 
 # 二、无公网ip
 
-没有公网ip则要使用vps中转，配置略复杂，数据传输速度依赖vps带宽，没有直连快。
+家里没有公网ip则要使用vps中转，配置略复杂，数据传输速度依赖vps带宽，没有直连快。
 
 原理是通过frp把内网54321/udp暴露到公网4001/udp，客户端就使用公网4001/udp进行连接，
 
@@ -136,6 +138,8 @@ docker run -d --name frpc --restart=always -v /opt/frpc.ini:/etc/frp/frpc.ini --
 运行wireguard：
 
 ```
+mkdir -p /opt/wg-easy
+
 docker run -d \
     --name=wireguard \
     -e WG_HOST=vps公网ip \
@@ -144,7 +148,7 @@ docker run -d \
     -e WG_DEFAULT_DNS=192.168.2.1 \
     -e WG_DEFAULT_ADDRESS=10.13.100.x \
     -e TZ=Asia/Shanghai \
-    -v /path/wg-easy:/etc/wireguard \
+    -v /opt/wg-easy:/etc/wireguard \
     -p 54321:51820/udp \
     -p 51821:51821/tcp \
     --cap-add=NET_ADMIN \
@@ -154,3 +158,4 @@ docker run -d \
     --restart unless-stopped \
     weejewel/wg-easy
 ```
+通过vps中转就不需要防火墙端口转发了，直接打开wg管理界面添加peer，手机扫码连接就行。
