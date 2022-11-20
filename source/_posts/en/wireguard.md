@@ -25,7 +25,7 @@ categories:
 
 # 一、有公网ip
 
-如果是固定公网IP直接绑定域名就行，如果是动态公网IP则用ddns动态绑定，ddns可以跑在家庭局域网任何一台机器，比如openwrt：
+如果是固定公网IP直接A记录绑定域名就行，如果是动态公网IP则用ddns绑定，ddns可以跑在家内网任何一台机器，比如openwrt：
 
 ![](ddns.png)
 
@@ -69,7 +69,7 @@ docker run -d \
 
 <br/>
 
-访问wg后台管理界面: [http://192.168.2.103:51821](http://192.168.2.103:51821)，密码登录进去添加一个客户端（peer）：
+访问wg后台管理界面: [http://192.168.2.103:51821](http://192.168.2.103:51821)，登录进去添加一个客户端（peer）：
 ![](wg.png)
 
 <br/>
@@ -89,7 +89,7 @@ docker run -d \
 
 <img src="openwrt.jpeg" width="500"/>
 
-客户端连上家里wg就自动继承家里网络，如果家里挂了梯子，客户端自动拥有科学上网能力。
+客户端连上家里wg就自动继承家里网络，如果家里挂了梯子，客户端也拥有科学上网能力。
 
 
 <br/>
@@ -101,7 +101,7 @@ docker run -d \
 
 原理是通过frp把内网54321/udp暴露到公网4001/udp，客户端就使用公网4001/udp进行连接，
 
-vim frpc.ini
+vim /opt/frpc.ini
 ```
 [common]
 server_addr = vps公网ip
@@ -130,8 +130,6 @@ use_compression = true
 启动frp：
 
 docker run -d --name frpc --restart=always -v /opt/frpc.ini:/etc/frp/frpc.ini --network=host snowdreamtech/frpc
-
-<br/>
 
 运行wireguard：
 
