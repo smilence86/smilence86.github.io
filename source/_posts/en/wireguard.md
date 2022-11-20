@@ -37,12 +37,14 @@ docker run -d --name=cf-ddns --restart=always -e API_KEY=*** -e ZONE=example.com
 
 除openwrt自身docker，在内网任何一台机器运行wireguard:
 
+```
 docker run -d \
     --name=wireguard \
     -e WG_HOST=home.example.com \
     -e WG_PORT=54321 \
     -e PASSWORD=yourPassword \
     -e WG_DEFAULT_DNS=192.168.2.1 \
+    -e WG_DEFAULT_ADDRESS=10.13.100.x \
     -e TZ=Asia/Shanghai \
     -v /path/wg-easy:/etc/wireguard \
     -p 54321:51820/udp \
@@ -53,7 +55,7 @@ docker run -d \
     --sysctl="net.ipv4.ip_forward=1" \
     --restart unless-stopped \
     weejewel/wg-easy
-
+```
 
 <br/>
 
@@ -133,12 +135,14 @@ docker run -d --name frpc --restart=always -v /opt/frpc.ini:/etc/frp/frpc.ini --
 
 运行wireguard：
 
+```
 docker run -d \
     --name=wireguard \
     -e WG_HOST=vps公网ip \
     -e WG_PORT=4001 \
     -e PASSWORD=yourPassword \
     -e WG_DEFAULT_DNS=192.168.2.1 \
+    -e WG_DEFAULT_ADDRESS=10.13.100.x \
     -e TZ=Asia/Shanghai \
     -v /path/wg-easy:/etc/wireguard \
     -p 54321:51820/udp \
@@ -149,4 +153,4 @@ docker run -d \
     --sysctl="net.ipv4.ip_forward=1" \
     --restart unless-stopped \
     weejewel/wg-easy
-
+```
