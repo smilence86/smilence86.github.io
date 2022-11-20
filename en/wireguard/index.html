@@ -393,22 +393,7 @@
 <p>或者docker映射域名: <a target="_blank" rel="noopener" href="http://home.example.com">home.example.com</a></p>
 <p>docker run -d --name=cf-ddns --restart=always -e API_KEY=*** -e <a target="_blank" rel="noopener" href="http://ZONE=example.com">ZONE=example.com</a> -e SUBDOMAIN=home oznu/cloudflare-ddns</p>
 <p>除openwrt自身docker，在内网任何一台机器运行wireguard:</p>
-<p>docker run -d <br>
-–name=wireguard <br>
--e WG_HOST=<a target="_blank" rel="noopener" href="http://home.example.com">home.example.com</a> <br>
--e WG_PORT=54321 <br>
--e PASSWORD=yourPassword <br>
--e WG_DEFAULT_DNS=192.168.2.1 <br>
--e TZ=Asia/Shanghai <br>
--v /path/wg-easy:/etc/wireguard <br>
--p 54321:51820/udp <br>
--p 51821:51821/tcp <br>
-–cap-add=NET_ADMIN <br>
-–cap-add=SYS_MODULE <br>
-–sysctl=“net.ipv4.conf.all.    src_valid_mark=1” <br>
-–sysctl=“net.ipv4.ip_forward=1” <br>
-–restart unless-stopped <br>
-weejewel/wg-easy</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">docker <span class="built_in">run</span> -d \</span><br><span class="line">    <span class="attribute">--name</span>=wireguard \</span><br><span class="line">    -e <span class="attribute">WG_HOST</span>=home.example.com \</span><br><span class="line">    -e <span class="attribute">WG_PORT</span>=54321 \</span><br><span class="line">    -e <span class="attribute">PASSWORD</span>=yourPassword \</span><br><span class="line">    -e <span class="attribute">WG_DEFAULT_DNS</span>=192.168.2.1 \</span><br><span class="line">    -e <span class="attribute">WG_DEFAULT_ADDRESS</span>=10.13.100.x \</span><br><span class="line">    -e <span class="attribute">TZ</span>=Asia/Shanghai \</span><br><span class="line">    -v /path/wg-easy:/etc/wireguard \</span><br><span class="line">    -p 54321:51820/udp \</span><br><span class="line">    -p 51821:51821/tcp \</span><br><span class="line">    <span class="attribute">--cap-add</span>=NET_ADMIN \</span><br><span class="line">    <span class="attribute">--cap-add</span>=SYS_MODULE \</span><br><span class="line">    <span class="attribute">--sysctl</span>=<span class="string">&quot;net.ipv4.conf.all.    src_valid_mark=1&quot;</span> \</span><br><span class="line">    <span class="attribute">--sysctl</span>=<span class="string">&quot;net.ipv4.ip_forward=1&quot;</span> \</span><br><span class="line">    --restart unless-stopped \</span><br><span class="line">    weejewel/wg-easy</span><br></pre></td></tr></table></figure>
 <br/>
 <p>在openwrt -&gt; 网络 -&gt; 防火墙 -&gt; 端口转发，假设wg运行在debian，其ip为192.168.2.103，让外部54321/udp转发到debian的54321/udp端口，：</p>
 <p><img src="port.png" alt=""></p>
@@ -438,22 +423,7 @@ weejewel/wg-easy</p>
 <p>启动frp：</p>
 <p>docker run -d --name frpc --restart=always -v /opt/frpc.ini:/etc/frp/frpc.ini --network=host snowdreamtech/frpc</p>
 <p>运行wireguard：</p>
-<p>docker run -d <br>
-–name=wireguard <br>
--e WG_HOST=vps公网ip <br>
--e WG_PORT=4001 <br>
--e PASSWORD=yourPassword <br>
--e WG_DEFAULT_DNS=192.168.2.1 <br>
--e TZ=Asia/Shanghai <br>
--v /path/wg-easy:/etc/wireguard <br>
--p 54321:51820/udp <br>
--p 51821:51821/tcp <br>
-–cap-add=NET_ADMIN <br>
-–cap-add=SYS_MODULE <br>
-–sysctl=“net.ipv4.conf.all.    src_valid_mark=1” <br>
-–sysctl=“net.ipv4.ip_forward=1” <br>
-–restart unless-stopped <br>
-weejewel/wg-easy</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">docker <span class="built_in">run</span> -d \</span><br><span class="line">    <span class="attribute">--name</span>=wireguard \</span><br><span class="line">    -e <span class="attribute">WG_HOST</span>=vps公网ip \</span><br><span class="line">    -e <span class="attribute">WG_PORT</span>=4001 \</span><br><span class="line">    -e <span class="attribute">PASSWORD</span>=yourPassword \</span><br><span class="line">    -e <span class="attribute">WG_DEFAULT_DNS</span>=192.168.2.1 \</span><br><span class="line">    -e <span class="attribute">WG_DEFAULT_ADDRESS</span>=10.13.100.x \</span><br><span class="line">    -e <span class="attribute">TZ</span>=Asia/Shanghai \</span><br><span class="line">    -v /path/wg-easy:/etc/wireguard \</span><br><span class="line">    -p 54321:51820/udp \</span><br><span class="line">    -p 51821:51821/tcp \</span><br><span class="line">    <span class="attribute">--cap-add</span>=NET_ADMIN \</span><br><span class="line">    <span class="attribute">--cap-add</span>=SYS_MODULE \</span><br><span class="line">    <span class="attribute">--sysctl</span>=<span class="string">&quot;net.ipv4.conf.all.    src_valid_mark=1&quot;</span> \</span><br><span class="line">    <span class="attribute">--sysctl</span>=<span class="string">&quot;net.ipv4.ip_forward=1&quot;</span> \</span><br><span class="line">    --restart unless-stopped \</span><br><span class="line">    weejewel/wg-easy</span><br></pre></td></tr></table></figure>
 
 
         <hr>
