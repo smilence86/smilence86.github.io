@@ -63,7 +63,7 @@ docker run -d \
 
 <br/>
 
-在openwrt -> 网络 -> 防火墙 -> 端口转发，假设wg运行在debian，其ip为192.168.2.103，让外部54321/udp转发到debian的54321/udp端口：
+openwrt必须是主路由拨号，旁路由无法设置wan口端口转发，在 网络 -> 防火墙 -> 端口转发 中设置，假设wg运行在debian，其ip为192.168.2.103，新增规则让外部54321/udp转发到debian的54321/udp端口：
 
 ![](port.png)
 
