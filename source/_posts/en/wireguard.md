@@ -18,38 +18,42 @@ categories:
 <br/>
 换成vpn异地组网可以有效解决以上问题，在外远程访问家庭内网只需打开开关即可，使用ip、port跟内网一模一样，无需额外端口映射。
 
-对比发现wireguard效率高，速度快。前提是家庭网络有公网IP，如果是固定公网IP直接绑定域名就行，如果是动态公网IP则用ddns动态绑定，ddns可以跑在家庭局域网任何一台机器，比如openwrt：
+对比发现wireguard效率高，速度快，接下来介绍2种方案，分别有公网ip、无公网ip。
+
+<br/>
+<br/>
+
+# 一、有公网ip
+
+如果是固定公网IP直接绑定域名就行，如果是动态公网IP则用ddns动态绑定，ddns可以跑在家庭局域网任何一台机器，比如openwrt：
 
 ![](ddns.png)
 
 <br/>
 
-或者docker映射: home.example.com
+或者docker映射域名: home.example.com
 
-```
 docker run -d --name=cf-ddns --restart=always -e API_KEY=*** -e ZONE=example.com -e SUBDOMAIN=home oznu/cloudflare-ddns
-```
 
 除openwrt自身docker，在内网任何一台机器运行wireguard:
 
-```
 docker run -d \
---name=wireguard \
--e WG_HOST=home.example.com \
--e WG_PORT=54321 \
--e PASSWORD=yourPassword \
--e WG_DEFAULT_DNS=192.168.2.1 \
--e TZ=Asia/Shanghai \
--v /path/wg-easy:/etc/wireguard \
--p 54321:51820/udp \
--p 51821:51821/tcp \
---cap-add=NET_ADMIN \
---cap-add=SYS_MODULE \
---sysctl="net.ipv4.conf.all.src_valid_mark=1" \
---sysctl="net.ipv4.ip_forward=1" \
---restart unless-stopped \
-weejewel/wg-easy
-```
+    --name=wireguard \
+    -e WG_HOST=home.example.com \
+    -e WG_PORT=54321 \
+    -e PASSWORD=yourPassword \
+    -e WG_DEFAULT_DNS=192.168.2.1 \
+    -e TZ=Asia/Shanghai \
+    -v /path/wg-easy:/etc/wireguard \
+    -p 54321:51820/udp \
+    -p 51821:51821/tcp \
+    --cap-add=NET_ADMIN \
+    --cap-add=SYS_MODULE \
+    --sysctl="net.ipv4.conf.all.    src_valid_mark=1" \
+    --sysctl="net.ipv4.ip_forward=1" \
+    --restart unless-stopped \
+    weejewel/wg-easy
+
 
 <br/>
 
@@ -85,6 +89,66 @@ weejewel/wg-easy
 
 <img src="openwrt.jpeg" width="500"/>
 
-如果家里挂了梯子，手机、电脑自动拥有科学上网能力。
+客户端连上家里wg就自动继承家里网络，如果家里挂了梯子，客户端自动拥有科学上网能力。
 
-没有公网ip则要使用vps中转，配置略复杂，而且通讯速度依赖vps带宽没有直连快。
+
+<br/>
+<br/>
+
+# 二、无公网ip
+
+没有公网ip则要使用vps中转，配置略复杂，数据传输速度依赖vps带宽，没有直连快。
+
+原理是通过frp把内网54321/udp暴露到公网4001/udp，客户端就使用公网4001/udp进行连接，
+
+vim frpc.ini
+```
+[common]
+server_addr = vps公网ip
+server_port = 2000
+protocol = tcp
+token = password
+
+[wireguard_web]
+type = tcp
+local_ip = 127.0.0.1
+local_port = 51821
+remote_port = 4000
+use_encryption = true
+use_compression = true
+
+[wireguard_udp]
+type = udp
+local_ip = 127.0.0.1
+local_port = 54321
+remote_port = 4001
+use_encryption = true
+use_compression = true
+
+```
+
+启动frp：
+
+docker run -d --name frpc --restart=always -v /opt/frpc.ini:/etc/frp/frpc.ini --network=host snowdreamtech/frpc
+
+<br/>
+
+运行wireguard：
+
+docker run -d \
+    --name=wireguard \
+    -e WG_HOST=vps公网ip \
+    -e WG_PORT=4001 \
+    -e PASSWORD=yourPassword \
+    -e WG_DEFAULT_DNS=192.168.2.1 \
+    -e TZ=Asia/Shanghai \
+    -v /path/wg-easy:/etc/wireguard \
+    -p 54321:51820/udp \
+    -p 51821:51821/tcp \
+    --cap-add=NET_ADMIN \
+    --cap-add=SYS_MODULE \
+    --sysctl="net.ipv4.conf.all.    src_valid_mark=1" \
+    --sysctl="net.ipv4.ip_forward=1" \
+    --restart unless-stopped \
+    weejewel/wg-easy
+
