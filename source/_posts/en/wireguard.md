@@ -12,7 +12,7 @@ categories:
 - network
 ---
 
-远程访问通常可以用向日葵、frp实现，但都有限制，向日葵远程桌面还行，特定系统特定端口无法实现，比如远程访问raspberry pi的ssh端口，frp可以做到但每个服务都要映射端口比较繁琐，尤其是需要暴露的端口比较多:
+远程访问通常可以用向日葵、frp实现，但有限制，向日葵远程桌面还行，特定系统特定端口无法实现，比如linux系统ssh端口，frp可以做到但每个服务都要映射端口很繁琐，尤其是端口多的情况挨个配置很费劲:
 
 ![](frp.png)
 <br/>
@@ -30,7 +30,7 @@ categories:
 docker run -d --name=cf-ddns --restart=always -e API_KEY=*** -e ZONE=example.com -e SUBDOMAIN=home oznu/cloudflare-ddns
 ```
 
-在内网任何一台机器启动wireguard:
+除openwrt自身docker，在内网任何一台机器运行wireguard:
 
 ```
 docker run -d \
@@ -56,6 +56,12 @@ weejewel/wg-easy
 在openwrt -> 网络 -> 防火墙 -> 端口转发，假设wg运行在debian，其ip为192.168.2.103，让外部54321/udp转发到debian的54321/udp端口，：
 
 ![](port.png)
+
+<br/>
+
+在Turbo ACC中关闭SFE，否则客户端无法连接：
+
+![](turboACC.png)
 
 <br/>
 
