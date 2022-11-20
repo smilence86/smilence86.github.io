@@ -31,11 +31,11 @@ categories:
 
 <br/>
 
-或者docker映射域名: home.example.com
+或者docker跑ddns，映射域名: home.example.com
 
 docker run -d --name=cf-ddns --restart=always -e API_KEY=*** -e ZONE=example.com -e SUBDOMAIN=home oznu/cloudflare-ddns
 
-除openwrt自身docker，在内网任何一台机器运行wireguard:
+经测试，在openwrt自身docker跑wg会导致客户端连不上，所以要在内网其他任何一台机器运行wg:
 
 ```
 mkdir -p /opt/wg-easy
@@ -61,13 +61,13 @@ docker run -d \
 
 <br/>
 
-在openwrt -> 网络 -> 防火墙 -> 端口转发，假设wg运行在debian，其ip为192.168.2.103，让外部54321/udp转发到debian的54321/udp端口，：
+在openwrt -> 网络 -> 防火墙 -> 端口转发，假设wg运行在debian，其ip为192.168.2.103，让外部54321/udp转发到debian的54321/udp端口：
 
 ![](port.png)
 
 <br/>
 
-在Turbo ACC中关闭SFE，否则客户端无法连接：
+在Turbo ACC中关闭SFE，否则客户端无法连接，“软件流量分载”可以打开：
 
 ![](turboACC.png)
 
@@ -158,4 +158,4 @@ docker run -d \
     --restart unless-stopped \
     weejewel/wg-easy
 ```
-通过vps中转就不需要防火墙端口转发了，直接打开wg管理界面添加peer，手机扫码连接就行。
+通过vps中转就不需要防火墙端口转发了，直接登录wg管理界面添加peer，手机扫码连接就行。
