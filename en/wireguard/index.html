@@ -410,14 +410,14 @@
 <p>电脑导入配置文件：</p>
 <p><img src="wg_windows.jpg" alt=""></p>
 <br/>
-<p>至此就可以通过外网远程访问家里设备，比如路由器管理页：</p>
+<p>至此可以通过外网4g远程访问家里设备，比如路由器管理页：</p>
 <img src="openwrt.jpeg" width="500"/>
-<p>客户端连上家里wg就自动继承家里网络，如果家里挂了梯子，客户端也拥有科学上网能力。</p>
+<p>wg客户端连接成功就自动继承家里网络，如果家里挂了梯子，客户端也拥有科学上网能力，相当于开了小飞机 or 小火箭。</p>
 <br/>
 <br/>
 <h1>二、无公网ip</h1>
 <p>家里没有公网ip则要使用vps中转，配置略复杂，数据传输速度依赖vps带宽，没有直连快。</p>
-<p>原理是通过frp把内网54321/udp暴露到公网4001/udp，客户端就使用公网4001/udp进行连接，</p>
+<p>原理是通过frp把内网54321/udp暴露到公网4001/udp，wg客户端就使用公网4001/udp进行连接</p>
 <p>vim /opt/frpc.ini</p>
 <figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">[common]</span></span><br><span class="line"><span class="attr">server_addr</span> = vps公网ip</span><br><span class="line"><span class="attr">server_port</span> = <span class="number">2000</span></span><br><span class="line"><span class="attr">protocol</span> = tcp</span><br><span class="line"><span class="attr">token</span> = password</span><br><span class="line"></span><br><span class="line"><span class="section">[wireguard_web]</span></span><br><span class="line"><span class="attr">type</span> = tcp</span><br><span class="line"><span class="attr">local_ip</span> = <span class="number">127.0</span>.<span class="number">0.1</span></span><br><span class="line"><span class="attr">local_port</span> = <span class="number">51821</span></span><br><span class="line"><span class="attr">remote_port</span> = <span class="number">4000</span></span><br><span class="line"><span class="attr">use_encryption</span> = <span class="literal">true</span></span><br><span class="line"><span class="attr">use_compression</span> = <span class="literal">true</span></span><br><span class="line"></span><br><span class="line"><span class="section">[wireguard_udp]</span></span><br><span class="line"><span class="attr">type</span> = udp</span><br><span class="line"><span class="attr">local_ip</span> = <span class="number">127.0</span>.<span class="number">0.1</span></span><br><span class="line"><span class="attr">local_port</span> = <span class="number">54321</span></span><br><span class="line"><span class="attr">remote_port</span> = <span class="number">4001</span></span><br><span class="line"><span class="attr">use_encryption</span> = <span class="literal">true</span></span><br><span class="line"><span class="attr">use_compression</span> = <span class="literal">true</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <p>启动frp：</p>
