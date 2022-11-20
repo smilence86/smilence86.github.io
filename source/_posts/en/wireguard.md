@@ -161,4 +161,5 @@ docker run -d \
     --restart unless-stopped \
     weejewel/wg-easy
 ```
-通过vps中转就不需要防火墙端口转发了，直接登录wg管理界面添加peer，手机扫码连接就行。
+通过vps中转就不需要防火墙端口转发了，直接登录wg管理界面添加peer，手机扫码连就行。
+
