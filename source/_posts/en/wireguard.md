@@ -86,9 +86,11 @@ openwrt必须是主路由拨号，旁路由无法设置wan口端口转发，在 
 ## 添加peer客户端
 
 访问wg后台管理界面: [http://192.168.2.103:51821](http://192.168.2.103:51821)，登录进去添加一个客户端（peer）：
-![](./wireguard/wg.png)
+![](wg.png)
 
 <br/>
+
+## 客户端连接
 
 手机扫码即可连接：
 <img src="wg_android.jpeg" width="300" />
