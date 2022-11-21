@@ -27,6 +27,8 @@ categories:
 
 # 一、有公网ip
 
+## 映射域名
+
 如果是固定公网IP直接A记录绑定域名就行，如果是动态公网IP则用ddns绑定，ddns可以跑在家内网任何一台机器，比如openwrt：
 
 <img src="ddns.png" width="200" />
@@ -36,6 +38,8 @@ categories:
 或者docker跑ddns，映射域名: home.example.com
 
 docker run -d --name=cf-ddns --restart=always -e API_KEY=*** -e ZONE=example.com -e SUBDOMAIN=home oznu/cloudflare-ddns
+
+## 运行wg
 
 经测试，在openwrt自身docker跑wg会导致客户端连不上，所以要在内网其他任何一台机器运行wg:
 
@@ -63,11 +67,15 @@ docker run -d \
 
 <br/>
 
+## 端口转发
+
 openwrt必须是主路由拨号，旁路由无法设置wan口端口转发，在 网络 -> 防火墙 -> 端口转发 中设置，假设wg运行在debian，其ip为192.168.2.103，新增规则让外部54321/udp转发到debian的54321/udp端口：
 
 ![](port.png)
 
 <br/>
+
+## 关闭SFE
 
 在Turbo ACC中关闭SFE，否则客户端无法连接，“软件流量分载”可以打开：
 
@@ -75,13 +83,15 @@ openwrt必须是主路由拨号，旁路由无法设置wan口端口转发，在 
 
 <br/>
 
+## 添加peer客户端
+
 访问wg后台管理界面: [http://192.168.2.103:51821](http://192.168.2.103:51821)，登录进去添加一个客户端（peer）：
-![](wg.png)
+![](./wireguard/wg.png)
 
 <br/>
 
 手机扫码即可连接：
-<img src="wg_android.jpeg" width="500" />
+<img src="wg_android.jpeg" width="300" />
 
 <br/>
 
@@ -90,11 +100,11 @@ openwrt必须是主路由拨号，旁路由无法设置wan口端口转发，在 
 ![](wg_windows.jpg)
 
 
-ios要到美区app store下载wg客户端。
+iphone要到美区app store下载wg客户端。
 
 至此可以通过外网4g远程访问家里设备，比如路由器管理页：
 
-<img src="openwrt.jpeg" width="500"/>
+<img src="openwrt.jpeg" width="300" />
 
 wg客户端连接成功就自动继承家里网络，如果家里挂了梯子，手机也拥有科学上网能力，相当于开了小飞机 or 小火箭。
 
@@ -104,7 +114,9 @@ wg客户端连接成功就自动继承家里网络，如果家里挂了梯子，
 
 # 二、无公网ip
 
-家里没有公网ip则要使用vps中转，配置略复杂，数据传输速度依赖vps带宽，没有直连快。
+家里没有公网ip则要使用vps中转，配置略复杂，传输速度依赖vps带宽，没有直连快。
+
+## frp内网穿透
 
 原理是通过frp把内网54321/udp暴露到公网4001/udp，wg客户端就使用公网4001/udp进行连接
 
@@ -138,6 +150,9 @@ use_compression = true
 
 docker run -d --name frpc --restart=always -v /opt/frpc.ini:/etc/frp/frpc.ini --network=host snowdreamtech/frpc
 
+
+## 运行wg
+
 运行wireguard：
 
 ```
@@ -161,5 +176,5 @@ docker run -d \
     --restart unless-stopped \
     weejewel/wg-easy
 ```
-通过vps中转就不需要防火墙端口转发了，直接登录wg管理界面添加peer，手机扫码连就行。
+通过vps中转就不需要主路由端口转发，直接登录wg管理界面添加peer，手机扫码连就行。
 
