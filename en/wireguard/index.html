@@ -387,44 +387,51 @@
 <br/>
 <br/>
 <h1>一、有公网ip</h1>
+<h2 id="映射域名">映射域名</h2>
 <p>如果是固定公网IP直接A记录绑定域名就行，如果是动态公网IP则用ddns绑定，ddns可以跑在家内网任何一台机器，比如openwrt：</p>
 <img src="ddns.png" width="200" />
 <br/>
 <p>或者docker跑ddns，映射域名: <a target="_blank" rel="noopener" href="http://home.example.com">home.example.com</a></p>
 <p>docker run -d --name=cf-ddns --restart=always -e API_KEY=*** -e <a target="_blank" rel="noopener" href="http://ZONE=example.com">ZONE=example.com</a> -e SUBDOMAIN=home oznu/cloudflare-ddns</p>
+<h2 id="运行wg">运行wg</h2>
 <p>经测试，在openwrt自身docker跑wg会导致客户端连不上，所以要在内网其他任何一台机器运行wg:</p>
 <figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p /opt/wg-easy</span><br><span class="line"></span><br><span class="line">docker <span class="built_in">run</span> -d \</span><br><span class="line">    <span class="attribute">--name</span>=wireguard \</span><br><span class="line">    -e <span class="attribute">WG_HOST</span>=home.example.com \</span><br><span class="line">    -e <span class="attribute">WG_PORT</span>=54321 \</span><br><span class="line">    -e <span class="attribute">PASSWORD</span>=yourPassword \</span><br><span class="line">    -e <span class="attribute">WG_DEFAULT_DNS</span>=192.168.2.1 \</span><br><span class="line">    -e <span class="attribute">WG_DEFAULT_ADDRESS</span>=10.13.100.x \</span><br><span class="line">    -e <span class="attribute">TZ</span>=Asia/Shanghai \</span><br><span class="line">    -v /opt/wg-easy:/etc/wireguard \</span><br><span class="line">    -p 54321:51820/udp \</span><br><span class="line">    -p 51821:51821/tcp \</span><br><span class="line">    <span class="attribute">--cap-add</span>=NET_ADMIN \</span><br><span class="line">    <span class="attribute">--cap-add</span>=SYS_MODULE \</span><br><span class="line">    <span class="attribute">--sysctl</span>=<span class="string">&quot;net.ipv4.conf.all.src_valid_mark=1&quot;</span> \</span><br><span class="line">    <span class="attribute">--sysctl</span>=<span class="string">&quot;net.ipv4.ip_forward=1&quot;</span> \</span><br><span class="line">    --restart unless-stopped \</span><br><span class="line">    weejewel/wg-easy</span><br></pre></td></tr></table></figure>
 <br/>
+<h2 id="端口转发">端口转发</h2>
 <p>openwrt必须是主路由拨号，旁路由无法设置wan口端口转发，在 网络 -&gt; 防火墙 -&gt; 端口转发 中设置，假设wg运行在debian，其ip为192.168.2.103，新增规则让外部54321/udp转发到debian的54321/udp端口：</p>
 <p><img src="port.png" alt=""></p>
 <br/>
+<h2 id="关闭SFE">关闭SFE</h2>
 <p>在Turbo ACC中关闭SFE，否则客户端无法连接，“软件流量分载”可以打开：</p>
 <p><img src="turboACC.png" alt=""></p>
 <br/>
+<h2 id="添加peer客户端">添加peer客户端</h2>
 <p>访问wg后台管理界面: <a target="_blank" rel="noopener" href="http://192.168.2.103:51821">http://192.168.2.103:51821</a>，登录进去添加一个客户端（peer）：<br>
-<img src="wg.png" alt=""></p>
+<img src="./wireguard/wg.png" alt=""></p>
 <br/>
 <p>手机扫码即可连接：<br>
-<img src="wg_android.jpeg" width="500" /></p>
+<img src="wg_android.jpeg" width="300" /></p>
 <br/>
 <p>电脑wg客户端导入配置文件：</p>
 <p><img src="wg_windows.jpg" alt=""></p>
-<p>ios要到美区app store下载wg客户端。</p>
+<p>iphone要到美区app store下载wg客户端。</p>
 <p>至此可以通过外网4g远程访问家里设备，比如路由器管理页：</p>
-<img src="openwrt.jpeg" width="500"/>
+<img src="openwrt.jpeg" width="300" />
 <p>wg客户端连接成功就自动继承家里网络，如果家里挂了梯子，手机也拥有科学上网能力，相当于开了小飞机 or 小火箭。</p>
 <br/>
 <br/>
 <h1>二、无公网ip</h1>
-<p>家里没有公网ip则要使用vps中转，配置略复杂，数据传输速度依赖vps带宽，没有直连快。</p>
+<p>家里没有公网ip则要使用vps中转，配置略复杂，传输速度依赖vps带宽，没有直连快。</p>
+<h2 id="frp内网穿透">frp内网穿透</h2>
 <p>原理是通过frp把内网54321/udp暴露到公网4001/udp，wg客户端就使用公网4001/udp进行连接</p>
 <p>vim /opt/frpc.ini</p>
 <figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">[common]</span></span><br><span class="line"><span class="attr">server_addr</span> = vps公网ip</span><br><span class="line"><span class="attr">server_port</span> = <span class="number">2000</span></span><br><span class="line"><span class="attr">protocol</span> = tcp</span><br><span class="line"><span class="attr">token</span> = password</span><br><span class="line"></span><br><span class="line"><span class="section">[wireguard_web]</span></span><br><span class="line"><span class="attr">type</span> = tcp</span><br><span class="line"><span class="attr">local_ip</span> = <span class="number">127.0</span>.<span class="number">0.1</span></span><br><span class="line"><span class="attr">local_port</span> = <span class="number">51821</span></span><br><span class="line"><span class="attr">remote_port</span> = <span class="number">4000</span></span><br><span class="line"><span class="attr">use_encryption</span> = <span class="literal">true</span></span><br><span class="line"><span class="attr">use_compression</span> = <span class="literal">true</span></span><br><span class="line"></span><br><span class="line"><span class="section">[wireguard_udp]</span></span><br><span class="line"><span class="attr">type</span> = udp</span><br><span class="line"><span class="attr">local_ip</span> = <span class="number">127.0</span>.<span class="number">0.1</span></span><br><span class="line"><span class="attr">local_port</span> = <span class="number">54321</span></span><br><span class="line"><span class="attr">remote_port</span> = <span class="number">4001</span></span><br><span class="line"><span class="attr">use_encryption</span> = <span class="literal">true</span></span><br><span class="line"><span class="attr">use_compression</span> = <span class="literal">true</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <p>启动frp：</p>
 <p>docker run -d --name frpc --restart=always -v /opt/frpc.ini:/etc/frp/frpc.ini --network=host snowdreamtech/frpc</p>
+<h2 id="运行wg-2">运行wg</h2>
 <p>运行wireguard：</p>
 <figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p /opt/wg-easy</span><br><span class="line"></span><br><span class="line">docker <span class="built_in">run</span> -d \</span><br><span class="line">    <span class="attribute">--name</span>=wireguard \</span><br><span class="line">    -e <span class="attribute">WG_HOST</span>=vps公网ip \</span><br><span class="line">    -e <span class="attribute">WG_PORT</span>=4001 \</span><br><span class="line">    -e <span class="attribute">PASSWORD</span>=yourPassword \</span><br><span class="line">    -e <span class="attribute">WG_DEFAULT_DNS</span>=192.168.2.1 \</span><br><span class="line">    -e <span class="attribute">WG_DEFAULT_ADDRESS</span>=10.13.100.x \</span><br><span class="line">    -e <span class="attribute">TZ</span>=Asia/Shanghai \</span><br><span class="line">    -v /opt/wg-easy:/etc/wireguard \</span><br><span class="line">    -p 54321:51820/udp \</span><br><span class="line">    -p 51821:51821/tcp \</span><br><span class="line">    <span class="attribute">--cap-add</span>=NET_ADMIN \</span><br><span class="line">    <span class="attribute">--cap-add</span>=SYS_MODULE \</span><br><span class="line">    <span class="attribute">--sysctl</span>=<span class="string">&quot;net.ipv4.conf.all.src_valid_mark=1&quot;</span> \</span><br><span class="line">    <span class="attribute">--sysctl</span>=<span class="string">&quot;net.ipv4.ip_forward=1&quot;</span> \</span><br><span class="line">    --restart unless-stopped \</span><br><span class="line">    weejewel/wg-easy</span><br></pre></td></tr></table></figure>
-<p>通过vps中转就不需要防火墙端口转发了，直接登录wg管理界面添加peer，手机扫码连就行。</p>
+<p>通过vps中转就不需要主路由端口转发，直接登录wg管理界面添加peer，手机扫码连就行。</p>
 
 
         <hr>
@@ -509,7 +516,7 @@
         <div id="toc" class="toc-article">
         <strong class="toc-title">Contents</strong>
         
-          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">一、有公网ip</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">二、无公网ip</span></a></li></ol>
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">一、有公网ip</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#%E6%98%A0%E5%B0%84%E5%9F%9F%E5%90%8D"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text">映射域名</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#%E8%BF%90%E8%A1%8Cwg"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text">运行wg</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91"><span class="toc-nav-number">1.3.</span> <span class="toc-nav-text">端口转发</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#%E5%85%B3%E9%97%ADSFE"><span class="toc-nav-number">1.4.</span> <span class="toc-nav-text">关闭SFE</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#%E6%B7%BB%E5%8A%A0peer%E5%AE%A2%E6%88%B7%E7%AB%AF"><span class="toc-nav-number">1.5.</span> <span class="toc-nav-text">添加peer客户端</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">二、无公网ip</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#frp%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F"><span class="toc-nav-number">2.1.</span> <span class="toc-nav-text">frp内网穿透</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#%E8%BF%90%E8%A1%8Cwg-2"><span class="toc-nav-number">2.2.</span> <span class="toc-nav-text">运行wg</span></a></li></ol></li></ol>
         
         </div>
       </aside>
