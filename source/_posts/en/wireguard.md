@@ -98,8 +98,7 @@ openwrt必须是主路由拨号，旁路由无法设置wan口端口转发，在 
 <br/>
 
 电脑wg客户端导入配置文件：
-
-![](wg_windows.jpg)
+<img src="wg_windows.jpeg" width="500" />
 
 
 iphone要到美区app store下载wg客户端。
