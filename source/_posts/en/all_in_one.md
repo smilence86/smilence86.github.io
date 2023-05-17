@@ -219,7 +219,9 @@ pve虚拟2台win10，互拷文件：
 bash脚本自动关机，pve会先关掉所有vm再关宿主机，前提是每个vm都安装了qemu-guest-agent：
 mkdir -p /root/shutdown
 cd /root/shutdown
-vim shutdown.sh
+touch shutdown.sh
+chmod +x shutdown.sh
+
 ```
 #!/bin/sh
 
