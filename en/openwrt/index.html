@@ -408,7 +408,18 @@
 <p><img src="pve_openwrt_disk_increment.png" alt=""></p>
 <h1>五、添加网卡</h1>
 <p>如果cpu支持vt-d硬件直通，则在“硬件添加pci”网卡</p>
-<p><img src="pve_openwrt_pci.png" alt=""></p>
+<p><img src="pve_openwrt_pci_ethernets.png" alt=""></p>
+<p>从上图看，主板有4个 Intel I226-V 网卡，其中一个是宿主机桥接使用的，避免直通这个网卡造成失联，先找到宿主机正在使用的物理网卡名称:</p>
+<p><img src="pve_host_ethernet.png" alt=""></p>
+<p>桥接虚拟网卡名称为vmbr0，对应物理网卡名称为enp2s0</p>
+<p>查看这个网卡的pci编码：<br>
+apt install lshw -y<br>
+lshw -class network</p>
+<p><img src="pve_ethernet_pci.png" alt=""></p>
+<p>enp2s0对应pci编码为0000:02:00:0，所以直通给vm要排除这个，选择其他网卡，比如0000:03:00:0：</p>
+<p><img src="pve_openwrt_pci_ethernets.png" alt=""></p>
+<p>一般来讲，直通的这个网口就是紧挨者宿主机使用的网口</p>
+<p><img src="n6000.png" alt=""></p>
 <p>如果cpu不支持vt-d硬件直通，则只能使用桥接网卡，先到pve节点网络下创建桥接网卡，备注为WAN口：</p>
 <p><img src="pve_bridge_eth.png" alt=""></p>
 <p>回到openwrt硬件，添加网络设备，选择WAN：</p>
