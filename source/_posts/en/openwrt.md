@@ -55,11 +55,12 @@ ssh登录pve宿主机
 
 ![](pve_openwrt_disk_increment.png)
 
-# 五、添加网卡
+# 五.一、添加直通网卡
 
 添加网卡前先不要启动虚拟机，否则系统第一次启动不会初始化WAN口。
 
 如果cpu支持vt-d硬件直通，则在“硬件添加pci”网卡
+![](n3160_vs_n6000.png)
 
 ![](pve_openwrt_pci_ethernets.png)
 
@@ -79,7 +80,7 @@ lshw -class network
 
 ![](pve_ethernet_pci.png)
 
-enp2s0对应pci编码为0000:02:00:0，所以直通给vm要排除这个，选择其他网卡，比如0000:03:00:0：
+enp2s0对应pci编码为0000:02:00:0，所以直通给vm要排除这个，选择其他网卡比如0000:03:00:0：
 
 ![](pve_openwrt_pci_ethernets.png)
 
@@ -87,13 +88,14 @@ enp2s0对应pci编码为0000:02:00:0，所以直通给vm要排除这个，选择
 
 ![](n6000.jpg)
 
-而且一般来讲跟宿主机桥接的网卡默认为LAN口，直通的pci网卡为WAN口，可以通过网口MAC地址核实，符合预期。
+而且一般来讲跟宿主机桥接的网卡默认为LAN口，直通的pci网卡为WAN口，可以通过网口MAC地址判断，符合预期。
 
 ![](lan_mac.png)
 
 ![](openwrt_lan_mac.png)
   
   
+# 五.二、添加桥接网卡
 
 如果cpu不支持vt-d硬件直通，则只能使用桥接网卡，先到pve节点网络下创建桥接网卡，备注为WAN口：
 
