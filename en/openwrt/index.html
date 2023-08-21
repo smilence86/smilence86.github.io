@@ -406,9 +406,10 @@
 <p><img src="pve_openwrt_disk.png" alt=""></p>
 <p>扩容5G：</p>
 <p><img src="pve_openwrt_disk_increment.png" alt=""></p>
-<h1>五、添加网卡</h1>
+<h1>五.一、添加直通网卡</h1>
 <p>添加网卡前先不要启动虚拟机，否则系统第一次启动不会初始化WAN口。</p>
-<p>如果cpu支持vt-d硬件直通，则在“硬件添加pci”网卡</p>
+<p>如果cpu支持vt-d硬件直通，则在“硬件添加pci”网卡<br>
+<img src="n3160_vs_n6000.png" alt=""></p>
 <p><img src="pve_openwrt_pci_ethernets.png" alt=""></p>
 <p>从上图看，主板有4个 Intel I226-V 网卡，其中一个是宿主机桥接使用的，避免直通这个网卡造成失联</p>
 <p>如果担心直通错误可以先把openwrt设为开机不自启，就算错了抢救起来比较容易，重启宿主机就行。</p>
@@ -419,13 +420,14 @@
 apt install lshw -y<br>
 lshw -class network</p>
 <p><img src="pve_ethernet_pci.png" alt=""></p>
-<p>enp2s0对应pci编码为0000:02:00:0，所以直通给vm要排除这个，选择其他网卡，比如0000:03:00:0：</p>
+<p>enp2s0对应pci编码为0000:02:00:0，所以直通给vm要排除这个，选择其他网卡比如0000:03:00:0：</p>
 <p><img src="pve_openwrt_pci_ethernets.png" alt=""></p>
 <p>一般来讲，直通的这个网口就是紧挨者宿主机使用的网口</p>
 <p><img src="n6000.jpg" alt=""></p>
-<p>而且一般来讲跟宿主机桥接的网卡默认为LAN口，直通的pci网卡为WAN口，可以通过网口MAC地址核实，符合预期。</p>
+<p>而且一般来讲跟宿主机桥接的网卡默认为LAN口，直通的pci网卡为WAN口，可以通过网口MAC地址判断，符合预期。</p>
 <p><img src="lan_mac.png" alt=""></p>
 <p><img src="openwrt_lan_mac.png" alt=""></p>
+<h1>五.二、添加桥接网卡</h1>
 <p>如果cpu不支持vt-d硬件直通，则只能使用桥接网卡，先到pve节点网络下创建桥接网卡，备注为WAN口：</p>
 <p><img src="pve_bridge_eth.png" alt=""></p>
 <p>回到openwrt硬件，添加网络设备，选择WAN：</p>
@@ -626,7 +628,7 @@ crontab -l<br>
         <div id="toc" class="toc-article">
         <strong class="toc-title">Contents</strong>
         
-          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">一、上传镜像</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">二、创建vm</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">三、生成磁盘</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link"><span class="toc-nav-number">4.</span> <span class="toc-nav-text">四、加载磁盘</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link"><span class="toc-nav-number">5.</span> <span class="toc-nav-text">五、添加网卡</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link"><span class="toc-nav-number">6.</span> <span class="toc-nav-text">六、修改配置</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link"><span class="toc-nav-number">7.</span> <span class="toc-nav-text">七、启动openwrt</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link"><span class="toc-nav-number">8.</span> <span class="toc-nav-text">八、cpu跑分</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link"><span class="toc-nav-number">9.</span> <span class="toc-nav-text">九、网卡测速</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link"><span class="toc-nav-number">10.</span> <span class="toc-nav-text">十、把ash改成bash</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link"><span class="toc-nav-number">11.</span> <span class="toc-nav-text">十一、远程记录日志</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link"><span class="toc-nav-number">12.</span> <span class="toc-nav-text">十二、增大session过期时间</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link"><span class="toc-nav-number">13.</span> <span class="toc-nav-text">十三、安装qemu guest agent</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link"><span class="toc-nav-number">14.</span> <span class="toc-nav-text">十四、修改“半双工”</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link"><span class="toc-nav-number">15.</span> <span class="toc-nav-text">十五、ddns公网访问</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link"><span class="toc-nav-number">16.</span> <span class="toc-nav-text">十六、配置域名ssl证书</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link"><span class="toc-nav-number">17.</span> <span class="toc-nav-text">十七、防火墙 &gt; 端口转发</span></a></li></ol>
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">一、上传镜像</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">二、创建vm</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">三、生成磁盘</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link"><span class="toc-nav-number">4.</span> <span class="toc-nav-text">四、加载磁盘</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link"><span class="toc-nav-number">5.</span> <span class="toc-nav-text">五.一、添加直通网卡</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link"><span class="toc-nav-number">6.</span> <span class="toc-nav-text">五.二、添加桥接网卡</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link"><span class="toc-nav-number">7.</span> <span class="toc-nav-text">六、修改配置</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link"><span class="toc-nav-number">8.</span> <span class="toc-nav-text">七、启动openwrt</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link"><span class="toc-nav-number">9.</span> <span class="toc-nav-text">八、cpu跑分</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link"><span class="toc-nav-number">10.</span> <span class="toc-nav-text">九、网卡测速</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link"><span class="toc-nav-number">11.</span> <span class="toc-nav-text">十、把ash改成bash</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link"><span class="toc-nav-number">12.</span> <span class="toc-nav-text">十一、远程记录日志</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link"><span class="toc-nav-number">13.</span> <span class="toc-nav-text">十二、增大session过期时间</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link"><span class="toc-nav-number">14.</span> <span class="toc-nav-text">十三、安装qemu guest agent</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link"><span class="toc-nav-number">15.</span> <span class="toc-nav-text">十四、修改“半双工”</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link"><span class="toc-nav-number">16.</span> <span class="toc-nav-text">十五、ddns公网访问</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link"><span class="toc-nav-number">17.</span> <span class="toc-nav-text">十六、配置域名ssl证书</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link"><span class="toc-nav-number">18.</span> <span class="toc-nav-text">十七、防火墙 &gt; 端口转发</span></a></li></ol>
         
         </div>
       </aside>
