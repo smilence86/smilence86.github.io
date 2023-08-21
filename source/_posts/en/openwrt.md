@@ -59,7 +59,29 @@ ssh登录pve宿主机
 
 如果cpu支持vt-d硬件直通，则在“硬件添加pci”网卡
 
-![](pve_openwrt_pci.png)
+![](pve_openwrt_pci_ethernets.png)
+
+从上图看，主板有4个 Intel I226-V 网卡，其中一个是宿主机桥接使用的，避免直通这个网卡造成失联，先找到宿主机正在使用的物理网卡名称:
+
+![](pve_host_ethernet.png)
+
+桥接虚拟网卡名称为vmbr0，对应物理网卡名称为enp2s0
+
+查看这个网卡的pci编码：
+apt install lshw -y
+lshw -class network
+
+![](pve_ethernet_pci.png)
+
+enp2s0对应pci编码为0000:02:00:0，所以直通给vm要排除这个，选择其他网卡，比如0000:03:00:0：
+
+![](pve_openwrt_pci_ethernets.png)
+
+一般来讲，直通的这个网口就是紧挨者宿主机使用的网口
+
+![](n6000.png)
+  
+  
 
 如果cpu不支持vt-d硬件直通，则只能使用桥接网卡，先到pve节点网络下创建桥接网卡，备注为WAN口：
 
