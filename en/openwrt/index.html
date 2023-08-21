@@ -407,6 +407,7 @@
 <p>扩容5G：</p>
 <p><img src="pve_openwrt_disk_increment.png" alt=""></p>
 <h1>五、添加网卡</h1>
+<p>添加网卡前先不要启动虚拟机，否则系统第一次启动不会初始化WAN口。</p>
 <p>如果cpu支持vt-d硬件直通，则在“硬件添加pci”网卡</p>
 <p><img src="pve_openwrt_pci_ethernets.png" alt=""></p>
 <p>从上图看，主板有4个 Intel I226-V 网卡，其中一个是宿主机桥接使用的，避免直通这个网卡造成失联，先找到宿主机正在使用的物理网卡名称:</p>
@@ -420,6 +421,9 @@ lshw -class network</p>
 <p><img src="pve_openwrt_pci_ethernets.png" alt=""></p>
 <p>一般来讲，直通的这个网口就是紧挨者宿主机使用的网口</p>
 <p><img src="n6000.png" alt=""></p>
+<p>而且一般来讲跟宿主机桥接的网卡默认为LAN口，直通的pci网卡为WAN口，可以通过网口MAC地址核实，符合预期。</p>
+<p><img src="lan_mac.png" alt=""></p>
+<p><img src="openwrt_lan_mac.png" alt=""></p>
 <p>如果cpu不支持vt-d硬件直通，则只能使用桥接网卡，先到pve节点网络下创建桥接网卡，备注为WAN口：</p>
 <p><img src="pve_bridge_eth.png" alt=""></p>
 <p>回到openwrt硬件，添加网络设备，选择WAN：</p>
