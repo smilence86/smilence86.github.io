@@ -56,6 +56,7 @@ ssh登录pve宿主机
 ![](pve_openwrt_disk_increment.png)
 <br/>
 <br/>
+
 # 五.一、添加直通网卡
 
 添加网卡前先不要启动虚拟机，否则系统第一次启动不会初始化WAN口。
@@ -107,7 +108,8 @@ enp2s0对应pci编码为0000:02:00:0，所以直通给vm要排除这个，选择
 回到openwrt硬件，添加网络设备，选择WAN：
 
 ![](pve_openwrt_bridge_eth.png)
-
+<br/>
+<br/>
 
 # 六、修改配置
 
@@ -120,7 +122,8 @@ enp2s0对应pci编码为0000:02:00:0，所以直通给vm要排除这个，选择
 启用qemu guest agent，让pve宿主机能够与vm通讯：
 
 ![](pve_openwrt_qemu_guest_agent.png)
-
+<br/>
+<br/>
 
 # 七、启动openwrt
 
@@ -140,13 +143,18 @@ vim /etc/config/network
 ssh登录查看磁盘用量，df -Th：
 
 ![](pve_openwrt_disk_info.png)
-
+<br/>
+<br/>
 
 # 八、cpu跑分
 
 ssh执行: cd /etc && ./coremark.sh
 
-有的镜像是/sbin/cpumark，执行: cpumark
+有的固件是/sbin/cpumark，执行: cpumark
+
+有的固件是/sbin/coremark: coremark
+<br/>
+<br/>
 
 # 九、网卡测速
 
@@ -157,7 +165,8 @@ client: iperf3 -p 4000 -c 192.168.2.1
 ![](pve_openwrt_iperf3.png)
 
 因为不是直通，n3160性能偏弱跑不满千兆，7、800也够用。
-
+<br/>
+<br/>
 
 # 十、把ash改成bash
 ash不能记住历史命令，用起来不方便。
@@ -189,16 +198,21 @@ alias la='ls -A'
 alias l='ls -CF'
 
 执行命令生效：source ~/.bashrc
+<br/>
+<br/>
 
 # 十一、远程记录日志
 [https://www.betaflare.com/3730.html](https://www.betaflare.com/3730.html)
+<br/>
+<br/>
 
 # 十二、增大session过期时间
 
 vim /etc/config/luci
 
 option sessiontime '36000'
-
+<br/>
+<br/>
 
 # 十三、安装qemu guest agent
 
@@ -209,7 +223,8 @@ opkg install qemu-ga
 pve显示openwrt ip：
 
 ![](pve_openwrt_ip.png)
-
+<br/>
+<br/>
 
 # 十四、修改“半双工”
 
@@ -222,7 +237,8 @@ pve虚拟的openwrt网卡实际为全双工，显示为半双工且没有速度�
 ![](pve_openwrt_eth_full_duplex.png)
 
 ![](pve_openwrt_eths_full_duplex.png)
-
+<br/>
+<br/>
 
 # 十五、ddns公网访问
 
@@ -246,6 +262,8 @@ openwrt配置ddns：
 <img src="pve_openwrt_ddns_cf_detail.png"/>
 
 回到ddns列表界面，点击“重新加载”会修改域名解析，刷新cf dns列表，已经把 1.1.1.1 改成真实公网ip，本机ping一下验证是否成功。
+<br/>
+<br/>
 
 # 十六、配置域名ssl证书
 
@@ -347,7 +365,8 @@ server{
 查看nginx容器日志: docker logs -f --tail 500 nginx
 
 有错的话根据日志排查。
-
+<br/>
+<br/>
 
 # 十七、防火墙 > 端口转发
 
