@@ -420,7 +420,7 @@ lshw -class network</p>
 <p>enp2s0对应pci编码为0000:02:00:0，所以直通给vm要排除这个，选择其他网卡，比如0000:03:00:0：</p>
 <p><img src="pve_openwrt_pci_ethernets.png" alt=""></p>
 <p>一般来讲，直通的这个网口就是紧挨者宿主机使用的网口</p>
-<p><img src="n6000.png" alt=""></p>
+<p><img src="n6000.jpg" alt=""></p>
 <p>而且一般来讲跟宿主机桥接的网卡默认为LAN口，直通的pci网卡为WAN口，可以通过网口MAC地址核实，符合预期。</p>
 <p><img src="lan_mac.png" alt=""></p>
 <p><img src="openwrt_lan_mac.png" alt=""></p>
