@@ -414,7 +414,7 @@
 <img src="n3160_vs_n6000.png" alt=""></p>
 <p><img src="pve_openwrt_pci_ethernets.png" alt=""></p>
 <p>从上图看，主板有4个 Intel I226-V 网卡，其中一个是宿主机桥接使用的，避免直通这个网卡造成失联</p>
-<p>如果担心直通错误可以先把openwrt设为开机不自启，就算错了抢救起来比较容易，重启宿主机就行。</p>
+<p>如果担心直通错误可以先把openwrt设为开机不自启，就算错了救起来比较容易，重启宿主机就行。</p>
 <p>先找到宿主机正在使用的物理网卡名称:</p>
 <p><img src="pve_host_ethernet.png" alt=""></p>
 <p>桥接虚拟网卡名称为vmbr0，对应物理网卡名称为enp2s0</p>
@@ -422,11 +422,11 @@
 apt install lshw -y<br>
 lshw -class network</p>
 <p><img src="pve_ethernet_pci.png" alt=""></p>
-<p>enp2s0对应pci编码为0000:02:00:0，所以直通给vm要排除这个，选择其他网卡比如0000:03:00:0：</p>
+<p>enp2s0对应pci编码为0000:02:00:0，且没有DISABLED标记，所以直通给vm要排除这个，选择其他网卡比如0000:03:00:0：</p>
 <p><img src="pve_openwrt_pci_ethernets.png" alt=""></p>
-<p>一般来讲，直通的这个网口就是紧挨者宿主机使用的网口</p>
+<p>因为按顺序使用，一般来讲直通的这个网口就是紧挨者宿主机使用的网口</p>
 <p><img src="n6000.jpg" alt=""></p>
-<p>而且一般来讲跟宿主机桥接的网卡默认为LAN口，直通的pci网卡为WAN口，可以通过网口MAC地址判断，符合预期。</p>
+<p>而且openwrt跟宿主机桥接共用的网卡默认为LAN口，直通的pci网卡为WAN口，开机启动后通过网口MAC地址判断，符合预期。</p>
 <p><img src="lan_mac.png" alt=""></p>
 <p><img src="openwrt_lan_mac.png" alt=""></p>
 <br/>
