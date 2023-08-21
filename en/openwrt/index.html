@@ -435,13 +435,17 @@ lshw -class network</p>
 <p>如果cpu不支持vt-d硬件直通，比如J1900、N3160，则只能使用桥接网卡，先到pve节点网络下创建桥接网卡，备注为WAN口：</p>
 <p><img src="pve_bridge_eth.png" alt=""></p>
 <p>回到openwrt硬件，添加网络设备，选择WAN：</p>
-<p><img src="pve_openwrt_bridge_eth.png" alt=""></p>
+<p><img src="pve_openwrt_bridge_eth.png" alt=""><br>
+<br/><br>
+<br/></p>
 <h1>六、修改配置</h1>
 <p>开机自启（start at boot）改为Yes</p>
 <p>启动顺序（boot order）改成附加的磁盘：</p>
 <p><img src="pve_openwrt_bootOrder.png" alt=""></p>
 <p>启用qemu guest agent，让pve宿主机能够与vm通讯：</p>
-<p><img src="pve_openwrt_qemu_guest_agent.png" alt=""></p>
+<p><img src="pve_openwrt_qemu_guest_agent.png" alt=""><br>
+<br/><br>
+<br/></p>
 <h1>七、启动openwrt</h1>
 <p>在pve web界面进入控制台ssh，按回车看到输入光标</p>
 <p>vim /etc/config/network<br>
@@ -451,16 +455,23 @@ lshw -class network</p>
 <p><img src="pve_openwrt_overview.png" alt=""></p>
 <p>用磁盘管理（diskman）把扩容的5G分区格式化成ext4，挂载给/opt目录，docker会使用opt作为overlay空间，不会消耗根目录容量。</p>
 <p>ssh登录查看磁盘用量，df -Th：</p>
-<p><img src="pve_openwrt_disk_info.png" alt=""></p>
+<p><img src="pve_openwrt_disk_info.png" alt=""><br>
+<br/><br>
+<br/></p>
 <h1>八、cpu跑分</h1>
 <p>ssh执行: cd /etc &amp;&amp; ./coremark.sh</p>
-<p>有的镜像是/sbin/cpumark，执行: cpumark</p>
+<p>有的固件是/sbin/cpumark，执行: cpumark</p>
+<p>有的固件是/sbin/coremark: coremark<br>
+<br/><br>
+<br/></p>
 <h1>九、网卡测速</h1>
 <p>opkg install iperf3<br>
 server: iperf3 -s -p 4000<br>
 client: iperf3 -p 4000 -c 192.168.2.1</p>
 <p><img src="pve_openwrt_iperf3.png" alt=""></p>
-<p>因为不是直通，n3160性能偏弱跑不满千兆，7、800也够用。</p>
+<p>因为不是直通，n3160性能偏弱跑不满千兆，7、800也够用。<br>
+<br/><br>
+<br/></p>
 <h1>十、把ash改成bash</h1>
 <p>ash不能记住历史命令，用起来不方便。</p>
 <p>opkg update &amp;&amp; opkg install bash<br>
@@ -483,23 +494,33 @@ HISTFILESIZE=-1</p>
 <p>alias ll=‘ls -alhFtr’<br>
 alias la=‘ls -A’<br>
 alias l=‘ls -CF’</p>
-<p>执行命令生效：source ~/.bashrc</p>
+<p>执行命令生效：source ~/.bashrc<br>
+<br/><br>
+<br/></p>
 <h1>十一、远程记录日志</h1>
-<p><a target="_blank" rel="noopener" href="https://www.betaflare.com/3730.html">https://www.betaflare.com/3730.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.betaflare.com/3730.html">https://www.betaflare.com/3730.html</a><br>
+<br/><br>
+<br/></p>
 <h1>十二、增大session过期时间</h1>
 <p>vim /etc/config/luci</p>
-<p>option sessiontime ‘36000’</p>
+<p>option sessiontime ‘36000’<br>
+<br/><br>
+<br/></p>
 <h1>十三、安装qemu guest agent</h1>
 <p>opkg install qemu-ga</p>
 <p><img src="pve_openwrt_qemu_ga.png" alt=""></p>
 <p>pve显示openwrt ip：</p>
-<p><img src="pve_openwrt_ip.png" alt=""></p>
+<p><img src="pve_openwrt_ip.png" alt=""><br>
+<br/><br>
+<br/></p>
 <h1>十四、修改“半双工”</h1>
 <p>pve虚拟的openwrt网卡实际为全双工，显示为半双工且没有速度，可通过命令修改</p>
 <p>临时生效: ethtool -s eth0 speed 1000 duplex full</p>
 <p>永久生效: vim /etc/init.d/network</p>
 <p><img src="pve_openwrt_eth_full_duplex.png" alt=""></p>
-<p><img src="pve_openwrt_eths_full_duplex.png" alt=""></p>
+<p><img src="pve_openwrt_eths_full_duplex.png" alt=""><br>
+<br/><br>
+<br/></p>
 <h1>十五、ddns公网访问</h1>
 <p>家宽有公网ipv4，映射域名，配上证书，防火墙添加端口转发就可以公网访问。</p>
 <p>测试发现80、443端口不通，应该是运营商封了，退而求其次使用非标8443端口。</p>
@@ -511,7 +532,9 @@ alias l=‘ls -CF’</p>
 <img src="pve_openwrt_ddns_cf.png"/></p>
 <p>注意“查询主机名”跟“域名”格式不一样，前一个是“.”，后一个是“@”：</p>
 <img src="pve_openwrt_ddns_cf_detail.png"/>
-<p>回到ddns列表界面，点击“重新加载”会修改域名解析，刷新cf dns列表，已经把 1.1.1.1 改成真实公网ip，本机ping一下验证是否成功。</p>
+<p>回到ddns列表界面，点击“重新加载”会修改域名解析，刷新cf dns列表，已经把 1.1.1.1 改成真实公网ip，本机ping一下验证是否成功。<br>
+<br/><br>
+<br/></p>
 <h1>十六、配置域名ssl证书</h1>
 <p>web服务通常有多个，最好找台linux当网关统一转发流量，以debian为例，安装docker、nginx、acme.sh颁发证书并自动续期。</p>
 <p>获取nginx基础配置：<br>
@@ -542,7 +565,9 @@ crontab -l<br>
 <figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line">server&#123;</span><br><span class="line">	listen <span class="number">80</span>;</span><br><span class="line">	server_name openwrt.example.com;</span><br><span class="line"></span><br><span class="line">	client_max_body_size <span class="number">200</span>M;</span><br><span class="line">	<span class="comment">#access_log  /data/logs/nginx_json/access.log json;</span></span><br><span class="line"></span><br><span class="line">	return <span class="number">301</span> https:<span class="regexp">//</span><span class="variable">$host</span><span class="variable">$request_uri</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">server&#123;</span><br><span class="line">	listen <span class="number">443</span> ssl;</span><br><span class="line">	server_name openwrt.example.com;</span><br><span class="line"></span><br><span class="line">	gzip on;</span><br><span class="line">	gzip_min_length <span class="number">1</span>k;</span><br><span class="line">    gzip_buffers <span class="number">16</span> <span class="number">64</span>k;</span><br><span class="line">    gzip_http_version <span class="number">1.1</span>;</span><br><span class="line">    gzip_comp_level <span class="number">3</span>;</span><br><span class="line">    gzip_types text<span class="regexp">/plain application/</span>x-javascript application<span class="regexp">/javascript text/</span>javascript text<span class="regexp">/css application/</span>xml application<span class="regexp">/x-httpd-php image/</span>jpeg image<span class="regexp">/gif image/</span>png;</span><br><span class="line">    gzip_vary on;</span><br><span class="line">	client_max_body_size <span class="number">200</span>M;</span><br><span class="line">	<span class="comment">#access_log  /data/logs/nginx_json/access.log json;</span></span><br><span class="line"></span><br><span class="line">	ssl_certificate  <span class="regexp">/etc/</span>nginx<span class="regexp">/conf.d/</span>certs/*.example.com.fullchain.pem;</span><br><span class="line">    ssl_certificate_key <span class="regexp">/etc/</span>nginx<span class="regexp">/conf.d/</span>certs/*.example.com.privkey.pem;</span><br><span class="line">    ssl_session_timeout <span class="number">5</span>m;</span><br><span class="line">    ssl_ciphers ECDHE-RSA-AES128-GCM-SHA256:ECDHE:ECDH:AES:HIGH:!NULL:!aNULL:!MD5:!ADH:!RC4;</span><br><span class="line">    ssl_protocols TLSv1 TLSv1.<span class="number">1</span> TLSv1.<span class="number">2</span>;</span><br><span class="line">    ssl_prefer_server_ciphers on;</span><br><span class="line"></span><br><span class="line">    <span class="comment"># Prevent crawling</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="variable">$http_user_agent</span> ~* <span class="string">&quot;360Spider|JikeSpider|Spider|spider|bot|Bot|2345Explorer|curl|wget|webZIP|qihoobot|Baiduspider|Googlebot|Googlebot-Mobile|Googlebot-Image|Mediapartners-Google|Adsbot-Google|Feedfetcher-Google|Yahoo! Slurp|Yahoo! Slurp China|YoudaoBot|Sosospider|Sogou spider|Sogou web spider|MSNBot|ia_archiver|Tomato Bot|NSPlayer|bingbot&quot;</span>)&#123;</span><br><span class="line">        return <span class="number">403</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    location / &#123;</span><br><span class="line">		proxy_read_timeout <span class="number">60</span>m;</span><br><span class="line">		proxy_set_header Host <span class="variable">$host</span>;</span><br><span class="line">		proxy_set_header X-Forwarded-Proto https;</span><br><span class="line">		proxy_set_header X-Forwarded-For <span class="variable">$proxy_add_x_forwarded_for</span>;</span><br><span class="line">		proxy_set_header X-Real-IP <span class="variable">$remote_addr</span>;</span><br><span class="line">        proxy_set_header Connection <span class="string">&quot;upgrade&quot;</span>;</span><br><span class="line">		proxy_redirect off;</span><br><span class="line">		proxy_pass http:<span class="regexp">//</span><span class="number">192.168</span>.<span class="number">2.1</span>:<span class="number">80</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	error_page <span class="number">500</span> <span class="number">502</span> <span class="number">503</span> <span class="number">504</span> /<span class="number">50</span>x.html;</span><br><span class="line">	<span class="comment">#location = /50x.html &#123;</span></span><br><span class="line">	<span class="comment">#	root /data/www/error/;</span></span><br><span class="line">	<span class="comment">#&#125;</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>查看nginx容器状态: docker ps -a</p>
 <p>查看nginx容器日志: docker logs -f --tail 500 nginx</p>
-<p>有错的话根据日志排查。</p>
+<p>有错的话根据日志排查。<br>
+<br/><br>
+<br/></p>
 <h1>十七、防火墙 &gt; 端口转发</h1>
 <p>假设内网debian网关ip为192.168.2.103，则将外网8443/tcp端口转发到debian的443/tcp：</p>
 <img src="pve_openwrt_forward.png"/>
