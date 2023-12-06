@@ -53,6 +53,7 @@ docker run -d \
     -e PASSWORD=yourPassword \
     -e WG_DEFAULT_DNS=192.168.2.1 \
     -e WG_DEFAULT_ADDRESS=10.13.100.x \
+    -e WG_ALLOWED_IPS=192.168.2.0/24
     -e TZ=Asia/Shanghai \
     -v /opt/wg-easy:/etc/wireguard \
     -p 54321:51820/udp \
@@ -166,6 +167,7 @@ docker run -d \
     -e PASSWORD=yourPassword \
     -e WG_DEFAULT_DNS=192.168.2.1 \
     -e WG_DEFAULT_ADDRESS=10.13.100.x \
+    -e WG_ALLOWED_IPS=192.168.2.0/24
     -e TZ=Asia/Shanghai \
     -v /opt/wg-easy:/etc/wireguard \
     -p 54321:51820/udp \
