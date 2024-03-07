@@ -393,6 +393,42 @@
 <div class="post-preview">
   
 
+  <a href="/en/omv-crash/">
+    <h2 class="post-title">
+      omv掉盘
+    </h2>
+    <h3 class="post-subtitle">
+      omv openmediavault crash
+    </h3>
+    <div class="post-content-preview">
+      收到报警邮件，提示raid文件系统丢失：
+
+ssh登录omv，列出磁盘：
+
+对比发现少一块/dev/sdc，omv的磁盘列表还有，像是误显示
+
+最初搭建omv时没有直通整个sata控制器，qm set方式直通的，所以pve宿主机还能看到磁盘，但列表异常，usage显示No，正常该是linux_raid_member：
+
+omv磁盘阵列没了：
+
+文件系统丢失：
+
+网友修复记录：
+https:/......
+    </div>
+  </a>
+  
+  <p class="post-meta">
+    created at 2024-03-07
+  </p>
+  
+
+</div>
+<hr>
+
+<div class="post-preview">
+  
+
   <a href="/en/4g_wifi_dongle/">
     <h2 class="post-title">
       4g随身wifi刷入openwrt
@@ -692,6 +728,18 @@ vpn产品众多，对比发现wireguard效率高，速......
     <a href="/tags/#dongle" title="dongle" rel="1">dongle</a>
     
     
+    
+    <a href="/tags/#omv" title="omv" rel="1">omv</a>
+    
+    
+    
+    <a href="/tags/#openmediavault" title="openmediavault" rel="1">openmediavault</a>
+    
+    
+    
+    <a href="/tags/#crash" title="crash" rel="1">crash</a>
+    
+    
   </div>
 </section>
 
@@ -703,6 +751,10 @@ vpn产品众多，对比发现wireguard效率高，速......
 <h5><a href="/">RECENT POSTS</a></h5>
 <div class="widget">
   <ul>
+    
+    <a href="omv-crash/">
+      <li>omv掉盘</li>
+    </a>
     
     <a href="4g_wifi_dongle/">
       <li>4g随身wifi刷入openwrt</li>
@@ -720,10 +772,6 @@ vpn产品众多，对比发现wireguard效率高，速......
       <li>wireguard远程回家</li>
     </a>
     
-    <a href="redmi_ac2100/">
-      <li>红米ac2100刷openwrt</li>
-    </a>
-    
   </ul>
 </div>
 
@@ -734,7 +782,7 @@ vpn产品众多，对比发现wireguard效率高，速......
 
 <h5><a href="/archives/">archives</a></h5>
 <div class="widget">
-  <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="../archives/2022/06/">June 2022</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2022/04/">April 2022</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2022/03/">March 2022</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2022/02/">February 2022</a><span class="archive-list-count">1</span></li></ul>
+  <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="../archives/2024/03/">March 2024</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2022/06/">June 2022</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2022/04/">April 2022</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2022/03/">March 2022</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2022/02/">February 2022</a><span class="archive-list-count">1</span></li></ul>
 </div>
 
 
@@ -791,7 +839,7 @@ vpn产品众多，对比发现wireguard效率高，速......
         <p class="copyright text-muted">
           Copyright &copy;
           smilence86
-          2023
+          2024
           <br>
           Theme by
           <a target="_blank" rel="noopener" href="http://beantech.org">BeanTech</a>
