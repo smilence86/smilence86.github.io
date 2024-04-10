@@ -398,32 +398,32 @@ CPU：AMD 4700ge 8核16线程 TDP 35瓦<br>
 UPS：SVC BX1450L<br>
 硬盘：4 * 西数紫盘8T(WD80PURX)</p>
 <p>硬盘裸装win10，8核16线程适合多任务:</p>
-<p><img src="win10_cpu.png" alt=""></p>
+<img src="win10_cpu.png" class="img-zoomable" />
 <p>内存：<br>
-<img src="win10_memory.png" alt=""></p>
+<img src="win10_memory.png" class="img-zoomable" /></p>
 <p>amd vega radeon集成显卡：<br>
-<img src="win10_radeon.png" alt=""></p>
+<img src="win10_radeon.png" class="img-zoomable" /></p>
 <p>cpuz:<br>
-<img src="win10_cpuz.png" alt=""></p>
+<img src="win10_cpuz.png" class="img-zoomable" /></p>
 <p>cpuz集成显卡:<br>
-<img src="win10_cpuz_vega_radeon.png" alt=""></p>
+<img src="win10_cpuz_vega_radeon.png" class="img-zoomable" /></p>
 <p>cpu跑分：单线程533，多线程5300<br>
-<img src="win10_cpuz_bench.png" alt=""></p>
+<img src="win10_cpuz_bench.png" class="img-zoomable" /></p>
 <p>待机功耗：<br>
-<img src="win10_standby_power.png" alt=""></p>
+<img src="win10_standby_power.png" class="img-zoomable" /></p>
 <p>英睿达P5健康度：<br>
-<img src="CrystalDiskInfo.png" alt=""></p>
+<img src="CrystalDiskInfo.png" class="img-zoomable" /></p>
 <p>英睿达P5读写测速：<br>
-<img src="CrystalDiskMark.png" alt=""></p>
+<img src="CrystalDiskMark.png" class="img-zoomable" /></p>
 <p>内存8g，频率3000，鲁大师跑分：<br>
-<img src="ludashi_bench.png" alt=""></p>
+<img src="ludashi_bench.png" class="img-zoomable" /></p>
 <br/>
 <hr>
 <br/>
 <p>接下来进入bios开启amd虚拟化，u盘安装pve，开启硬件直通，在虚拟机里测性能</p>
-<p><img src="pve_dashboard.png" alt=""></p>
+<img src="pve_dashboard.png" class="img-zoomable" />
 <p>在pve7以后可以直接在web界面关闭企业源，启用非生产环境源获得系统更新：</p>
-<p><img src="pve_subscription.png" alt=""></p>
+<img src="pve_subscription.png" class="img-zoomable" />
 <br/>
 <h2 id="安装大礼包：">安装大礼包：</h2>
 <p>apt update<br>
@@ -445,8 +445,6 @@ bash -c ‘for ((i=0;i&lt;$(nproc);i++)); do cpufreq-set -c $i -g performance; d
 <h2 id="查看温度：">查看温度：</h2>
 <p>apt install lm-sensors<br>
 sensors</p>
-<h2 id="安装深色主题：">安装深色主题：</h2>
-<p>bash &lt;(curl -s ht<span>tps://</span><a target="_blank" rel="noopener" href="http://raw.githubusercontent.com/Weilbyte/PVEDiscordDark/master/PVEDiscordDark.sh">raw.githubusercontent.com/Weilbyte/PVEDiscordDark/master/PVEDiscordDark.sh</a> ) install</p>
 <h2 id="安装pvetools扩展功能：">安装pvetools扩展功能：</h2>
 <p><a target="_blank" rel="noopener" href="https://github.com/ivanhao/pvetools">https://github.com/ivanhao/pvetools</a></p>
 <h2 id="安装ufw防火墙">安装ufw防火墙</h2>
@@ -469,59 +467,61 @@ swapon /swapfile</p>
 <h2 id="iperf3测速">iperf3测速</h2>
 <p>pve宿主机作为server: iperf3 -s -p 4000<br>
 pve虚拟ubuntu作为client: iperf3 -p 4000 -c 192.168.2.150</p>
-<p><img src="pve_ubuntu_iperf3.png" alt=""></p>
+<img src="pve_ubuntu_iperf3.png" class="img-zoomable" />
 <p>pve待机功耗：<br>
-<img src="pve_standby_power.jpg" alt=""></p>
+<img src="pve_standby_power.jpg" class="img-zoomable" /></p>
 <p>跟裸装win10待机功耗一样，都是20瓦。</p>
 <p>pve虚拟一台win10待机功耗：<br>
-<img src="pve_win10_standby_power.jpg" alt=""></p>
+<img src="pve_win10_standby_power.jpg" class="img-zoomable" /></p>
 <p>多3瓦。</p>
 <p>pve虚拟win10，cpu类型选host，分配所有线程跑分：<br>
-<img src="pve_win10_cpuz_bench.png" alt=""></p>
+<img src="pve_win10_cpuz_bench.png" class="img-zoomable" /></p>
 <p>分数很接近裸装win10，性能损失3%左右。</p>
 <p>pve虚拟win10，磁盘为IDE测速：<br>
-<img src="pve_IDE.png" alt=""><br>
-<img src="pve_win10_ide_bench.png" alt=""></p>
+<img src="pve_IDE.png" class="img-zoomable" /><br>
+<img src="pve_win10_ide_bench.png" class="img-zoomable" /></p>
 <p>pve虚拟win10，磁盘为SCSI测速：<br>
-<img src="pve_scsi.png" alt=""><br>
-<img src="pve_win10_scsi_bench.png" alt=""></p>
+<img src="pve_scsi.png" class="img-zoomable" /><br>
+<img src="pve_win10_scsi_bench.png" class="img-zoomable" /></p>
 <p>显而易见，应该选择SCSI作为虚拟机磁盘格式。</p>
 <p>但选择SCSI安装win10不能识别磁盘，需要加载驱动：<br>
-<img src="pve_win10_no_disk.png" alt=""><br>
-<img src="pve_win10_scsi_driver.png" alt=""><br>
-<img src="pve_win10_scsi_disk.png" alt=""></p>
+<img src="pve_win10_no_disk.png" class="img-zoomable" /><br>
+<img src="pve_win10_scsi_driver.png" class="img-zoomable" /><br>
+<img src="pve_win10_scsi_disk.png" class="img-zoomable" /></p>
 <p>解决直通分组问题：<br>
 <a target="_blank" rel="noopener" href="https://pve.proxmox.com/wiki/Pci_passthrough#AMD_CPU">https://pve.proxmox.com/wiki/Pci_passthrough#AMD_CPU</a></p>
 <p><a target="_blank" rel="noopener" href="https://mechanical-consciousness.com/2020/03/20/kvm-gpu-passthrough.html">https://mechanical-consciousness.com/2020/03/20/kvm-gpu-passthrough.html</a></p>
 <p><a target="_blank" rel="noopener" href="https://post.smzdm.com/p/alpwlzvp/">https://post.smzdm.com/p/alpwlzvp/<br>
 </a></p>
+<p>pve8.1版本对应配置：<br>
+GRUB_CMDLINE_LINUX_DEFAULT=“quiet intel_pstate=disable amd_iommu=on iommu=pt textonly pcie_acs_override=downstream,multifunction initcall_blacklist=sysfb_init”</p>
 <p>分组前，尝试给win10直通2张显卡：<br>
-<img src="before_group.png" alt=""></p>
+<img src="before_group.png" class="img-zoomable" /></p>
 <p>由上图可见，安装2张显卡后3070跟主板2.5G网卡的分组都是9，把3070直通给win10整个pve宿主机都断网失控，这时就要对PCI设备分组</p>
 <p>分组后3070变成17，2.5G网卡变成20：<br>
-<img src="after_group.png" alt=""></p>
+<img src="after_group.png" class="img-zoomable" /></p>
 <p>甚至板载AX200无线网卡也分了新的组19，之后就可以进行正常直通。</p>
 <p>测试显卡挖矿，直通后性能没有损失，跟裸装一样：</p>
-<p><img src="pve_win10_mine_eth.png" alt=""></p>
+<img src="pve_win10_mine_eth.png" class="img-zoomable" />
 <p>pve虚拟openwrt，cpu类型选host，分配所有线程跑分：<br>
-<img src="pve_openwrt.png" alt=""></p>
+<img src="pve_openwrt.png" class="img-zoomable" /></p>
 <p>pve虚拟debian作为server: iperf3 -s -p 4000<br>
 pve虚拟ubuntu作为client: iperf3 -p 4000 -c 192.168.2.103</p>
-<p><img src="pve_debian_ubuntu_iperf3.png" alt=""></p>
+<img src="pve_debian_ubuntu_iperf3.png" class="img-zoomable" />
 <p>pve虚拟2台win10，互拷文件：<br>
-<img src="pve_win10_transfer_speed.jpg" alt=""></p>
+<img src="pve_win10_transfer_speed.jpg" class="img-zoomable" /></p>
 <h2 id="意外断电">意外断电</h2>
 <p>把ups的usb直通给win10-miner：</p>
-<p><img src="pve_win10_ups_usb.png" alt=""></p>
+<img src="pve_win10_ups_usb.png" class="img-zoomable" />
 <p>停电后立马关机减轻电源负担：</p>
-<p><img src="ups.png" alt=""><br>
-<br>
-<br>
-bash脚本自动关机，pve会先关掉所有vm再关宿主机，前提是每个vm都安装了qemu-guest-agent：<br>
-mkdir -p /root/shutdown<br>
-cd /root/shutdown<br>
-touch <a target="_blank" rel="noopener" href="http://shutdown.sh">shutdown.sh</a><br>
-chmod +x <a target="_blank" rel="noopener" href="http://shutdown.sh">shutdown.sh</a></p>
+<img src="ups.png" class="img-zoomable" />
+\
+\
+bash脚本自动关机，pve会先关掉所有vm再关宿主机，前提是每个vm都安装了qemu-guest-agent：
+mkdir -p /root/shutdown
+cd /root/shutdown
+touch shutdown.sh
+chmod +x shutdown.sh
 <figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/bin/sh</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># apt install curl -y</span></span><br><span class="line"></span><br><span class="line"><span class="attribute">ip</span>=<span class="string">&quot;192.168.2.x&quot;</span>  #<span class="built_in"> ip </span>which will detecting</span><br><span class="line"><span class="attribute">time</span>=30             # interval time of detecting (seconds)</span><br><span class="line"><span class="attribute">triedCount</span>=12        # try count</span><br><span class="line"><span class="attribute">failCount</span>=0         # failed count</span><br><span class="line"></span><br><span class="line"><span class="attribute">chat_id</span>=<span class="string">&quot;&quot;</span></span><br><span class="line"><span class="attribute">telegramToken</span>=<span class="string">&quot;&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="attribute">path</span>=<span class="string">&quot;/root/shutdown/&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> <span class="literal">true</span></span><br><span class="line"><span class="keyword">do</span></span><br><span class="line">    <span class="attribute">date</span>=`date +%Y-%m-%d`</span><br><span class="line">    <span class="attribute">logfile</span>=<span class="variable">$path</span><span class="variable">$date</span><span class="string">&#x27;.log&#x27;</span></span><br><span class="line"></span><br><span class="line">    <span class="attribute">hostname</span>=hostname</span><br><span class="line">    echo <span class="string">&quot;Detected hostname: `<span class="variable">$&#123;hostname&#125;</span>`&quot;</span> &gt;&gt; <span class="variable">$logfile</span></span><br><span class="line"></span><br><span class="line">    <span class="attribute">notification</span>=<span class="string">&quot;curl -X POST --header &#x27;Content-Type: application/json&#x27; --data-raw &#x27;&#123;\&quot;chat_id\&quot;:\&quot;<span class="variable">$chat_id</span>\&quot;,\&quot;text\&quot;:\&quot;`<span class="variable">$hostname</span>` is shutting down.\&quot;&#125;&#x27; -m 10 https://api.telegram.org/bot<span class="variable">$telegramToken</span>/sendMessage&quot;</span></span><br><span class="line">    # eval <span class="variable">$notification</span></span><br><span class="line"></span><br><span class="line">    <span class="attribute">now</span>=`date +%Y-%m-%d\ %H:%M:%S`</span><br><span class="line">    # <span class="keyword">if</span><span class="built_in"> ping </span><span class="variable">$ip</span> -4 -c 2 | grep <span class="string">&#x27;time=&#x27;</span> &gt; <span class="variable">$path</span><span class="string">&#x27;temp.log&#x27;</span></span><br><span class="line">    <span class="keyword">if</span><span class="built_in"> ping </span><span class="variable">$ip</span> -4 -c 2 | grep <span class="string">&#x27;time=&#x27;</span> &gt;&gt; <span class="variable">$logfile</span></span><br><span class="line">    then</span><br><span class="line">        echo <span class="variable">$now</span> <span class="string">&#x27;ping success&#x27;</span> <span class="variable">$failCount</span> &gt;&gt; <span class="variable">$logfile</span></span><br><span class="line">        <span class="attribute">failCount</span>=0</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        <span class="attribute">failCount</span>=`expr <span class="variable">$failCount</span> + 1`</span><br><span class="line">        echo <span class="variable">$now</span> <span class="string">&#x27;ping failed&#x27;</span> <span class="variable">$failCount</span> &gt;&gt; <span class="variable">$logfile</span></span><br><span class="line">        <span class="keyword">if</span> test <span class="variable">$failCount</span> -ge <span class="variable">$triedCount</span></span><br><span class="line">        then</span><br><span class="line">            echo <span class="variable">$now</span> <span class="string">&#x27;execute shutdown&#x27;</span> &gt;&gt; <span class="variable">$logfile</span></span><br><span class="line">            eval <span class="variable">$notification</span></span><br><span class="line">            shutdown -h now</span><br><span class="line">        fi</span><br><span class="line">    fi</span><br><span class="line">    sleep <span class="variable">$time</span></span><br><span class="line">done</span><br></pre></td></tr></table></figure>
 <p>原理：pve每隔30秒ping一次192.168.2.x，累积达到12次（6分钟）则触发关机动作，关机前给自己telegram机器人发消息并记录日志，当然弱电箱光猫、路由器、交换机也有ups续命。</p>
 <p>vim /etc/rc.loacl</p>
@@ -612,7 +612,7 @@ reboot</p>
         <div id="toc" class="toc-article">
         <strong class="toc-title">Contents</strong>
         
-          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#%E5%AE%89%E8%A3%85%E5%A4%A7%E7%A4%BC%E5%8C%85%EF%BC%9A"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">安装大礼包：</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#%E6%9F%A5%E7%9C%8Bcpu%E5%BD%93%E5%89%8D%E5%B7%A5%E4%BD%9C%E9%A2%91%E7%8E%87%EF%BC%9A"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">查看cpu当前工作频率：</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#%E6%9F%A5%E7%9C%8Bcpu%E5%B7%A5%E4%BD%9C%E6%A8%A1%E5%BC%8F%EF%BC%9A"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">查看cpu工作模式：</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#%E6%9F%A5%E7%9C%8B%E6%B8%A9%E5%BA%A6%EF%BC%9A"><span class="toc-nav-number">4.</span> <span class="toc-nav-text">查看温度：</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#%E5%AE%89%E8%A3%85%E6%B7%B1%E8%89%B2%E4%B8%BB%E9%A2%98%EF%BC%9A"><span class="toc-nav-number">5.</span> <span class="toc-nav-text">安装深色主题：</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#%E5%AE%89%E8%A3%85pvetools%E6%89%A9%E5%B1%95%E5%8A%9F%E8%83%BD%EF%BC%9A"><span class="toc-nav-number">6.</span> <span class="toc-nav-text">安装pvetools扩展功能：</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#%E5%AE%89%E8%A3%85ufw%E9%98%B2%E7%81%AB%E5%A2%99"><span class="toc-nav-number">7.</span> <span class="toc-nav-text">安装ufw防火墙</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#%E5%A2%9E%E5%A4%A7%E8%99%9A%E6%8B%9F%E5%86%85%E5%AD%98-%E2%80%94%E2%80%94-swap%E4%BA%A4%E6%8D%A2%E5%88%86%E5%8C%BA"><span class="toc-nav-number">8.</span> <span class="toc-nav-text">增大虚拟内存 —— swap交换分区</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#iperf3%E6%B5%8B%E9%80%9F"><span class="toc-nav-number">9.</span> <span class="toc-nav-text">iperf3测速</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#%E6%84%8F%E5%A4%96%E6%96%AD%E7%94%B5"><span class="toc-nav-number">10.</span> <span class="toc-nav-text">意外断电</span></a></li></ol>
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#%E5%AE%89%E8%A3%85%E5%A4%A7%E7%A4%BC%E5%8C%85%EF%BC%9A"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">安装大礼包：</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#%E6%9F%A5%E7%9C%8Bcpu%E5%BD%93%E5%89%8D%E5%B7%A5%E4%BD%9C%E9%A2%91%E7%8E%87%EF%BC%9A"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">查看cpu当前工作频率：</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#%E6%9F%A5%E7%9C%8Bcpu%E5%B7%A5%E4%BD%9C%E6%A8%A1%E5%BC%8F%EF%BC%9A"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">查看cpu工作模式：</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#%E6%9F%A5%E7%9C%8B%E6%B8%A9%E5%BA%A6%EF%BC%9A"><span class="toc-nav-number">4.</span> <span class="toc-nav-text">查看温度：</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#%E5%AE%89%E8%A3%85pvetools%E6%89%A9%E5%B1%95%E5%8A%9F%E8%83%BD%EF%BC%9A"><span class="toc-nav-number">5.</span> <span class="toc-nav-text">安装pvetools扩展功能：</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#%E5%AE%89%E8%A3%85ufw%E9%98%B2%E7%81%AB%E5%A2%99"><span class="toc-nav-number">6.</span> <span class="toc-nav-text">安装ufw防火墙</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#%E5%A2%9E%E5%A4%A7%E8%99%9A%E6%8B%9F%E5%86%85%E5%AD%98-%E2%80%94%E2%80%94-swap%E4%BA%A4%E6%8D%A2%E5%88%86%E5%8C%BA"><span class="toc-nav-number">7.</span> <span class="toc-nav-text">增大虚拟内存 —— swap交换分区</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#iperf3%E6%B5%8B%E9%80%9F"><span class="toc-nav-number">8.</span> <span class="toc-nav-text">iperf3测速</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#%E6%84%8F%E5%A4%96%E6%96%AD%E7%94%B5"><span class="toc-nav-number">9.</span> <span class="toc-nav-text">意外断电</span></a></li></ol>
         
         </div>
       </aside>
