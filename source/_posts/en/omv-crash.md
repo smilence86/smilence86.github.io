@@ -15,11 +15,12 @@ categories:
 
 收到报警邮件，提示raid文件系统丢失：
   
-![](email-warning.png)
+<img src="email-warning.png" class="img-zoomable" />
 
 
 ssh登录omv，列出磁盘：
 
+<img src="list-disks.png" class="img-zoomable" />
 ![](list-disks.png)
 
 
@@ -124,15 +125,15 @@ mdadm --stop /dev/md0
 ![](recover.png)
 
 
-睡觉前看了眼，重建恢复进度90%，心想醒来就ok
+睡前看了眼，重建恢复进度90%，心想醒来就ok
 
-第二天发现打不开nas：
+第二天打不开：
 
 ![](omv-not-working.png)
 
 omv的ip也ping不通
 
-pve宿主机看到已经报错：
+pve宿主机显示报错：
 
 ![](omv-crash-again.png)
 
