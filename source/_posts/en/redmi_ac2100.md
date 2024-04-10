@@ -15,37 +15,37 @@ categories:
 
 来自小黄鱼￥119
 
-![](ac2100.png)
+<img src="ac2100.png" class="img-zoomable" />
 \
 \
 
 红米原系统：
 
-![](origin_system.png)
+<img src="origin_system.png" class="img-zoomable" />
 \
 \
 检查是否坏块：http://i.lckiss.com/?p=6761
 
-![](bad_blocks.png)
+<img src="bad_blocks.png" class="img-zoomable" />
 
 中奖，没有坏块！
 \
 \
 刷写breed：https://www.lotlab.org/2021/06/13/install-openwrt-on-redmi-ac2100/
 
-![](breed.png)
+<img src="breed.png" class="img-zoomable" />
 \
 \
 刷入openwrt，固件来源：https://www.right.com.cn/forum/thread-6529167-1-1.html
 
-![](op_overview.png)
+<img src="op_overview.png" class="img-zoomable" />
 \
 \
 检查是否有坏块：
 
-![](logs.png)
+<img src="logs.png" class="img-zoomable" />
 
-![](shell.png)
+<img src="shell.png" class="img-zoomable" />
 \
 \
 \
@@ -54,11 +54,11 @@ categories:
 ifconfig ra0 up  
 ifconfig rai0 up
 
-![](startup.png)
+<img src="startup.png" class="img-zoomable" />
 \
 \
 \
 意外的是，ac2100的cpu跟k2p相同，但跑分高不少，k2p只有4500：
   
-![](k2p.png)
+<img src="k2p.png" class="img-zoomable" />
 

@@ -14,7 +14,7 @@ categories:
 
 远程访问通常可以用向日葵、frp，但有限制，向日葵远程桌面还行，特定端口无法实现，比如ssh，frp可以做到任意端口但每个服务都要映射一次很繁琐，尤其是端口多的情况挨个配置也费劲，比如这77个端口:
 
-<img src="frp.png" width="300" />
+<img src="frp.png" width="300" class="img-zoomable" />
 
 <br/>
 
@@ -31,7 +31,7 @@ vpn产品众多，对比发现wireguard效率高，速度快，接下来介绍2�
 
 如果是固定公网ip直接A记录绑定域名就行，如果是动态公网ip则用ddns绑定，ddns可以跑在家内网任何一台机器，比如openwrt：
 
-<img src="ddns.png" width="200" />
+<img src="ddns.png" width="200" class="img-zoomable" />
 
 <br/>
 
@@ -72,7 +72,7 @@ docker run -d \
 
 openwrt必须是主路由拨号，旁路由无法设置wan口端口转发，在 网络 -> 防火墙 -> 端口转发 中设置，假设wg运行在debian，其ip为192.168.2.103，新增规则让外部54321/udp转发到debian的54321/udp端口：
 
-![](port.png)
+<img src="port.png" class="img-zoomable" />
 
 <br/>
 
@@ -80,33 +80,33 @@ openwrt必须是主路由拨号，旁路由无法设置wan口端口转发，在 
 
 在Turbo ACC中关闭SFE，否则客户端无法连接，“软件流量分载”可以打开：
 
-![](turboACC.png)
+<img src="turboACC.png" class="img-zoomable" />
 
 <br/>
 
 ## 添加peer客户端
 
 浏览器打开wg后台: [http://192.168.2.103:51821](http://192.168.2.103:51821)，添加一个客户端peer：
-![](wg.png)
+<img src="wg.png" class="img-zoomable" />
 
 <br/>
 
 ## 客户端连接
 
 手机扫码连接：
-<img src="wg_android.jpeg" width="300" />
+<img src="wg_android.jpeg" width="300" class="img-zoomable" />
 
 <br/>
 
 电脑wg客户端导入配置文件：
-<img src="wg_windows.jpg" width="500" />
+<img src="wg_windows.jpg" width="500" class="img-zoomable" />
 
 
 iphone要到美区app store下载wg客户端。
 
 至此可以通过外网4g远程访问家里设备，比如路由器管理页：
 
-<img src="openwrt.jpeg" width="300" />
+<img src="openwrt.jpeg" width="300" class="img-zoomable" />
 
 wg客户端连接成功就自动继承家里网络，如果家里挂了梯子，手机也拥有科学上网能力，相当于开了小飞机 or 小火箭。
 

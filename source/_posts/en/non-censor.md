@@ -51,11 +51,11 @@ addEventListener("fetch", (event) => {
 
 设置dns，ip地址随意填192.0.2.1：
 
-![](dns.png)
+<img src="dns.png" class="img-zoomable" />
 \
 \
 在worker中添加一个路由：
 
-![](route.png)
+<img src="route.png" class="img-zoomable" />
 
 这样，所有访问 https://blog.example.com 的流量都会经过worker处理，worker获取 https://xxx.deno.dev 的数据，deno获取vps ip数据，达到曲线救国的目的。

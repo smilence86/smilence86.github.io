@@ -210,6 +210,7 @@ alias l='ls -CF'
 
 vim /etc/config/luci
 
+改为7天
 option sessiontime '604800'
 <br/>
 <br/>
