@@ -387,70 +387,69 @@
 <img src="email-warning.png" class="img-zoomable" />
 <p>ssh登录omv，列出磁盘：</p>
 <img src="list-disks.png" class="img-zoomable" />
-![](list-disks.png)
 <p>对比发现少一块/dev/sdc，omv的磁盘列表还有，像是误显示</p>
-<p><img src="web-disks.png" alt=""></p>
+<img src="web-disks.png" class="img-zoomable" />
 <p>最初搭建omv时没有直通整个sata控制器，qm set方式直通的，所以pve宿主机还能看到磁盘，但列表异常，usage显示No，正常该是linux_raid_member：</p>
-<p><img src="pve-disks.png" alt=""></p>
+<img src="pve-disks.png" class="img-zoomable" />
 <p>omv磁盘阵列没了：</p>
-<p><img src="lost-raid.png" alt=""></p>
+<img src="lost-raid.png" class="img-zoomable" />
 <p>文件系统丢失：</p>
-<p><img src="missing-filesystem.png" alt=""></p>
+<img src="missing-filesystem.png" class="img-zoomable" />
 <p>网友修复记录：<br>
 <ins><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/553047294">https://zhuanlan.zhihu.com/p/553047294</a></ins></p>
 <p>论坛资料：<br>
 <ins><a target="_blank" rel="noopener" href="https://forum.openmediavault.org/index.php?thread/40522-raid-array-missing">https://forum.openmediavault.org/index.php?thread/40522-raid-array-missing</a></ins></p>
 <p>命令行检查raid状态<br>
 cat /proc/mdstat</p>
-<p><img src="check-raid-status.png" alt=""></p>
+<img src="check-raid-status.png" class="img-zoomable" />
 <p>raid状态是inactive，磁盘只有sda、sdb、sdd，同样缺少sdc</p>
 <p>检测单块硬盘，sdb：</p>
-<p><img src="check-one-disk.png" alt=""></p>
+<img src="check-one-disk.png" class="img-zoomable" />
 <p>开始处理，先停掉md0：</p>
 <p>mdadm --stop /dev/md0</p>
 <p>用剩下3块盘修复阵列：</p>
-<p><img src="rebuild-raid.png" alt=""></p>
+<img src="rebuild-raid.png" class="img-zoomable" />
 <p>刷新web界面，raid阵列恢复中：</p>
-<p><img src="web-rebuild-raid.png" alt=""></p>
+<img src="web-rebuild-raid.png" class="img-zoomable" />
 <p>状态是resyncing（pending），等待完成。</p>
 <p>等了10多个小时收到一封邮件：</p>
-<p><img src="email-raid-degraded-event.png" alt=""></p>
+<img src="email-raid-degraded-event.png" class="img-zoomable" />
 <p>不过阵列状态还是一样：</p>
-<p><img src="rebuild-completed.png" alt=""></p>
+<img src="rebuild-completed.png" class="img-zoomable" />
 <p>文件系统没挂载：</p>
-<p><img src="system-not-mounted.png" alt=""></p>
+<img src="system-not-mounted.png" class="img-zoomable" />
 <p>命令行重新检查raid状态，变为激活：</p>
-<p><img src="raid-active.png" alt=""></p>
+<img src="raid-active.png" class="img-zoomable" />
 <p>选中md阵列，点“Mount”即可挂载成功：</p>
-<p><img src="mount-filesystem.png" alt=""></p>
-<p><img src="mount-success.png" alt=""></p>
-<p><img src="filesystem.png" alt=""></p>
+<img src="mount-filesystem.png" class="img-zoomable" />
+<img src="mount-success.png" class="img-zoomable" />
+<img src="filesystem.png" class="img-zoomable" />
 <p>此时阵列状态显示为降级：</p>
-<p><img src="raid-degraded.png" alt=""></p>
+<img src="raid-degraded.png" class="img-zoomable" />
 <p>购买新盘，关机拆下旧盘替换新盘，点“Recover”加入阵列：</p>
-<p><img src="add-disk.png" alt=""></p>
+<img src="add-disk.png" class="img-zoomable" />
 <p>开始恢复同步：</p>
-<p><img src="recover.png" alt=""></p>
+<img src="recover.png" class="img-zoomable" />
 <p>睡前看了眼，重建恢复进度90%，心想醒来就ok</p>
 <p>第二天打不开：</p>
-<p><img src="omv-not-working.png" alt=""></p>
+<img src="omv-not-working.png" class="img-zoomable" />
 <p>omv的ip也ping不通</p>
 <p>pve宿主机显示报错：</p>
-<p><img src="omv-crash-again.png" alt=""></p>
+<img src="omv-crash-again.png" class="img-zoomable" />
 <p>重启后能识别所有磁盘，包括掉的新盘：</p>
-<p><img src="new-disk.png" alt=""></p>
+<img src="new-disk.png)" class="img-zoomable" />
 <p>此时raid状态还在重建99.8%，也就是说掉盘发生在99.8%的时候：</p>
-<p><img src="percent99.8.png" alt=""></p>
+<img src="percent99.8.png" class="img-zoomable" />
 <p>等了大概2分钟重建完成，此时状态：</p>
-<p><img src="clean.png" alt=""></p>
+<img src="clean.png" class="img-zoomable" />
 <p>md状态也是active正常：</p>
-<p><img src="active.png" alt=""></p>
+<img src="active.png" class="img-zoomable" />
 <p>记录此时（2023-12-29T06:16:00）新盘信息：</p>
-<p><img src="smart-info.png" alt=""></p>
+<img src="smart-info.png" class="img-zoomable" />
 <p>截图发给gpt，让它分析这块磁盘状况：</p>
-<p><img src="gpt-summary.png" alt=""></p>
+<img src="gpt-summary.png" class="img-zoomable" />
 <p>此时pve宿主机显示有4块磁盘用于raid，其中VLKH43HZ是采购的新盘：</p>
-<p><img src="review.png" alt=""></p>
+<img src="review.png" class="img-zoomable" />
 <p>目前为止3个月一切正常。</p>
 
 
