@@ -29,34 +29,34 @@ UPS：SVC BX1450L
 
 硬盘裸装win10，8核16线程适合多任务:
 
-![](win10_cpu.png)
+<img src="win10_cpu.png" class="img-zoomable" />
 
 内存：
-![](win10_memory.png)
+<img src="win10_memory.png" class="img-zoomable" />
 
 amd vega radeon集成显卡：
-![](win10_radeon.png)
+<img src="win10_radeon.png" class="img-zoomable" />
 
 cpuz:
-![](win10_cpuz.png)
+<img src="win10_cpuz.png" class="img-zoomable" />
 
 cpuz集成显卡:
-![](win10_cpuz_vega_radeon.png)
+<img src="win10_cpuz_vega_radeon.png" class="img-zoomable" />
 
 cpu跑分：单线程533，多线程5300
-![](win10_cpuz_bench.png)
+<img src="win10_cpuz_bench.png" class="img-zoomable" />
 
 待机功耗：
-![](win10_standby_power.png)
+<img src="win10_standby_power.png" class="img-zoomable" />
 
 英睿达P5健康度：
-![](CrystalDiskInfo.png)
+<img src="CrystalDiskInfo.png" class="img-zoomable" />
 
 英睿达P5读写测速：
-![](CrystalDiskMark.png)
+<img src="CrystalDiskMark.png" class="img-zoomable" />
 
 内存8g，频率3000，鲁大师跑分：
-![](ludashi_bench.png)
+<img src="ludashi_bench.png" class="img-zoomable" />
   
 <br/>
 
@@ -66,11 +66,11 @@ cpu跑分：单线程533，多线程5300
 
 接下来进入bios开启amd虚拟化，u盘安装pve，开启硬件直通，在虚拟机里测性能
 
-![](pve_dashboard.png)
+<img src="pve_dashboard.png" class="img-zoomable" />
 
 在pve7以后可以直接在web界面关闭企业源，启用非生产环境源获得系统更新：
 
-![](pve_subscription.png)
+<img src="pve_subscription.png" class="img-zoomable" />
 
 <br/>
 
@@ -103,9 +103,6 @@ apt install lm-sensors
 sensors
 
 
-## 安装深色主题：
-bash <(curl -s ht<span>tps://</span>raw.githubusercontent.com/Weilbyte/PVEDiscordDark/master/PVEDiscordDark.sh ) install
-
 ## 安装pvetools扩展功能：
 https://github.com/ivanhao/pvetools
 
@@ -136,39 +133,39 @@ swapon /swapfile
 pve宿主机作为server: iperf3 -s -p 4000
 pve虚拟ubuntu作为client: iperf3 -p 4000 -c 192.168.2.150
 
-![](pve_ubuntu_iperf3.png)
+<img src="pve_ubuntu_iperf3.png" class="img-zoomable" />
 
 
 pve待机功耗：
-![](pve_standby_power.jpg)
+<img src="pve_standby_power.jpg" class="img-zoomable" />
 
 跟裸装win10待机功耗一样，都是20瓦。
 
 pve虚拟一台win10待机功耗：
-![](pve_win10_standby_power.jpg)
+<img src="pve_win10_standby_power.jpg" class="img-zoomable" />
 
 多3瓦。
 
 
 pve虚拟win10，cpu类型选host，分配所有线程跑分：
-![](pve_win10_cpuz_bench.png)
+<img src="pve_win10_cpuz_bench.png" class="img-zoomable" />
 
 分数很接近裸装win10，性能损失3%左右。
 
 pve虚拟win10，磁盘为IDE测速：
-![](pve_IDE.png)
-![](pve_win10_ide_bench.png)
+<img src="pve_IDE.png" class="img-zoomable" />
+<img src="pve_win10_ide_bench.png" class="img-zoomable" />
 
 pve虚拟win10，磁盘为SCSI测速：
-![](pve_scsi.png)
-![](pve_win10_scsi_bench.png)
+<img src="pve_scsi.png" class="img-zoomable" />
+<img src="pve_win10_scsi_bench.png" class="img-zoomable" />
 
 显而易见，应该选择SCSI作为虚拟机磁盘格式。
 
 但选择SCSI安装win10不能识别磁盘，需要加载驱动：
-![](pve_win10_no_disk.png)
-![](pve_win10_scsi_driver.png)
-![](pve_win10_scsi_disk.png)
+<img src="pve_win10_no_disk.png" class="img-zoomable" />
+<img src="pve_win10_scsi_driver.png" class="img-zoomable" />
+<img src="pve_win10_scsi_disk.png" class="img-zoomable" />
 
 
 解决直通分组问题：
@@ -180,40 +177,43 @@ pve虚拟win10，磁盘为SCSI测速：
 ](https://post.smzdm.com/p/alpwlzvp/
 )
 
+pve8.1版本对应配置：
+GRUB_CMDLINE_LINUX_DEFAULT="quiet intel_pstate=disable amd_iommu=on iommu=pt textonly pcie_acs_override=downstream,multifunction initcall_blacklist=sysfb_init"
+
 分组前，尝试给win10直通2张显卡：
-![](before_group.png)
+<img src="before_group.png" class="img-zoomable" />
 
 由上图可见，安装2张显卡后3070跟主板2.5G网卡的分组都是9，把3070直通给win10整个pve宿主机都断网失控，这时就要对PCI设备分组
 
 分组后3070变成17，2.5G网卡变成20：
-![](after_group.png)
+<img src="after_group.png" class="img-zoomable" />
 
 甚至板载AX200无线网卡也分了新的组19，之后就可以进行正常直通。
 
 测试显卡挖矿，直通后性能没有损失，跟裸装一样：
 
-![](pve_win10_mine_eth.png)
+<img src="pve_win10_mine_eth.png" class="img-zoomable" />
 
 pve虚拟openwrt，cpu类型选host，分配所有线程跑分：
-![](pve_openwrt.png)
+<img src="pve_openwrt.png" class="img-zoomable" />
 
 
 pve虚拟debian作为server: iperf3 -s -p 4000
 pve虚拟ubuntu作为client: iperf3 -p 4000 -c 192.168.2.103
 
-![](pve_debian_ubuntu_iperf3.png)
+<img src="pve_debian_ubuntu_iperf3.png" class="img-zoomable" />
 
 pve虚拟2台win10，互拷文件：
-![](pve_win10_transfer_speed.jpg)
+<img src="pve_win10_transfer_speed.jpg" class="img-zoomable" />
 
 ## 意外断电
 把ups的usb直通给win10-miner：
 
-![](pve_win10_ups_usb.png)
+<img src="pve_win10_ups_usb.png" class="img-zoomable" />
 
 停电后立马关机减轻电源负担：
 
-![](ups.png)
+<img src="ups.png" class="img-zoomable" />
 \
 \
 bash脚本自动关机，pve会先关掉所有vm再关宿主机，前提是每个vm都安装了qemu-guest-agent：

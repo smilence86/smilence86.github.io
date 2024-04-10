@@ -20,11 +20,11 @@ categories:
 
 如果是压缩包img.gz格式要先解压成img上传
 
-![](upload_img.png)
+<img src="upload_img.png" class="img-zoomable" />
 
 pve版本7上传完成会显示文件存放路径: /var/lib/vz/template/iso
 
-![](pve_img.png)
+<img src="pve_img.png" class="img-zoomable" />
 
 pve版本6双击下方操作日志也会显示。
 
@@ -49,11 +49,11 @@ ssh登录pve宿主机
 
 双击未使用磁盘，添加：
 
-![](pve_openwrt_disk.png)
+<img src="pve_openwrt_disk.png" class="img-zoomable" />
 
 扩容5G：
 
-![](pve_openwrt_disk_increment.png)
+<img src="pve_openwrt_disk_increment.png" class="img-zoomable" />
 <br/>
 <br/>
 
@@ -62,9 +62,9 @@ ssh登录pve宿主机
 添加网卡前先不要启动虚拟机，否则系统第一次启动不会初始化WAN口。
 
 如果cpu支持vt-d硬件直通，则在“硬件添加pci”网卡
-![](n3160_vs_n6000.png)
+<img src="n3160_vs_n6000.png" class="img-zoomable" />
 
-![](pve_openwrt_pci_ethernets.png)
+<img src="pve_openwrt_pci_ethernets.png" class="img-zoomable" />
 
 从上图看，主板有4个 Intel I226-V 网卡，其中一个是宿主机桥接使用的，避免直通这个网卡造成失联
 
@@ -72,7 +72,7 @@ ssh登录pve宿主机
 
 先找到宿主机正在使用的物理网卡名称:
 
-![](pve_host_ethernet.png)
+<img src="pve_host_ethernet.png" class="img-zoomable" />
 
 上图显示，pve桥接虚拟网卡名称为vmbr0，对应物理网卡名称为enp2s0
 
@@ -80,21 +80,21 @@ ssh登录pve宿主机
 apt install lshw -y
 lshw -class network
 
-![](pve_ethernet_pci.png)
+<img src="pve_ethernet_pci.png" class="img-zoomable" />
 
 enp2s0对应pci编码为0000:02:00:0，且没有DISABLED标记，所以直通给vm要排除这个，选择其他网卡如0000:03:00:0：
 
-![](pve_openwrt_pci_ethernets.png)
+<img src="pve_openwrt_pci_ethernets.png" class="img-zoomable" />
 
 因为按顺序使用，一般来讲直通的这个网口就是紧挨者宿主机使用的网口
 
-![](n6000.jpg)
+<img src="n6000.jpg" class="img-zoomable" />
 
 而且openwrt跟宿主机桥接共用的网卡默认为LAN口，直通的pci网卡为WAN口，开机启动后通过网口MAC地址判断，符合预期。
 
-![](lan_mac.png)
+<img src="lan_mac.png" class="img-zoomable" />
 
-![](openwrt_lan_mac.png)
+<img src="openwrt_lan_mac.png" class="img-zoomable" />
 
 <br/>
 <br/>
@@ -103,11 +103,11 @@ enp2s0对应pci编码为0000:02:00:0，且没有DISABLED标记，所以直通给
 
 如果cpu不支持vt-d硬件直通，J1900、N3160这类较早芯片，就只能使用桥接网卡，先到pve节点网络下创建桥接网卡，备注为WAN口：
 
-![](pve_bridge_eth.png)
+<img src="pve_bridge_eth.png" class="img-zoomable" />
 
 回到openwrt硬件，添加网络设备，选择WAN：
 
-![](pve_openwrt_bridge_eth.png)
+<img src="pve_openwrt_bridge_eth.png" class="img-zoomable" />
 <br/>
 <br/>
 
@@ -117,11 +117,11 @@ enp2s0对应pci编码为0000:02:00:0，且没有DISABLED标记，所以直通给
 
 启动顺序（boot order）改成附加的磁盘：
 
-![](pve_openwrt_bootOrder.png)
+<img src="pve_openwrt_bootOrder.png" class="img-zoomable" />
 
 启用qemu guest agent，让pve宿主机能够与vm通讯：
 
-![](pve_openwrt_qemu_guest_agent.png)
+<img src="pve_openwrt_qemu_guest_agent.png" class="img-zoomable" />
 <br/>
 <br/>
 
@@ -136,13 +136,13 @@ vim /etc/config/network
 
 浏览器登录openwrt
 
-![](pve_openwrt_overview.png)
+<img src="pve_openwrt_overview.png" class="img-zoomable" />
 
 用磁盘管理（diskman）把扩容的5G分区格式化成ext4，挂载给/opt目录，docker会使用opt作为overlay空间，不会消耗根目录容量。
 
 ssh登录查看磁盘用量，df -Th：
 
-![](pve_openwrt_disk_info.png)
+<img src="pve_openwrt_disk_info.png" class="img-zoomable" />
 <br/>
 <br/>
 
@@ -162,7 +162,7 @@ opkg install iperf3
 server: iperf3 -s -p 4000
 client: iperf3 -p 4000 -c 192.168.2.1
 
-![](pve_openwrt_iperf3.png)
+<img src="pve_openwrt_iperf3.png" class="img-zoomable" />
 
 因为不是直通，n3160性能偏弱跑不满千兆，7、800也够用。
 <br/>
@@ -218,11 +218,11 @@ option sessiontime '604800'
 
 opkg install qemu-ga
 
-![](pve_openwrt_qemu_ga.png)
+<img src="pve_openwrt_qemu_ga.png" class="img-zoomable" />
 
 pve显示openwrt ip：
 
-![](pve_openwrt_ip.png)
+<img src="pve_openwrt_ip.png" class="img-zoomable" />
 <br/>
 <br/>
 
@@ -234,9 +234,9 @@ pve虚拟的openwrt网卡实际为全双工，显示为半双工且没有速度�
 
 永久生效: vim /etc/init.d/network
 
-![](pve_openwrt_eth_full_duplex.png)
+<img src="pve_openwrt_eth_full_duplex.png" class="img-zoomable" />
 
-![](pve_openwrt_eths_full_duplex.png)
+<img src="pve_openwrt_eths_full_duplex.png" class="img-zoomable" />
 <br/>
 <br/>
 
@@ -248,18 +248,18 @@ pve虚拟的openwrt网卡实际为全双工，显示为半双工且没有速度�
 
 首先配置域名，我用的cloudflare，在dns添加一条A记录，ip随意比如1.1.1.1：
 
-<img src="cloudflare_dns.png"/>
+<img src="cloudflare_dns.png" class="img-zoomable" />
 
 openwrt配置ddns：
 
-<img src="pve_openwrt_ddns.png" width="200"/>
+<img src="pve_openwrt_ddns.png" width="200" class="img-zoomable" />
 
 添加ddns服务：
-<img src="pve_openwrt_ddns_cf.png"/>
+<img src="pve_openwrt_ddns_cf.png" class="img-zoomable" />
 
 注意“查询主机名”跟“域名”格式不一样，前一个是“.”，后一个是“@”：
 
-<img src="pve_openwrt_ddns_cf_detail.png"/>
+<img src="pve_openwrt_ddns_cf_detail.png" class="img-zoomable" />
 
 回到ddns列表界面，点击“重新加载”会修改域名解析，刷新cf dns列表，已经把 1.1.1.1 改成真实公网ip，本机ping一下验证是否成功。
 <br/>
@@ -372,12 +372,12 @@ server{
 
 假设内网debian网关ip为192.168.2.103，则将外网8443/tcp端口转发到debian的443/tcp：
 
-<img src="pve_openwrt_forward.png"/>
+<img src="pve_openwrt_forward.png" class="img-zoomable" />
 
 
 之后可以通过 https://openwrt.example.com:8443 访问家里openwrt，其他服务同理：
 
-<img src="pve_openwrt_ddns_list.png"/>
+<img src="pve_openwrt_ddns_list.png" class="img-zoomable" />
 
 
 
