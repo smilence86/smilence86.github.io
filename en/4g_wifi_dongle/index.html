@@ -388,57 +388,57 @@
         <p>google now推荐了一篇文章：</p>
 <p><ins><a target="_blank" rel="noopener" href="https://qust.me/post/msm8916">4g 随身 Wi-Fi 刷 openwrt 变成软路由</a></ins></p>
 <p>点进去一看，有点意思，居然跑的是android系统，可以刷成debian或openwrt，果断买了博主推荐型号，天天特卖工厂店￥28那款</p>
-<p><img src="order.png" alt=""></p>
+<img src="order.png" class="img-zoomable" />
 <p>4天后到货：</p>
-<p><img src="good.jpg" alt=""></p>
-<p><img src="good1.jpg" alt=""></p>
+<img src="good.jpg" class="img-zoomable" />
+<img src="good1.jpg" class="img-zoomable" />
 <p>拆下3颗螺丝取下外壳：</p>
-<p><img src="good2.jpg" alt=""></p>
+<img src="good2.jpg" class="img-zoomable" />
 <p>丝印为：UFI001C_MB_V01</p>
-<p><img src="version.png" alt=""></p>
+<img src="version.png" class="img-zoomable" />
 <p>通电开机，原版android系统信息：</p>
-<p><img src="esim.png" alt=""></p>
+<img src="esim.png" class="img-zoomable" />
 <p>换自己联通4G卡，测试正常可用，系统默认使用esim（sim卡2），需要切换成自己卡（sim卡1），切换密码：UFIadmin1234：</p>
-<p><img src="sim.png" alt=""></p>
+<img src="sim.png" class="img-zoomable" />
 <p>原装android系统测速：</p>
-<p><img src="android_speed.png" alt=""></p>
+<img src="android_speed.png" class="img-zoomable" />
 <p>接下来下载工具开始备份、刷机</p>
 <p>下载安装好9008驱动</p>
 <p>机身有个按钮，按住通电，连接电脑，在设备管理器可以看到COM口正常识别：</p>
-<p><img src="COM.png" alt=""></p>
+<img src="COM.png" class="img-zoomable" />
 <p>安装miko工具备份原版android系统，用于救砖恢复：</p>
-<p><img src="miko.png" alt=""></p>
-<p><img src="miko1.png" alt=""></p>
+<img src="miko.png" class="img-zoomable" />
+<img src="miko1.png" class="img-zoomable" />
 <p>生成一个3.56G的bin镜像文件</p>
 <p>下载搞机工具箱，解压运行不用安装，点击“线刷专区”：</p>
-<p><img src="gaoji.png" alt=""></p>
+<img src="gaoji.png" class="img-zoomable" />
 <p>点击“Fastboot”:<br>
-<img src="fastboot.png" alt=""></p>
+<img src="fastboot.png" class="img-zoomable" /></p>
 <p>下载openwrt固件：<ins><a target="_blank" rel="noopener" href="https://www.kancloud.cn/a813630449/ufi_car/2792820">https://www.kancloud.cn/a813630449/ufi_car/2792820</a><ins></p>
 <p>作者已经做好了一键刷入脚本，windows点击flash.bat开始刷入固件，期间可能要按几次回车：</p>
-<p><img src="flash_openwrt.png" alt=""></p>
+<img src="flash_openwrt.png" class="img-zoomable" />
 <p>出现all done! 表示刷写完成，手机能搜到wifi：HandSomeMod_7382表示openwrt启动成功，连接wifi，浏览器输入http://192.168.1.1，帐号root，无密码</p>
-<p><img src="openwrt.png" alt=""></p>
+<img src="openwrt.png" class="img-zoomable" />
 <p>ssh登录，查看硬件配置：</p>
-<p><img src="hardware.png" alt=""></p>
-<p><img src="cpu.png" alt=""></p>
+<img src="hardware.png" class="img-zoomable" />
+<img src="cpu.png" class="img-zoomable" />
 <p>cpu是4核64位arm架构，指令集偏少</p>
 <p>内存385M</p>
 <p>磁盘3.2G</p>
 <p>硬件配置比市面上大多数硬路由都高 [doge]。</p>
 <p>能运行docker</p>
 <p>网络通畅，wan口用的4g调制解调器：</p>
-<p><img src="modem.png" alt=""></p>
+<img src="modem.png" class="img-zoomable" />
 <p>安装 <ins><a target="_blank" rel="noopener" href="https://github.com/juewuy/ShellClash">ShellClash</a></ins> 就能作为简易科学上网软路由：</p>
-<p><img src="shellclash.png" alt=""></p>
+<img src="shellclash.png" class="img-zoomable" />
 <p>速度嘛，跟android原版一样，openwrt测速依然感人，不知道被谁封印了：</p>
-<p><img src="openwrt_speed.png" alt=""></p>
+<img src="openwrt_speed.png" class="img-zoomable" />
 <p>使用过程中有次遇到一个问题，web界面无法保存任何配置，ssh登录发现磁盘只读不能写，猜测可能是多次插拔导致：</p>
-<p><img src="read-only.jpg" alt=""></p>
+<img src="read-only.jpg" class="img-zoomable" />
 <p>网上查找修复办法，先找出根目录磁盘路径：</p>
-<p><img src="disk.png" alt=""></p>
+<img src="disk.png" class="img-zoomable" />
 <p>使用命令修复：e2fsck -y /dev/mmcblk0p14</p>
-<p><img src="e2fsck.png" alt=""></p>
+<img src="e2fsck.png" class="img-zoomable" />
 <p>执行完，reboot重启搞定。</p>
 
 
