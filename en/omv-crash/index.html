@@ -94,7 +94,7 @@
       omv掉盘 - smilence
     
   </title>
-<meta name="generator" content="Hexo 5.4.1"></head>
+<!-- hexo injector head_end start --><script src="https://unpkg.com/zooming/build/zooming.min.js"></script><link rel="stylesheet" href="/css/zooming.css" /><!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.4.1"></head>
 
 
 <!-- hack iOS CSS :active style -->
@@ -226,6 +226,8 @@
               
             </a>
           </li>
+          
+          
           
           
 
@@ -382,9 +384,10 @@
       <div class="col-lg-8 col-lg-offset-1 col-md-10 col-md-offset-1 post-container">
 
         <p>收到报警邮件，提示raid文件系统丢失：</p>
-<p><img src="email-warning.png" alt=""></p>
+<img src="email-warning.png" class="img-zoomable" />
 <p>ssh登录omv，列出磁盘：</p>
-<p><img src="list-disks.png" alt=""></p>
+<img src="list-disks.png" class="img-zoomable" />
+![](list-disks.png)
 <p>对比发现少一块/dev/sdc，omv的磁盘列表还有，像是误显示</p>
 <p><img src="web-disks.png" alt=""></p>
 <p>最初搭建omv时没有直通整个sata控制器，qm set方式直通的，所以pve宿主机还能看到磁盘，但列表异常，usage显示No，正常该是linux_raid_member：</p>
@@ -428,11 +431,11 @@ cat /proc/mdstat</p>
 <p><img src="add-disk.png" alt=""></p>
 <p>开始恢复同步：</p>
 <p><img src="recover.png" alt=""></p>
-<p>睡觉前看了眼，重建恢复进度90%，心想醒来就ok</p>
-<p>第二天发现打不开nas：</p>
+<p>睡前看了眼，重建恢复进度90%，心想醒来就ok</p>
+<p>第二天打不开：</p>
 <p><img src="omv-not-working.png" alt=""></p>
 <p>omv的ip也ping不通</p>
-<p>pve宿主机看到已经报错：</p>
+<p>pve宿主机显示报错：</p>
 <p><img src="omv-crash-again.png" alt=""></p>
 <p>重启后能识别所有磁盘，包括掉的新盘：</p>
 <p><img src="new-disk.png" alt=""></p>
@@ -1100,5 +1103,5 @@ start: '#bbbbee', end: '#0085a1' } }; $('#tag_cloud a').tagcloud(); }) } </scrip
     });
 </script>
 <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-</body>
+<!-- hexo injector body_end start --><script>document.addEventListener("DOMContentLoaded", function () {new Zooming({customSize: "80%", "bgColor":"rgb(0, 0, 0)", "bgOpacity":0.6, "enableGrab": true}).listen(".img-zoomable")})</script><!-- hexo injector body_end end --></body>
 </html>
