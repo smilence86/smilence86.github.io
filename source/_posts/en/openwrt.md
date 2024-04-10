@@ -253,7 +253,7 @@ pve虚拟的openwrt网卡实际为全双工，显示为半双工且没有速度�
 
 openwrt配置ddns：
 
-<img src="pve_openwrt_ddns.png" width="200" class="img-zoomable" />
+<img src="pve_openwrt_ddns.png" style="width: 300px" class="img-zoomable" />
 
 添加ddns服务：
 <img src="pve_openwrt_ddns_cf.png" class="img-zoomable" />
@@ -373,12 +373,12 @@ server{
 
 假设内网debian网关ip为192.168.2.103，则将外网8443/tcp端口转发到debian的443/tcp：
 
-<img src="pve_openwrt_forward.png" class="img-zoomable" />
+<img src="pve_openwrt_forward.png" style="width: 500px" class="img-zoomable" />
 
 
 之后可以通过 https://openwrt.example.com:8443 访问家里openwrt，其他服务同理：
 
-<img src="pve_openwrt_ddns_list.png" class="img-zoomable" />
+<img src="pve_openwrt_ddns_list.png" style="width: 500px" class="img-zoomable" />
 
 
 

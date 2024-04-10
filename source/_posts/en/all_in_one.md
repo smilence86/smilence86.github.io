@@ -29,34 +29,34 @@ UPS：SVC BX1450L
 
 硬盘裸装win10，8核16线程适合多任务:
 
-<img src="win10_cpu.png" class="img-zoomable" />
+<img src="win10_cpu.png" style="width: 500px" class="img-zoomable" />
 
 内存：
-<img src="win10_memory.png" class="img-zoomable" />
+<img src="win10_memory.png" style="width: 500px" class="img-zoomable" />
 
 amd vega radeon集成显卡：
-<img src="win10_radeon.png" class="img-zoomable" />
+<img src="win10_radeon.png" style="width: 500px" class="img-zoomable" />
 
 cpuz:
-<img src="win10_cpuz.png" class="img-zoomable" />
+<img src="win10_cpuz.png" style="width: 500px" class="img-zoomable" />
 
 cpuz集成显卡:
-<img src="win10_cpuz_vega_radeon.png" class="img-zoomable" />
+<img src="win10_cpuz_vega_radeon.png" style="width: 500px" class="img-zoomable" />
 
 cpu跑分：单线程533，多线程5300
-<img src="win10_cpuz_bench.png" class="img-zoomable" />
+<img src="win10_cpuz_bench.png" style="width: 500px" class="img-zoomable" />
 
 待机功耗：
-<img src="win10_standby_power.png" class="img-zoomable" />
+<img src="win10_standby_power.png" style="width: 500px" class="img-zoomable" />
 
 英睿达P5健康度：
-<img src="CrystalDiskInfo.png" class="img-zoomable" />
+<img src="CrystalDiskInfo.png" style="width: 500px" class="img-zoomable" />
 
 英睿达P5读写测速：
-<img src="CrystalDiskMark.png" class="img-zoomable" />
+<img src="CrystalDiskMark.png" style="width: 500px" class="img-zoomable" />
 
 内存8g，频率3000，鲁大师跑分：
-<img src="ludashi_bench.png" class="img-zoomable" />
+<img src="ludashi_bench.png" style="width: 500px" class="img-zoomable" />
   
 <br/>
 
@@ -77,13 +77,18 @@ cpu跑分：单线程533，多线程5300
 ## 安装大礼包：
 apt update
 apt upgrade -y
-apt install curl ufw lm-sensors apt-transport-https ca-certificates htop net-tools ethtool iperf3 vim git fail2ban -y
+
+apt install curl ufw lm-sensors apt-transport-https ca-certificates htop parted ncdu nethogs net-tools ethtool iperf3 vim git fail2ban smartmontools neofetch hollywood lshw cpufrequtils screen -y
 
 vim /etc/fail2ban/jail.conf, 把bantime改成60m
 fail2ban-client status sshd
+  
+<br/>
 
 ## 查看cpu当前工作频率：
 watch -n 2 "cat /proc/cpuinfo | grep MHz"
+
+<br/>
 
 ## 查看cpu工作模式：
 apt install cpufrequtils
@@ -98,14 +103,18 @@ bash -c 'for ((i=0;i<$(nproc);i++)); do cpufreq-set -c $i -g ondemand; done'
 设为性能模式：
 bash -c 'for ((i=0;i<$(nproc);i++)); do cpufreq-set -c $i -g performance; done'
 
+<br/>
+
 ## 查看温度：
 apt install lm-sensors
 sensors
 
+<br/>
 
 ## 安装pvetools扩展功能：
 https://github.com/ivanhao/pvetools
 
+<br/>
 
 ## 安装ufw防火墙
 apt install ufw
@@ -116,9 +125,13 @@ ufw allow 8006/tcp
 ufw allow 4000/tcp
 iptables -L
 
+<br/>
+
 ## 增大虚拟内存 —— swap交换分区
+
 根目录创建一个32g文件
 dd if=/dev/zero of=/swapfile bs=1M count=32768
+
 修改权限：
 chown root:root /swapfile
 chmod 0600 /swapfile
@@ -128,6 +141,7 @@ swapon /swapfile
 
 修改/etc/fstab，把/dev/pve/swap改成/swapfile
 
+<br/>
 
 ## iperf3测速
 pve宿主机作为server: iperf3 -s -p 4000
@@ -135,37 +149,38 @@ pve虚拟ubuntu作为client: iperf3 -p 4000 -c 192.168.2.150
 
 <img src="pve_ubuntu_iperf3.png" class="img-zoomable" />
 
+<br/>
 
-pve待机功耗：
-<img src="pve_standby_power.jpg" class="img-zoomable" />
+## pve待机功耗：
+<img src="pve_standby_power.jpg" style="width: 500px" class="img-zoomable" />
 
 跟裸装win10待机功耗一样，都是20瓦。
 
 pve虚拟一台win10待机功耗：
-<img src="pve_win10_standby_power.jpg" class="img-zoomable" />
+<img src="pve_win10_standby_power.jpg" style="width: 500px" class="img-zoomable" />
 
 多3瓦。
 
 
 pve虚拟win10，cpu类型选host，分配所有线程跑分：
-<img src="pve_win10_cpuz_bench.png" class="img-zoomable" />
+<img src="pve_win10_cpuz_bench.png" style="width: 500px" class="img-zoomable" />
 
 分数很接近裸装win10，性能损失3%左右。
 
 pve虚拟win10，磁盘为IDE测速：
-<img src="pve_IDE.png" class="img-zoomable" />
-<img src="pve_win10_ide_bench.png" class="img-zoomable" />
+<img src="pve_IDE.png" style="width: 500px" class="img-zoomable" />
+<img src="pve_win10_ide_bench.png" style="width: 500px" class="img-zoomable" />
 
 pve虚拟win10，磁盘为SCSI测速：
-<img src="pve_scsi.png" class="img-zoomable" />
-<img src="pve_win10_scsi_bench.png" class="img-zoomable" />
+<img src="pve_scsi.png" style="width: 500px" class="img-zoomable" />
+<img src="pve_win10_scsi_bench.png" style="width: 500px" class="img-zoomable" />
 
 显而易见，应该选择SCSI作为虚拟机磁盘格式。
 
 但选择SCSI安装win10不能识别磁盘，需要加载驱动：
-<img src="pve_win10_no_disk.png" class="img-zoomable" />
-<img src="pve_win10_scsi_driver.png" class="img-zoomable" />
-<img src="pve_win10_scsi_disk.png" class="img-zoomable" />
+<img src="pve_win10_no_disk.png" style="width: 500px" class="img-zoomable" />
+<img src="pve_win10_scsi_driver.png" style="width: 500px" class="img-zoomable" />
+<img src="pve_win10_scsi_disk.png" style="width: 500px" class="img-zoomable" />
 
 
 解决直通分组问题：
@@ -192,30 +207,31 @@ GRUB_CMDLINE_LINUX_DEFAULT="quiet intel_pstate=disable amd_iommu=on iommu=pt tex
 
 测试显卡挖矿，直通后性能没有损失，跟裸装一样：
 
-<img src="pve_win10_mine_eth.png" class="img-zoomable" />
+<img src="pve_win10_mine_eth.png" style="width: 500px" class="img-zoomable" />
 
 pve虚拟openwrt，cpu类型选host，分配所有线程跑分：
-<img src="pve_openwrt.png" class="img-zoomable" />
+<img src="pve_openwrt.png" style="width: 500px" class="img-zoomable" />
 
 
 pve虚拟debian作为server: iperf3 -s -p 4000
 pve虚拟ubuntu作为client: iperf3 -p 4000 -c 192.168.2.103
 
-<img src="pve_debian_ubuntu_iperf3.png" class="img-zoomable" />
+<img src="pve_debian_ubuntu_iperf3.png" style="width: 500px" class="img-zoomable" />
 
 pve虚拟2台win10，互拷文件：
-<img src="pve_win10_transfer_speed.jpg" class="img-zoomable" />
+<img src="pve_win10_transfer_speed.jpg" style="width: 500px" class="img-zoomable" />
 
 ## 意外断电
 把ups的usb直通给win10-miner：
 
-<img src="pve_win10_ups_usb.png" class="img-zoomable" />
+<img src="pve_win10_ups_usb.png" style="width: 500px" class="img-zoomable" />
 
 停电后立马关机减轻电源负担：
 
-<img src="ups.png" class="img-zoomable" />
-\
-\
+<img src="ups.png" style="width: 500px" class="img-zoomable" />
+
+<br/>
+
 bash脚本自动关机，pve会先关掉所有vm再关宿主机，前提是每个vm都安装了qemu-guest-agent：
 mkdir -p /root/shutdown
 cd /root/shutdown

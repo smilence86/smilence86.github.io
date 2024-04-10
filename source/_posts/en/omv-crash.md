@@ -13,10 +13,16 @@ categories:
 - network
 ---
 
+
+# 告警通知
+
+
 收到报警邮件，提示raid文件系统丢失：
   
 <img src="email-warning.png" class="img-zoomable" />
 
+
+# 排查故障
 
 ssh登录omv，列出磁盘：
 
@@ -42,8 +48,11 @@ omv磁盘阵列没了：
 
 <img src="missing-filesystem.png" class="img-zoomable" />
 
-  
-  
+<br/>
+<br/>
+
+# 查找办法
+
 网友修复记录：
 <ins>[https://zhuanlan.zhihu.com/p/553047294](https://zhuanlan.zhihu.com/p/553047294)</ins>
 
@@ -63,8 +72,12 @@ raid状态是inactive，磁盘只有sda、sdb、sdd，同样缺少sdc
 
 <img src="check-one-disk.png" class="img-zoomable" />
 
+<br/>
+<br/>
 
-开始处理，先停掉md0：
+# 处理故障（降级恢复）
+
+先停掉md0：
 
 mdadm --stop /dev/md0
 
@@ -113,6 +126,10 @@ mdadm --stop /dev/md0
 
 <img src="raid-degraded.png" class="img-zoomable" />
 
+<br/>
+<br/>
+
+# 采购新盘（替换旧盘）
 
 购买新盘，关机拆下旧盘替换新盘，点“Recover”加入阵列：
 
@@ -156,6 +173,11 @@ md状态也是active正常：
 
 <img src="active.png" class="img-zoomable" />
 
+
+<br/>
+<br/>
+
+# 记录状态
 
 记录此时（2023-12-29T06:16:00）新盘信息：
 

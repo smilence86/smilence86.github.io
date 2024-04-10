@@ -14,7 +14,7 @@ categories:
 
 远程访问通常可以用向日葵、frp，但有限制，向日葵远程桌面还行，特定端口无法实现，比如ssh，frp可以做到任意端口但每个服务都要映射一次很繁琐，尤其是端口多的情况挨个配置也费劲，比如这77个端口:
 
-<img src="frp.png" width="300" class="img-zoomable" />
+<img src="frp.png" style="width: 300px" class="img-zoomable" />
 
 <br/>
 
@@ -31,13 +31,18 @@ vpn产品众多，对比发现wireguard效率高，速度快，接下来介绍2�
 
 如果是固定公网ip直接A记录绑定域名就行，如果是动态公网ip则用ddns绑定，ddns可以跑在家内网任何一台机器，比如openwrt：
 
-<img src="ddns.png" width="200" class="img-zoomable" />
+<img src="ddns.png" style="width: 200px" class="img-zoomable" />
 
 <br/>
 
 或者docker跑ddns，映射域名: home.example.com
 
 docker run -d --name=cf-ddns --restart=always -e API_KEY=*** -e ZONE=example.com -e SUBDOMAIN=home oznu/cloudflare-ddns
+
+也可以使用另一个镜像：
+https://github.com/favonia/cloudflare-ddns
+  
+  
 
 ## 运行wg
 
@@ -63,7 +68,7 @@ docker run -d \
     --sysctl="net.ipv4.conf.all.src_valid_mark=1" \
     --sysctl="net.ipv4.ip_forward=1" \
     --restart unless-stopped \
-    weejewel/wg-easy
+    ghcr.io/wg-easy/wg-easy
 ```
 
 <br/>
@@ -72,7 +77,7 @@ docker run -d \
 
 openwrt必须是主路由拨号，旁路由无法设置wan口端口转发，在 网络 -> 防火墙 -> 端口转发 中设置，假设wg运行在debian，其ip为192.168.2.103，新增规则让外部54321/udp转发到debian的54321/udp端口：
 
-<img src="port.png" class="img-zoomable" />
+<img src="port.png" style="width: 400px" class="img-zoomable" />
 
 <br/>
 
@@ -80,7 +85,7 @@ openwrt必须是主路由拨号，旁路由无法设置wan口端口转发，在 
 
 在Turbo ACC中关闭SFE，否则客户端无法连接，“软件流量分载”可以打开：
 
-<img src="turboACC.png" class="img-zoomable" />
+<img src="turboACC.png" style="width: 400px" class="img-zoomable" />
 
 <br/>
 
@@ -94,24 +99,24 @@ openwrt必须是主路由拨号，旁路由无法设置wan口端口转发，在 
 ## 客户端连接
 
 手机扫码连接：
-<img src="wg_android.jpeg" width="300" class="img-zoomable" />
+<img src="wg_android.jpeg" style="width: 300px" class="img-zoomable" />
 
 <br/>
 
 电脑wg客户端导入配置文件：
-<img src="wg_windows.jpg" width="500" class="img-zoomable" />
+<img src="wg_windows.jpg" style="width: 400px" class="img-zoomable" />
 
 
 iphone要到美区app store下载wg客户端。
 
-至此可以通过外网4g远程访问家里设备，比如路由器管理页：
+至此可以通过外部4g网络远程访问家里设备：
 
-<img src="openwrt.jpeg" width="300" class="img-zoomable" />
-
-wg客户端连接成功就自动继承家里网络，如果家里挂了梯子，手机也拥有科学上网能力，相当于开了小飞机 or 小火箭。
+<img src="openwrt.jpeg" style="width: 300px" class="img-zoomable" />
 
 
-<br/>
+如果把wg客户端配置文件中Allowed IPs改成0.0.0.0/0，意味着所有流量会经过远端peer绕一次，家里挂了梯子，手机也自动拥有科学上网能力。
+
+  
 <br/>
 
 # 二、无公网ip
@@ -120,7 +125,7 @@ wg客户端连接成功就自动继承家里网络，如果家里挂了梯子，
 
 ## frp内网穿透
 
-原理是通过frp把内网54321/udp暴露到公网4001/udp，wg客户端就使用公网4001/udp进行连接
+原理是利用frp把内网54321/udp暴露到公网4001/udp，wg客户端就使用公网4001/udp进行连接
 
 vim /opt/frpc.ini
 ```
@@ -177,7 +182,7 @@ docker run -d \
     --sysctl="net.ipv4.conf.all.src_valid_mark=1" \
     --sysctl="net.ipv4.ip_forward=1" \
     --restart unless-stopped \
-    weejewel/wg-easy
+    ghcr.io/wg-easy/wg-easy
 ```
-通过vps中转就不需要主路由端口转发，直接登录wg管理界面添加peer，手机扫码连就行。
+通过vps中转就不需要主路由端口转发，浏览器直接登录wg管理界面添加客户端，手机扫码测试。
 
