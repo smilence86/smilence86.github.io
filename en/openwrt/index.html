@@ -530,7 +530,7 @@ option sessiontime ‘604800’<br>
 <p>首先配置域名，我用的cloudflare，在dns添加一条A记录，ip随意比如1.1.1.1：</p>
 <img src="cloudflare_dns.png" class="img-zoomable" />
 <p>openwrt配置ddns：</p>
-<img src="pve_openwrt_ddns.png" width="200" class="img-zoomable" />
+<img src="pve_openwrt_ddns.png" style="width: 300px" class="img-zoomable" />
 <p>添加ddns服务：<br>
 <img src="pve_openwrt_ddns_cf.png" class="img-zoomable" /></p>
 <p>注意“查询主机名”跟“域名”格式不一样，前一个是“.”，后一个是“@”：</p>
@@ -573,9 +573,9 @@ crontab -l<br>
 <br/></p>
 <h1>十七、防火墙 &gt; 端口转发</h1>
 <p>假设内网debian网关ip为192.168.2.103，则将外网8443/tcp端口转发到debian的443/tcp：</p>
-<img src="pve_openwrt_forward.png" class="img-zoomable" />
+<img src="pve_openwrt_forward.png" style="width: 500px" class="img-zoomable" />
 <p>之后可以通过 <a target="_blank" rel="noopener" href="https://openwrt.example.com:8443">https://openwrt.example.com:8443</a> 访问家里openwrt，其他服务同理：</p>
-<img src="pve_openwrt_ddns_list.png" class="img-zoomable" />
+<img src="pve_openwrt_ddns_list.png" style="width: 500px" class="img-zoomable" />
 
 
         <hr>

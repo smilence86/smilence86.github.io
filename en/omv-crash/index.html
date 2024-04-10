@@ -383,8 +383,10 @@
       <!-- Post Container -->
       <div class="col-lg-8 col-lg-offset-1 col-md-10 col-md-offset-1 post-container">
 
-        <p>收到报警邮件，提示raid文件系统丢失：</p>
+        <h1>告警通知</h1>
+<p>收到报警邮件，提示raid文件系统丢失：</p>
 <img src="email-warning.png" class="img-zoomable" />
+<h1>排查故障</h1>
 <p>ssh登录omv，列出磁盘：</p>
 <img src="list-disks.png" class="img-zoomable" />
 <p>对比发现少一块/dev/sdc，omv的磁盘列表还有，像是误显示</p>
@@ -395,6 +397,9 @@
 <img src="lost-raid.png" class="img-zoomable" />
 <p>文件系统丢失：</p>
 <img src="missing-filesystem.png" class="img-zoomable" />
+<br/>
+<br/>
+<h1>查找办法</h1>
 <p>网友修复记录：<br>
 <ins><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/553047294">https://zhuanlan.zhihu.com/p/553047294</a></ins></p>
 <p>论坛资料：<br>
@@ -405,7 +410,10 @@ cat /proc/mdstat</p>
 <p>raid状态是inactive，磁盘只有sda、sdb、sdd，同样缺少sdc</p>
 <p>检测单块硬盘，sdb：</p>
 <img src="check-one-disk.png" class="img-zoomable" />
-<p>开始处理，先停掉md0：</p>
+<br/>
+<br/>
+<h1>处理故障（降级恢复）</h1>
+<p>先停掉md0：</p>
 <p>mdadm --stop /dev/md0</p>
 <p>用剩下3块盘修复阵列：</p>
 <img src="rebuild-raid.png" class="img-zoomable" />
@@ -426,6 +434,9 @@ cat /proc/mdstat</p>
 <img src="filesystem.png" class="img-zoomable" />
 <p>此时阵列状态显示为降级：</p>
 <img src="raid-degraded.png" class="img-zoomable" />
+<br/>
+<br/>
+<h1>采购新盘（替换旧盘）</h1>
 <p>购买新盘，关机拆下旧盘替换新盘，点“Recover”加入阵列：</p>
 <img src="add-disk.png" class="img-zoomable" />
 <p>开始恢复同步：</p>
@@ -444,6 +455,9 @@ cat /proc/mdstat</p>
 <img src="clean.png" class="img-zoomable" />
 <p>md状态也是active正常：</p>
 <img src="active.png" class="img-zoomable" />
+<br/>
+<br/>
+<h1>记录状态</h1>
 <p>记录此时（2023-12-29T06:16:00）新盘信息：</p>
 <img src="smart-info.png" class="img-zoomable" />
 <p>截图发给gpt，让它分析这块磁盘状况：</p>
@@ -531,7 +545,7 @@ cat /proc/mdstat</p>
         <div id="toc" class="toc-article">
         <strong class="toc-title">Contents</strong>
         
-          <ol class="nav">none</ol>
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">告警通知</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">排查故障</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">查找办法</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link"><span class="toc-nav-number">4.</span> <span class="toc-nav-text">处理故障（降级恢复）</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link"><span class="toc-nav-number">5.</span> <span class="toc-nav-text">采购新盘（替换旧盘）</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link"><span class="toc-nav-number">6.</span> <span class="toc-nav-text">记录状态</span></a></li></ol>
         
         </div>
       </aside>

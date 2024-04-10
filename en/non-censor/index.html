@@ -390,10 +390,8 @@
 <figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">add<span class="constructor">EventListener(<span class="string">&quot;fetch&quot;</span>, (<span class="params">event</span>)</span> =&gt; &#123;</span><br><span class="line">  const request = event.request;</span><br><span class="line">  const &#123; pathname &#125; = <span class="keyword">new</span> <span class="constructor">URL(<span class="params">request</span>.<span class="params">url</span>)</span>;</span><br><span class="line">  const url = <span class="keyword">new</span> <span class="constructor">URL(`<span class="params">https</span>:<span class="operator">/</span><span class="operator">/</span><span class="params">xxx</span>.<span class="params">deno</span>.<span class="params">dev$</span>&#123;<span class="params">pathname</span>&#125;`)</span>;</span><br><span class="line">  return event.respond<span class="constructor">With(<span class="params">fetch</span>(<span class="params">url</span>, <span class="params">request</span>)</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
 <p>设置dns，ip地址随意填192.0.2.1：</p>
 <img src="dns.png" class="img-zoomable" />
-\
-\
-在worker中添加一个路由：
-<img src="route.png" class="img-zoomable" />
+<p>在worker中添加一个路由：</p>
+<img src="route.png" style="width: 400px" class="img-zoomable" />
 <p>这样，所有访问 <a target="_blank" rel="noopener" href="https://blog.example.com">https://blog.example.com</a> 的流量都会经过worker处理，worker获取 <a target="_blank" rel="noopener" href="https://xxx.deno.dev">https://xxx.deno.dev</a> 的数据，deno获取vps ip数据，达到曲线救国的目的。</p>
 
 
