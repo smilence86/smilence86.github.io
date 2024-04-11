@@ -145,7 +145,7 @@ mdadm --stop /dev/md0
 
 第二天打不开：
 
-<img src="omv-not-working.png" class="img-zoomable" />
+<img src="omv-not-working.png" style="width: 200px" class="img-zoomable" />
 
 omv的ip也ping不通
 
@@ -156,7 +156,7 @@ pve宿主机显示报错：
 
 重启后能识别所有磁盘，包括掉的新盘：
 
-<img src="new-disk.png)" class="img-zoomable" />
+<img src="new-disk.png" class="img-zoomable" />
 
 
 此时raid状态还在重建99.8%，也就是说掉盘发生在99.8%的时候：

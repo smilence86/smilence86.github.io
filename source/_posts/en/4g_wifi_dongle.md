@@ -14,42 +14,42 @@ categories:
 - network
 ---
 
-google now推荐了一篇文章：
+刷 google now 推了一篇文章：
   
-<ins>[4g 随身 Wi-Fi 刷 openwrt 变成软路由](https://qust.me/post/msm8916)</ins>
+4g 随身 Wi-Fi 刷 openwrt 变成软路由: <ins>[https://qust.me/post/msm8916](https://qust.me/post/msm8916)</ins>
 
 
 
-点进去一看，有点意思，居然跑的是android系统，可以刷成debian或openwrt，果断买了博主推荐型号，天天特卖工厂店￥28那款
+点进去一看，有点意思，随身wifi居然跑的是android系统，可以刷成debian或openwrt，果断买了博主推荐型号，天天特卖工厂店￥28那款
 
-<img src="order.png" style="width: 500px" class="img-zoomable" />
+<img src="order.png" style="width: 400px" class="img-zoomable" />
 
 
 4天后到货：
 
-<img src="good.jpg" style="width: 500px" class="img-zoomable" />
+<img src="good.jpg" style="width: 400px" class="img-zoomable" />
 
-<img src="good1.jpg" style="width: 500px" class="img-zoomable" />
+<img src="good1.jpg" style="width: 400px" class="img-zoomable" />
 
 拆下3颗螺丝取下外壳：
 
-<img src="good2.jpg" style="width: 500px" class="img-zoomable" />
+<img src="good2.jpg" style="width: 400px" class="img-zoomable" />
 
 丝印为：UFI001C_MB_V01
 
-<img src="version.png" style="width: 500px" class="img-zoomable" />
+<img src="version.png" style="width: 400px" class="img-zoomable" />
 
 通电开机，原版android系统信息：
 
-<img src="esim.png" style="width: 500px" class="img-zoomable" />
+<img src="esim.png" style="width: 400px" class="img-zoomable" />
 
 换自己联通4G卡，测试正常可用，系统默认使用esim（sim卡2），需要切换成自己卡（sim卡1），切换密码：UFIadmin1234：
 
-<img src="sim.png" style="width: 500px" class="img-zoomable" />
+<img src="sim.png" style="width: 400px" class="img-zoomable" />
 
 原装android系统测速：
 
-<img src="android_speed.png" style="width: 500px" class="img-zoomable" />
+<img src="android_speed.png" style="width: 400px" class="img-zoomable" />
 
 
 接下来下载工具开始备份、刷机
@@ -127,4 +127,4 @@ cpu是4核64位arm架构，指令集偏少
 
 <img src="e2fsck.png" class="img-zoomable" />
 
-执行完，reboot重启搞定。
+执行完，reboot重启恢复。

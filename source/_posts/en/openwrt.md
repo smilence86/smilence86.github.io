@@ -26,8 +26,8 @@ pve版本7上传完成会显示文件存放路径: /var/lib/vz/template/iso
 
 <img src="pve_img.png" class="img-zoomable" />
 
-pve版本6双击下方操作日志也会显示。
 
+<br/>
 
 # 二、创建vm
 
@@ -37,13 +37,20 @@ pve版本6双击下方操作日志也会显示。
 
 完成后把默认磁盘删了。
 
+<br/>
 
 # 三、生成磁盘
 
 ssh登录pve宿主机
-进入镜像存放目录: cd /var/lib/vz/template/iso
-创建磁盘: qm importdisk 100 /var/lib/vz/template/iso/openwrt-2022-03-27-x86-64-generic-squashfs-combined.img local-lvm
+ssh root@192.168.2.123
 
+进入镜像存放目录:
+cd /var/lib/vz/template/iso
+
+创建磁盘: 
+qm importdisk 100 /var/lib/vz/template/iso/openwrt-2022-03-27-x86-64-generic-squashfs-combined.img local-lvm
+
+<br/>
 
 # 四、加载磁盘
 
@@ -66,11 +73,11 @@ ssh登录pve宿主机
 
 <img src="pve_openwrt_pci_ethernets.png" class="img-zoomable" />
 
-从上图看，主板有4个 Intel I226-V 网卡，其中一个是宿主机桥接使用的，避免直通这个网卡造成失联
+从上图看，主板有4个 Intel I226-V 网卡，其中一个是宿主机正在使用的，避免直通这个网卡，否则失联
 
-如果担心直通错误可以先把openwrt设为开机不自启，就算错了救起来容易，重启pve就行，不至于把宿主机搞崩。
+如果担心直通出错可以先不要把openwrt设为开机自启，就算错了容易抢救直接断电重启，不至于把宿主机搞崩还得重装系统。
 
-先找到宿主机正在使用的物理网卡名称:
+为了万无一失，先找到宿主机正在使用的物理网卡名称:
 
 <img src="pve_host_ethernet.png" class="img-zoomable" />
 
@@ -82,7 +89,7 @@ lshw -class network
 
 <img src="pve_ethernet_pci.png" class="img-zoomable" />
 
-enp2s0对应pci编码为0000:02:00:0，且没有DISABLED标记，所以直通给vm要排除这个，选择其他网卡如0000:03:00:0：
+enp2s0 对应 pci 编码为 0000:02:00:0，且没有 DISABLED 标记，所以直通给vm要排除这个，选择其他网卡，如0000:03:00:0：
 
 <img src="pve_openwrt_pci_ethernets.png" class="img-zoomable" />
 
@@ -101,7 +108,7 @@ enp2s0对应pci编码为0000:02:00:0，且没有DISABLED标记，所以直通给
 
 # 五.二、添加桥接网卡
 
-如果cpu不支持vt-d硬件直通，J1900、N3160这类较早芯片，就只能使用桥接网卡，先到pve节点网络下创建桥接网卡，备注为WAN口：
+如果cpu不支持vt-d硬件直通，比如J1900、N3160这类早期芯片就只能使用桥接网卡，先到pve节点网络下创建桥接网卡，备注为WAN口：
 
 <img src="pve_bridge_eth.png" class="img-zoomable" />
 
@@ -118,6 +125,8 @@ enp2s0对应pci编码为0000:02:00:0，且没有DISABLED标记，所以直通给
 启动顺序（boot order）改成附加的磁盘：
 
 <img src="pve_openwrt_bootOrder.png" class="img-zoomable" />
+
+<br/>
 
 启用qemu guest agent，让pve宿主机能够与vm通讯：
 
