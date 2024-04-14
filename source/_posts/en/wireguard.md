@@ -124,11 +124,62 @@ iphone要到美区app store下载wg客户端。
 
 # 二、无公网ip
 
-家里没有公网ip则要使用vps中转，速度依赖vps带宽，没有直连快。
+家里没有公网ip则要使用第三方中转，可以是廉价vps，速度依赖它的带宽，没有公网ip直连快。
 
 原理是利用frp把内网54321/udp暴露到公网4001/udp，wg客户端使用公网4001/udp进行连接
 
-## frp内网穿透
+<br/>
+
+## vps防火墙开放端口
+
+在vps防火墙添加入站规则，放行端口4001/udp，允许公网访问。
+
+<br/>
+
+## 搭建frp服务端
+
+vim /opt/frps.ini
+
+```
+[common]
+bind_port = 2000
+#kcp_bind_port = 2000
+vhost_http_port = 2000
+vhost_https_port = 2000
+tcp_mux = true
+
+max_pool_count=50
+
+tls_enable = true
+
+token=password
+
+dashboard_addr = 0.0.0.0
+dashboard_port = 2222
+
+dashboard_user = admin
+dashboard_pwd = anotherPwd
+
+enable_prometheus = true
+
+log_level = info
+
+log_max_days = 30
+
+```
+
+docker run -d --name frps --restart=always -v /opt/frps.ini:/etc/frp/frps.ini --network=host snowdreamtech/frps
+
+最新docker镜像已经把配置文件后缀 ini 改为 toml，所以启动命令为：
+
+docker run -d --name frps --restart=always -v /opt/frps.ini:/etc/frp/frps.toml --network=host snowdreamtech/frps
+
+
+后续frpc客户端同理，自行判断。
+
+<br/>
+
+## 启动frpc客户端
 
 vim /opt/frpc.ini
 ```
@@ -138,14 +189,6 @@ server_port = 2000
 protocol = tcp
 token = password
 
-[wireguard_web]
-type = tcp
-local_ip = 127.0.0.1
-local_port = 51821
-remote_port = 4000
-use_encryption = true
-use_compression = true
-
 [wireguard_udp]
 type = udp
 local_ip = 127.0.0.1
@@ -154,9 +197,17 @@ remote_port = 4001
 use_encryption = true
 use_compression = true
 
+[wireguard_web]
+type = tcp
+local_ip = 127.0.0.1
+local_port = 51821
+remote_port = 4002
+use_encryption = true
+use_compression = true
+
 ```
 
-启动frp：
+启动frpc：
 
 docker run -d --name frpc --restart=always -v /opt/frpc.ini:/etc/frp/frpc.ini --network=host snowdreamtech/frpc
 
@@ -192,3 +243,5 @@ docker run -d \
 ```
 通过vps中转就不需要主路由端口转发，浏览器直接登录wg后台添加客户端，手机扫码测试。
 
+<br/>
+<br/>
