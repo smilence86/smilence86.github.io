@@ -82,6 +82,12 @@ docker run -d \
 
 <img src="port.png" style="width: 400px" class="img-zoomable" />
 
+检测udp端口是否可用
+nc -v -u -w 3 home.example.com 54321
+
+应该看到
+Connection to home.example.com 54321 port [udp/*] succeeded!
+
 <br/>
 
 ## 关闭SFE
@@ -126,7 +132,9 @@ iphone要到美区app store下载wg客户端。
 
 家里没有公网ip则要使用第三方中转，可以是廉价vps，速度依赖它的带宽，没有公网ip直连快。
 
-原理是利用frp把内网54321/udp暴露到公网4001/udp，wg客户端使用公网4001/udp进行连接
+原理是利用frp把内网54321/udp暴露到公网4001/udp，wg客户端使用公网4001/udp进行连接。
+
+假设已经准备好一台vps，公网ip为: 1.2.3.4
 
 <br/>
 
@@ -136,7 +144,7 @@ iphone要到美区app store下载wg客户端。
 
 <br/>
 
-## 搭建frp服务端
+## 搭建frps服务端
 
 vim /opt/frps.ini
 
@@ -184,7 +192,7 @@ docker run -d --name frps --restart=always -v /opt/frps.ini:/etc/frp/frps.toml -
 vim /opt/frpc.ini
 ```
 [common]
-server_addr = vps公网ip
+server_addr = 1.2.3.4
 server_port = 2000
 protocol = tcp
 token = password
@@ -222,7 +230,7 @@ mkdir -p /opt/wg-easy
 
 docker run -d \
     --name=wireguard \
-    -e WG_HOST=vps公网ip \
+    -e WG_HOST=1.2.3.4 \
     -e WG_PORT=4001 \
     -e PASSWORD=yourPassword \
     -e WG_DEFAULT_DNS=192.168.2.1 \
@@ -241,6 +249,11 @@ docker run -d \
     --restart unless-stopped \
     ghcr.io/wg-easy/wg-easy
 ```
+
+检测udp端口是否可用
+nc -v -u -w 3 1.2.3.4 4001
+Connection to 1.2.3.4 54321 port [udp/*] succeeded!
+
 通过vps中转就不需要主路由端口转发，浏览器直接登录wg后台添加客户端，手机扫码测试。
 
 <br/>
