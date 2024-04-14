@@ -252,7 +252,7 @@ docker run -d \
 
 检测udp端口是否可用
 nc -v -u -w 3 1.2.3.4 4001
-Connection to 1.2.3.4 54321 port [udp/*] succeeded!
+Connection to 1.2.3.4 4001 port [udp/*] succeeded!
 
 通过vps中转就不需要主路由端口转发，浏览器直接登录wg后台添加客户端，手机扫码测试。
 
