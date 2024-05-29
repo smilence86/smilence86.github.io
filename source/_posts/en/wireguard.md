@@ -54,6 +54,9 @@ mkdir -p /opt/wg-easy
 
 docker run -d \
     --name=wireguard \
+    --restart=always \
+    -e WEBUI_HOST=0.0.0.0 \
+    -e PORT=51821 \
     -e WG_HOST=home.example.com \
     -e WG_PORT=54321 \
     -e PASSWORD=yourPassword \
@@ -63,14 +66,14 @@ docker run -d \
     -e WG_PERSISTENT_KEEPALIVE=10 \
     -e TZ=Asia/Shanghai \
     -e UI_TRAFFIC_STATS=true \
+    -e UI_CHART_TYPE=1 \
     -v /opt/wg-easy:/etc/wireguard \
-    -p 54321:51820/udp \
+    -p 54321:54321/udp \
     -p 51821:51821/tcp \
     --cap-add=NET_ADMIN \
     --cap-add=SYS_MODULE \
     --sysctl="net.ipv4.conf.all.src_valid_mark=1" \
     --sysctl="net.ipv4.ip_forward=1" \
-    --restart unless-stopped \
     ghcr.io/wg-easy/wg-easy
 ```
 
@@ -230,6 +233,9 @@ mkdir -p /opt/wg-easy
 
 docker run -d \
     --name=wireguard \
+    --restart=always \
+    -e WEBUI_HOST=0.0.0.0 \
+    -e PORT=51821 \
     -e WG_HOST=1.2.3.4 \
     -e WG_PORT=4001 \
     -e PASSWORD=yourPassword \
@@ -239,14 +245,14 @@ docker run -d \
     -e WG_PERSISTENT_KEEPALIVE=10 \
     -e TZ=Asia/Shanghai \
     -e UI_TRAFFIC_STATS=true \
+    -e UI_CHART_TYPE=1 \
     -v /opt/wg-easy:/etc/wireguard \
-    -p 54321:51820/udp \
+    -p 54321:4001/udp \
     -p 51821:51821/tcp \
     --cap-add=NET_ADMIN \
     --cap-add=SYS_MODULE \
     --sysctl="net.ipv4.conf.all.src_valid_mark=1" \
     --sysctl="net.ipv4.ip_forward=1" \
-    --restart unless-stopped \
     ghcr.io/wg-easy/wg-easy
 ```
 
