@@ -298,7 +298,6 @@ pre code {
   line-height: 1.7;
 }
 .navbar-custom .navbar-brand {
-  font-weight: 800;
   color: white;
   height: 56px;
   line-height: 25px;
@@ -308,9 +307,8 @@ pre code {
 }
 .navbar-custom .nav li a {
   text-transform: uppercase;
-  font-size: 12px;
+  font-size: 18px;
   line-height: 20px;
-  font-weight: 800;
   letter-spacing: 1px;
 }
 .navbar-custom .nav li a:active {
