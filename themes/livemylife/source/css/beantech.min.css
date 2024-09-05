@@ -478,7 +478,7 @@ pre code {
 }
 .intro-header .post-heading .meta {
   font-family: "Lora", "Times New Roman", serif;
-  font-style: italic;
+  /* font-style: italic; */
   font-weight: 300;
   font-size: 18px;
 }
